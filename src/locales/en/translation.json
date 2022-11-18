@@ -1,0 +1,46 @@
+{
+  "common": {
+    "logoText": "BooksOnline",
+    "home": "Home",
+    "bookCategories": "Book categories",
+    "reviews": "Review",
+    "searchPlaceholder": "Search books",
+    "hotBooks": "",
+    "newBooks": "",
+    "doneBooks": "",
+    "readingBooks": "",
+    "profile": "",
+    "login": "",
+    "logout": "",
+    "register": "",
+    "cancel": "",
+    "fullname": "",
+    "repeatPassword": "",
+    "email": "",
+    "usernameRequired": "",
+    "passwordRequired": "",
+    "emailRequired": "",
+    "fullnameRequired": "",
+    "repeatPasswordRequired": "",
+    "emailNotValid": "",
+    "not_signed": "",
+    "server_error": "",
+    "welcome": ""
+  },
+  "enums": {
+    "ALL": "All",
+    "HOT": "Hot",
+    "NEW": "New",
+    "FULL": "Full"
+  },
+  "auth": {
+    "username_not_correct": "",
+    "password_not_correct": "",
+    "loginSuccess": "",
+    "server_error": ""
+  },
+  "formInput": {
+    "username": "",
+    "password": ""
+  }
+}
