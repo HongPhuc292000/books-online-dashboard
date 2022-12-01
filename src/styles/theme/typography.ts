@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { TypographyOptions } from "@mui/material/styles/createTypography";
 
 function pxToRem(value: number) {
   return `${value / 16}rem`;
@@ -14,19 +14,19 @@ interface ResponsiveFontSizeProps {
 
 function responsiveFontSizes({ sm, md, lg }: ResponsiveFontSizeProps) {
   return {
-    '@media (min-width:600px)': {
+    "@media (min-width:600px)": {
       fontSize: pxToRem(sm),
     },
-    '@media (min-width:900px)': {
+    "@media (min-width:900px)": {
       fontSize: pxToRem(md),
     },
-    '@media (min-width:1200px)': {
+    "@media (min-width:1200px)": {
       fontSize: pxToRem(lg),
     },
   };
 }
 
-const FONT_PRIMARY = 'Public Sans, sans-serif';
+const FONT_PRIMARY = "Public Sans, sans-serif";
 
 const typography: TypographyOptions = {
   fontFamily: FONT_PRIMARY,
@@ -96,13 +96,13 @@ const typography: TypographyOptions = {
     lineHeight: 1.5,
     fontSize: pxToRem(12),
     letterSpacing: 1.1,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   button: {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
 };
 

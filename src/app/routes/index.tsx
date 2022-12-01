@@ -7,6 +7,8 @@ import { isAuthenticated } from "utils/auth";
 import path from "./path";
 import Auth from "app/pages/Auth";
 import LogoLayout from "app/components/Layouts/LogoLayout";
+import NotFound from "app/pages/NotFound";
+import ListBooks from "app/pages/Book";
 
 export default function Router() {
   return useRoutes([
@@ -26,6 +28,10 @@ export default function Router() {
           path: path.welcome,
           element: <Welcome />,
         },
+        {
+          path: path.book,
+          element: <ListBooks />,
+        },
       ],
     },
     {
@@ -36,9 +42,8 @@ export default function Router() {
           path: path.login,
           element: <Auth />,
         },
-        // { path: path.notFound, element: <NotFound /> },
+        { path: path.all, element: <NotFound /> },
       ],
     },
-    // { path: path.all, element: <Navigate to={path.notFound} replace /> },
   ]);
 }

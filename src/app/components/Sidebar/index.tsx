@@ -8,23 +8,19 @@ import {
   IconButton,
   List,
   Toolbar,
-  Typography,
-  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet } from "react-router-dom";
+import { appbarHeight } from "styles/constants";
 
 import { pages } from "./navConfig";
 import MainNav from "./Mainnav";
+import Logo from "../Logo";
 
-const drawerWidth = 240;
-const appbarHeight = 64;
+const drawerWidth = 300;
 
-interface Props {}
-
-export default function Sidebar(props: Props) {
+export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const theme = useTheme();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -49,9 +45,6 @@ export default function Sidebar(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            BooksOnline Dashboard
-          </Typography>
         </Toolbar>
       </AppBar>
       <Box
@@ -92,7 +85,9 @@ export default function Sidebar(props: Props) {
           }}
           open
         >
-          <Toolbar />
+          <Toolbar>
+            <Logo />
+          </Toolbar>
           <Divider />
           <List>
             {pages.map((page) => (
@@ -105,12 +100,11 @@ export default function Sidebar(props: Props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: appbarHeight.mainPadding,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          backgroundColor: theme.palette.common.white,
+          mt: { xs: appbarHeight.xs, sm: appbarHeight.sm },
         }}
       >
-        <Toolbar />
         <Outlet />
       </Box>
     </Box>

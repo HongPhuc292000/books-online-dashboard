@@ -1,4 +1,4 @@
-import { Box, TextField, styled, Paper, useTheme, Button } from "@mui/material";
+import { Box, styled, Paper, Button } from "@mui/material";
 import { withLoading } from "app/components/HOC/withLoadingPage";
 import Logo from "app/components/Logo";
 import { SimpleTextField } from "app/components/TextField";
@@ -28,10 +28,9 @@ const RootBox = styled(Box)(() => ({
 
 const Auth = ({ setLoading }: LoginFormProps) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const dispatch = useAppDispatch();
   const { showLoading, hideLoading } = useLoading({ setLoading });
-  const { showSuccessSnackbar, showErrorSnackbar } = useToastMessage();
+  const { showErrorSnackbar } = useToastMessage();
   const navigate = useNavigate();
 
   const handleLogin = (values: LoginRequest) => {
@@ -39,7 +38,6 @@ const Auth = ({ setLoading }: LoginFormProps) => {
     dispatch(
       authActions.login(values, (error) => {
         if (!error) {
-          showSuccessSnackbar(t("auth.loginSuccess"));
           navigate("/welcome");
           hideLoading();
         } else {
@@ -69,20 +67,14 @@ const Auth = ({ setLoading }: LoginFormProps) => {
   return (
     <RootBox>
       <Paper elevation={3} sx={{ p: 4, width: 500 }}>
-        <Logo
-          displayXs="flex"
-          displayMd="flex"
-          variant="h5"
-          color={theme.palette.primary.main}
-          fontSize={36}
-        />
+        <Logo fontSize={36} />
         <Box component="form" sx={{ mt: 4 }} onSubmit={formik.handleSubmit}>
           <SimpleTextField formik={formik} field="username" />
           <SimpleTextField formik={formik} field="password" type="password" />
           <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
             <Button
               variant="contained"
-              color="success"
+              color="primary"
               fullWidth
               size="large"
               type="submit"

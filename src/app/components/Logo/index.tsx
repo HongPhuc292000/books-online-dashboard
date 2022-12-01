@@ -1,27 +1,26 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { useTranslation } from "react-i18next";
+import { primaryColor } from "styles/constants";
 
 interface LogoProps {
   onClick?: Function;
-  displayXs: "none" | "flex";
-  displayMd: "none" | "flex";
-  variant: "h6" | "h5";
+  displayXs?: "none" | "flex";
+  displayMd?: "none" | "flex";
   mr?: number;
   color?: string;
   fontSize?: number;
+  fontSizeDownMd?: number;
 }
-
-const LogoText = styled(Typography)(({}) => ({}));
 
 const Logo = ({
   onClick,
-  displayXs,
-  displayMd,
-  variant,
+  displayXs = "flex",
+  displayMd = "flex",
   mr = 0,
-  color = "#000",
+  color = primaryColor,
   fontSize = 24,
+  fontSizeDownMd,
 }: LogoProps) => {
   const { t } = useTranslation();
   return (
@@ -32,7 +31,7 @@ const Logo = ({
         mr: mr,
         justifyContent: "center",
         alignItems: "center",
-        fontSize: fontSize,
+        fontSize: { xs: fontSizeDownMd || fontSize, md: fontSize },
         color: color,
       }}
       onClick={() => onClick && onClick()}

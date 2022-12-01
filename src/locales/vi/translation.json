@@ -1,7 +1,6 @@
 {
   "common": {
     "logoText": "BooksOnline",
-    "home": "Trang chủ",
     "bookCategories": "Thể loại sách",
     "reviews": "Góc review",
     "searchPlaceholder": "Tìm kiếm sách",
@@ -25,7 +24,18 @@
     "emailNotValid": "Email không hợp lệ",
     "not_signed": "Bạn chưa đăng nhập",
     "server_error": "Lỗi máy chủ",
-    "welcome": "Chào mừng bạn đến với trang quản lý BooksOnline"
+    "welcome": "Chào mừng bạn đến với trang quản lý của BooksOnline",
+    "pageNotFound": "Không tìm thấy trang mà bạn yêu cầu!",
+    "returnHome": "Quay về trang chủ"
+  },
+  "sidebar": {
+    "home": "Trang chủ",
+    "manageMembers": "Quản lý thành viên",
+    "manageCustomers": "Quản lý khách hàng",
+    "manageBooks": "Quản lý sách",
+    "manageAuthors": "Quản lý tác giả",
+    "manageCategories": "Quản lý thể loại",
+    "manageOrders": "Quản lý đơn hàng"
   },
   "enums": {
     "ALL": "Tất cả",

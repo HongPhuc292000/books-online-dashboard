@@ -1,7 +1,6 @@
 {
   "common": {
     "logoText": "BooksOnline",
-    "home": "Home",
     "bookCategories": "Book categories",
     "reviews": "Review",
     "searchPlaceholder": "Search books",
@@ -25,7 +24,18 @@
     "emailNotValid": "",
     "not_signed": "",
     "server_error": "",
-    "welcome": ""
+    "welcome": "",
+    "pageNotFound": "",
+    "returnHome": ""
+  },
+  "sidebar": {
+    "home": "",
+    "manageMembers": "",
+    "maanageCustomers": "",
+    "manageBooks": "",
+    "manageAuthors": "",
+    "manageCategories": "",
+    "manageOrders": ""
   },
   "enums": {
     "ALL": "All",

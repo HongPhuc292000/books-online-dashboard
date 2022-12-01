@@ -7,6 +7,7 @@ import {
   ListItemText,
   Collapse,
   useTheme,
+  Typography,
 } from "@mui/material";
 import { HeaderNavChangePageI } from "types";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
@@ -46,7 +47,7 @@ const SubNav = memo(({ page }: NavProps) => {
         >
           <FiberManualRecordIcon fontSize="inherit" />
         </ListItemIcon>
-        <ListItemText sx={{}} primary={title} />
+        <ListItemText primary={title} />
       </ListItemButton>
     </ListItem>
   );
@@ -88,15 +89,27 @@ const MainNav = memo(({ page }: NavProps) => {
     <>
       <ListItem disablePadding onClick={handleSelectNav}>
         <ListItemButton
-          sx={{ color: theme.palette.primary.main }}
+          sx={{
+            color: match ? theme.palette.primary.main : theme.palette.grey[700],
+            paddingLeft: theme.spacing(5),
+          }}
           selected={match || openSubNav}
         >
           <ListItemIcon
-            sx={{ minWidth: 40, color: theme.palette.primary.main }}
+            sx={{
+              minWidth: 40,
+              color: match
+                ? theme.palette.primary.main
+                : theme.palette.grey[700],
+            }}
           >
             {icon}
           </ListItemIcon>
-          <ListItemText primary={t(`common.${title}`)} />
+          <ListItemText
+            primary={
+              <Typography variant="body2">{t(`sidebar.${title}`)}</Typography>
+            }
+          />
           {children ? (
             <>{openSubNav ? <ExpandLess /> : <ExpandMore />}</>
           ) : null}
