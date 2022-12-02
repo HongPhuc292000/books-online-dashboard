@@ -7,20 +7,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableHeader, { HeaderProps } from "./TableHeader";
+import { useTranslation } from "react-i18next";
 
 interface StickyHeadTableProps {
   headers: HeaderProps[];
   renderItem: (item: any) => any[];
   items?: any[];
+  isLoading?: boolean;
 }
 
 export default function StickyHeadTable({
   headers,
   renderItem,
   items = [],
+  isLoading,
 }: StickyHeadTableProps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const { t } = useTranslation();
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -39,19 +43,27 @@ export default function StickyHeadTable({
         <Table stickyHeader aria-label="sticky table">
           <TableHeader listHeaders={headers} />
           <TableBody>
-            {items.map((item) => {
-              return (
-                <TableRow hover key={item._id}>
-                  {renderItem(item).map((col, index) => {
-                    return (
-                      <TableCell key={item._id} align={headers[index].align}>
-                        {col}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {isLoading ? (
+              <TableRow>
+                <TableCell align="center" colSpan={headers.length}>
+                  {t("common.loading")}
+                </TableCell>
+              </TableRow>
+            ) : (
+              items.map((item) => {
+                return (
+                  <TableRow hover key={item._id}>
+                    {renderItem(item).map((col, index) => {
+                      return (
+                        <TableCell key={item._id} align={headers[index].align}>
+                          {col}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </TableContainer>

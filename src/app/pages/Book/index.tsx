@@ -1,20 +1,25 @@
 import { Paper, Typography } from "@mui/material";
+import { withLoading } from "app/components/HOC/withLoadingDataTable";
 import { PageTitle } from "app/components/Label";
 import MainWrap from "app/components/Layouts/MainWrap";
 import StickyHeadTable from "app/components/Table";
 import { HeaderProps } from "app/components/Table/TableHeader";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useLoading } from "app/hooks/useLoading";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { Book } from "types/Book";
 
 import { bookActions } from "./slice";
 import { selectBook } from "./slice/selector";
 
-const ListBooks = () => {
-  const { t } = useTranslation();
+interface ListBookProps {
+  setLoading: Function;
+}
+
+const ListBooks = ({ setLoading }: ListBookProps) => {
   const dispatch = useAppDispatch();
   const { listBook } = useAppSelector(selectBook);
+  const { showLoading, hideLoading, isLoading } = useLoading({ setLoading });
 
   const headers: HeaderProps[] = [
     { name: "name", label: "Name" },
@@ -40,11 +45,13 @@ const ListBooks = () => {
   };
 
   useEffect(() => {
+    showLoading();
     dispatch(
       bookActions.getAllBooks(() => {
-        console.log("ok");
+        hideLoading();
       })
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(listBook);
@@ -57,10 +64,11 @@ const ListBooks = () => {
           headers={headers}
           renderItem={renderItem}
           items={listBook}
+          isLoading={isLoading}
         />
       </Paper>
     </MainWrap>
   );
 };
 
-export default ListBooks;
+export default withLoading(ListBooks);

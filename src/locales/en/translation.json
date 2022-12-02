@@ -26,7 +26,8 @@
     "server_error": "",
     "welcome": "",
     "pageNotFound": "",
-    "returnHome": ""
+    "returnHome": "",
+    "loading": "Loading..."
   },
   "sidebar": {
     "home": "",

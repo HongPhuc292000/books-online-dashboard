@@ -26,7 +26,8 @@
     "server_error": "Lỗi máy chủ",
     "welcome": "Chào mừng bạn đến với trang quản lý của BooksOnline",
     "pageNotFound": "Không tìm thấy trang mà bạn yêu cầu!",
-    "returnHome": "Quay về trang chủ"
+    "returnHome": "Quay về trang chủ",
+    "loading": "Đang tải dữ liệu..."
   },
   "sidebar": {
     "home": "Trang chủ",
@@ -52,5 +53,11 @@
   "formInput": {
     "username": "Tên đăng nhập*",
     "password": "Mật khẩu*"
+  },
+  "book": {
+    "listBook": "Danh sách sách",
+    "name": "Tên sách",
+    "categories": "Thể loại",
+    "author": "Tác giả"
   }
 }
