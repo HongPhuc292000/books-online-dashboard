@@ -7,15 +7,15 @@ export const useLoading = (
   const showLoading = () => {
     if (props.setLoading) {
       props.setLoading(true);
+      setIsLoading(true);
     }
-    setIsLoading(true);
   };
 
   const hideLoading = () => {
     if (props.setLoading) {
       props.setLoading(false);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return { showLoading, hideLoading, isLoading };

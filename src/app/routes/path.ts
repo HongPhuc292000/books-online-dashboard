@@ -3,6 +3,7 @@ const path = {
   login: "auth/login",
   welcome: "welcome",
   book: "book",
+  author: "author",
   all: "*",
 };
 export default path;

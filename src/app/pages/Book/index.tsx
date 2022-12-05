@@ -19,20 +19,13 @@ interface ListBookProps {
 const ListBooks = ({ setLoading }: ListBookProps) => {
   const dispatch = useAppDispatch();
   const { listBook } = useAppSelector(selectBook);
-  const { showLoading, hideLoading, isLoading } = useLoading({ setLoading });
+  const { showLoading, hideLoading } = useLoading({ setLoading });
 
   const headers: HeaderProps[] = [
-    { name: "name", label: "Name" },
-    { name: "caregories", label: "Caregories" },
-
-    {
-      name: "author",
-      label: "Author",
-    },
-    {
-      name: "publishedDate",
-      label: "Published Date",
-    },
+    { name: "name" },
+    { name: "caregories" },
+    { name: "author" },
+    { name: "publishedDate" },
   ];
 
   const renderItem = (item: Book) => {
@@ -64,7 +57,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
           headers={headers}
           renderItem={renderItem}
           items={listBook}
-          isLoading={isLoading}
+          tableName="book"
         />
       </Paper>
     </MainWrap>

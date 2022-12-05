@@ -2,12 +2,17 @@ import { styled, Typography } from "@mui/material";
 
 const PageTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey[700],
+  paddingBottom: theme.spacing(2),
 }));
 
-const TableLabel = styled(Typography)(({ theme }) => ({
+const TableHeaderLabel = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey[700],
   fontSize: "inherit",
   fontWeight: 600,
 }));
 
-export { PageTitle, TableLabel };
+const TableContentLabel = styled(Typography)(() => ({
+  fontSize: 14,
+}));
+
+export { PageTitle, TableHeaderLabel, TableContentLabel };

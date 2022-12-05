@@ -8,14 +8,12 @@ const globalStyles = <GlobalStyles />;
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <ThemeConfig>
-          {globalStyles}
-          <Router />
-        </ThemeConfig>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <ThemeConfig>
+        {globalStyles}
+        <Router />
+      </ThemeConfig>
+    </BrowserRouter>
   );
 }
 

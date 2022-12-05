@@ -2,7 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import bookService from "services/book";
 
-import { Book } from "types/Book";
+import { Book } from "types";
 
 import { bookActions as actions } from ".";
 

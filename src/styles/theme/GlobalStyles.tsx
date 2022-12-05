@@ -5,6 +5,14 @@ export default function GlobalStyles() {
   return (
     <GlobalThemeStyles
       styles={{
+        "::selection": {
+          color: theme.palette.common.white,
+          background: theme.palette.primary.light,
+        },
+        "::-moz-selection": {
+          color: theme.palette.common.white,
+          background: theme.palette.primary.light,
+        },
         "*": {
           margin: 0,
           padding: 0,

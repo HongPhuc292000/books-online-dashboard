@@ -26,8 +26,7 @@
     "server_error": "",
     "welcome": "",
     "pageNotFound": "",
-    "returnHome": "",
-    "loading": "Loading..."
+    "returnHome": ""
   },
   "sidebar": {
     "home": "",
@@ -53,5 +52,17 @@
   "formInput": {
     "username": "",
     "password": ""
+  },
+  "book": {
+    "listBook": "",
+    "name": "",
+    "categories": "",
+    "author": ""
+  },
+  "author": {
+    "name": "",
+    "yearOfBirth": "",
+    "yearPassed": "",
+    "description": ""
   }
 }

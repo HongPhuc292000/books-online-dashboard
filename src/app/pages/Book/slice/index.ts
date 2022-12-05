@@ -1,6 +1,6 @@
 import { BookState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Book } from "types/Book";
+import { Book } from "types";
 
 export const initialState: BookState = {};
 

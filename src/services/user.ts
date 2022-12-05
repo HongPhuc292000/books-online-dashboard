@@ -1,11 +1,11 @@
 import { UserDetail } from "types";
+import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
-const userUrl = process.env.REACT_APP_API_USER;
-const instanceWithToken = createService(userUrl);
+const instanceWithToken = createService(baseUrl);
 
 const getDetailUser = async (userId: string): Promise<UserDetail> => {
-  const response = await instanceWithToken.get(`${userUrl}${userId}`);
+  const response = await instanceWithToken.get(`v1/user/${userId}`);
   return response.data;
 };
 

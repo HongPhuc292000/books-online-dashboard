@@ -42,7 +42,7 @@ export const pages: HeaderNavChangePageI[] = [
   },
   {
     title: "manageAuthors",
-    link: "",
+    link: path.author,
     icon: <PsychologyAltIcon />,
   },
   {

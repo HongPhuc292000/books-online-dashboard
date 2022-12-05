@@ -1,20 +1,24 @@
-import { TableCell, TableHead, TableRow } from "@mui/material";
+import { TableCell, TableHead, TableRow, useTheme } from "@mui/material";
 import { memo } from "react";
-import { TableLabel } from "../Label";
+import { useTranslation } from "react-i18next";
+import { TableHeaderLabel } from "../Label";
 
 export interface HeaderProps {
   name: string;
-  label: string;
   minWidth?: number;
   align?: "right";
   format?: (value: number) => string;
 }
 
 interface TableHeaderProps {
+  tableName: string;
   listHeaders: HeaderProps[];
 }
 
-const TableHeader = memo(({ listHeaders }: TableHeaderProps) => {
+const TableHeader = memo(({ tableName, listHeaders }: TableHeaderProps) => {
+  const { t } = useTranslation();
+  const theme = useTheme();
+
   return (
     <TableHead>
       <TableRow>
@@ -22,9 +26,14 @@ const TableHeader = memo(({ listHeaders }: TableHeaderProps) => {
           <TableCell
             key={header.name}
             align={header.align}
-            style={{ minWidth: header.minWidth }}
+            style={{
+              minWidth: header.minWidth,
+              backgroundColor: theme.palette.grey[300],
+            }}
           >
-            <TableLabel>{header.label}</TableLabel>
+            <TableHeaderLabel>
+              {t(`${tableName}.${header.name}`)}
+            </TableHeaderLabel>
           </TableCell>
         ))}
       </TableRow>
