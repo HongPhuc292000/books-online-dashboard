@@ -4,6 +4,7 @@ const path = {
   welcome: "welcome",
   book: "book",
   author: "author",
+  category: "category",
   all: "*",
 };
 export default path;

@@ -13,7 +13,7 @@ import { memo } from "react";
 interface StickyHeadTableProps {
   tableName: string;
   headers: HeaderProps[];
-  renderItem: (item: any) => any[];
+  renderItem: (item: any, index: number) => any[];
   total?: number;
   items?: any[];
   filter?: any;
@@ -51,7 +51,7 @@ const StickyHeadTable = memo(
     };
 
     return (
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: 3 }}>
         <TableContainer sx={{ maxHeight: "66vh" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHeader listHeaders={headers} tableName={tableName} />
@@ -59,16 +59,18 @@ const StickyHeadTable = memo(
               {items.map((item, index) => {
                 return (
                   <TableRow hover key={`item${index}`}>
-                    {renderItem(item).map((col, index) => {
-                      return (
-                        <TableCell
-                          key={`item${index}`}
-                          align={headers[index].align}
-                        >
-                          {col}
-                        </TableCell>
-                      );
-                    })}
+                    {renderItem(item, index + 1 + page * rowsPerPage).map(
+                      (col, index) => {
+                        return (
+                          <TableCell
+                            key={`item${index}`}
+                            align={headers[index].align}
+                          >
+                            {col}
+                          </TableCell>
+                        );
+                      }
+                    )}
                   </TableRow>
                 );
               })}

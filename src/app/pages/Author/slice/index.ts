@@ -14,10 +14,7 @@ export const authorSlice = createSlice({
         return { payload: params, meta };
       },
     },
-    getAllAuthorsSuccess(
-      state,
-      action: PayloadAction<Pageable<Author> | undefined>
-    ) {
+    getAllAuthorsSuccess(state, action: PayloadAction<Pageable<Author>>) {
       state.listAuthor = action.payload;
     },
   },

@@ -6,7 +6,8 @@ import { TableHeaderLabel } from "../Label";
 export interface HeaderProps {
   name: string;
   minWidth?: number;
-  align?: "right";
+  isCommonLabel?: boolean;
+  align?: "right" | "center";
   format?: (value: number) => string;
 }
 
@@ -32,7 +33,9 @@ const TableHeader = memo(({ tableName, listHeaders }: TableHeaderProps) => {
             }}
           >
             <TableHeaderLabel>
-              {t(`${tableName}.${header.name}`)}
+              {header?.isCommonLabel
+                ? t(`commonTableHeader.${header.name}`)
+                : t(`${tableName}.${header.name}`)}
             </TableHeaderLabel>
           </TableCell>
         ))}

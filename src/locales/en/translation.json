@@ -26,7 +26,8 @@
     "server_error": "",
     "welcome": "",
     "pageNotFound": "",
-    "returnHome": ""
+    "returnHome": "",
+    "search": ""
   },
   "sidebar": {
     "home": "",
@@ -53,6 +54,9 @@
     "username": "",
     "password": ""
   },
+  "commonTableHeader": {
+    "serial": ""
+  },
   "book": {
     "listBook": "",
     "name": "",
@@ -60,9 +64,16 @@
     "author": ""
   },
   "author": {
+    "searchPlaceholder": "",
     "name": "",
     "yearOfBirth": "",
     "yearPassed": "",
     "description": ""
+  },
+  "category": {
+    "searchPlaceholder": "",
+    "listAuthor": "",
+    "categoryCode": "",
+    "categoryName": ""
   }
 }

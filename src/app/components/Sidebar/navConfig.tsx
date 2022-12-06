@@ -47,7 +47,7 @@ export const pages: HeaderNavChangePageI[] = [
   },
   {
     title: "manageCategories",
-    link: "",
+    link: path.category,
     icon: <CategoryIcon />,
   },
   {

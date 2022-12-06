@@ -8,6 +8,7 @@ import Auth from "app/pages/Auth";
 import NotFound from "app/pages/NotFound";
 import ListBooks from "app/pages/Book";
 import ListAuthors from "app/pages/Author/index";
+import ListCategories from "app/pages/Category/index";
 
 import path from "./path";
 
@@ -36,6 +37,10 @@ export default function Router() {
         {
           path: path.author,
           element: <ListAuthors />,
+        },
+        {
+          path: path.category,
+          element: <ListCategories />,
         },
       ],
     },

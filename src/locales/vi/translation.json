@@ -26,7 +26,8 @@
     "server_error": "Lỗi máy chủ",
     "welcome": "Chào mừng bạn đến với trang quản lý của BooksOnline",
     "pageNotFound": "Không tìm thấy trang mà bạn yêu cầu!",
-    "returnHome": "Quay về trang chủ"
+    "returnHome": "Quay về trang chủ",
+    "search": "Tìm kiếm"
   },
   "sidebar": {
     "home": "Trang chủ",
@@ -53,6 +54,9 @@
     "username": "Tên đăng nhập*",
     "password": "Mật khẩu*"
   },
+  "commonTableHeader": {
+    "serial": "STT"
+  },
   "book": {
     "listBook": "Danh sách sách",
     "name": "Tên sách",
@@ -60,10 +64,17 @@
     "author": "Tác giả"
   },
   "author": {
+    "searchPlaceholder": "Tìm kiếm tác giả theo tên",
     "listAuthor": "Danh sách tác giả",
     "name": "Tên tác giả",
     "yearOfBirth": "Năm sinh",
     "yearPassed": "Năm mất",
     "description": "Mô tả"
+  },
+  "category": {
+    "searchPlaceholder": "Tìm thể loại theo tên, mã thể loại",
+    "listAuthor": "Danh sách thể loại",
+    "categoryCode": "Mã thể loại",
+    "categoryName": "Tên thể loại"
   }
 }

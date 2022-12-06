@@ -11,31 +11,31 @@ import { useLoading } from "app/hooks/useLoading";
 import { debounce } from "lodash";
 import { memo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Author, Filter } from "types";
+import { Category, Filter } from "types";
 
-import { authorActions } from "./slice";
-import { selectAuthor } from "./slice/selector";
+import { categoryActions } from "./slice";
+import { selectCategory } from "./slice/selector";
 
-interface ListAuthorProps {
+interface ListCategoryProps {
   setLoading?: Function;
 }
 
 const headers: HeaderProps[] = [
-  { name: "name" },
-  { name: "yearOfBirth", align: "right" },
-  { name: "yearPassed", align: "right" },
+  { name: "serial", align: "center", isCommonLabel: true },
+  { name: "categoryCode" },
+  { name: "categoryName" },
 ];
 
-const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
+const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { listAuthor } = useAppSelector(selectAuthor);
+  const { listCategories } = useAppSelector(selectCategory);
   const { showLoading, hideLoading } = useLoading({ setLoading });
 
   const handleFetchData = (params: Filter) => {
     showLoading();
     dispatch(
-      authorActions.getAllAuthors(params, () => {
+      categoryActions.getAllCategories(params, () => {
         hideLoading();
       })
     );
@@ -70,17 +70,17 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
     [filter]
   );
 
-  const renderItem = useCallback((item: Author) => {
+  const renderItem = useCallback((item: Category, index: number) => {
     return [
+      <TableContentLabel>{index}</TableContentLabel>,
+      <TableContentLabel>{item.type}</TableContentLabel>,
       <TableContentLabel>{item.name}</TableContentLabel>,
-      <TableContentLabel>{item.yearOfBirth}</TableContentLabel>,
-      <TableContentLabel>{item.yearPassed}</TableContentLabel>,
     ];
   }, []);
 
   useEffect(() => {
     return () => {
-      dispatch(authorActions.getAllAuthorsSuccess({}));
+      dispatch(categoryActions.getAllCategoriesSuccess({}));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -88,18 +88,18 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitle variant="h4">{t(`author.listAuthor`)}</PageTitle>
+        <PageTitle variant="h4">{t(`category.listAuthor`)}</PageTitle>
         <SearchBar
           keyword={filter.searchKey}
           onSearch={onSearch}
-          placeholder={t("author.searchPlaceholder")}
+          placeholder={t("category.searchPlaceholder")}
         />
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
-          items={listAuthor?.data}
-          total={listAuthor?.total}
-          tableName="author"
+          items={listCategories?.data}
+          total={listCategories?.total}
+          tableName="category"
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
         />
@@ -108,4 +108,4 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   );
 });
 
-export default withLoading(ListAuthors);
+export default withLoading(ListCategories);
