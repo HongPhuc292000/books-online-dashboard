@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { Cookies } from "types/enums";
+import { CookiesEnum } from "types/enums";
 import { getCookies } from "utils/cookies";
 
 // Set up default config for http requests here
@@ -7,8 +7,8 @@ import { getCookies } from "utils/cookies";
 const interceptAuth = (config: AxiosRequestConfig) => {
   const instance = axios.create(config);
   instance.interceptors.request.use((cf) => {
-    const authToken = getCookies(Cookies.AUTHTOKEN);
-    const refreshToken = getCookies(Cookies.REFRESHTOKEN);
+    const authToken = getCookies(CookiesEnum.AUTHTOKEN);
+    const refreshToken = getCookies(CookiesEnum.REFRESHTOKEN);
     if (authToken) {
       cf.headers!["token"] = `Bearer ${authToken}`;
     }

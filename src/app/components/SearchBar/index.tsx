@@ -1,4 +1,10 @@
-import { Button, Grid, TextField } from "@mui/material";
+import {
+  Button,
+  Grid,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,6 +19,8 @@ const SearchBar = memo(
   ({ minWidth = 330, placeholder, keyword, onSearch }: SearchBarProps) => {
     const { t } = useTranslation();
     const [searchKey, setSearchKey] = useState("");
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
     const handleChangeSearchKey = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchKey(e.target.value);
@@ -32,10 +40,18 @@ const SearchBar = memo(
       <Grid container>
         <TextField
           size="small"
-          sx={{ minWidth: minWidth }}
+          sx={{
+            minWidth: fullScreen ? 0 : minWidth,
+            flex: fullScreen ? 1 : "none",
+          }}
           placeholder={`${placeholder ? placeholder : t("common.search")}`}
           value={searchKey}
           onChange={handleChangeSearchKey}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleAcceptSearch();
+            }
+          }}
         />
         <Button
           variant="contained"

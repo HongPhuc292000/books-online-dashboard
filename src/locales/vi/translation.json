@@ -27,7 +27,9 @@
     "welcome": "Chào mừng bạn đến với trang quản lý của BooksOnline",
     "pageNotFound": "Không tìm thấy trang mà bạn yêu cầu!",
     "returnHome": "Quay về trang chủ",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "acceptDelete": "Xác nhận xóa",
+    "accept": "Xác nhận"
   },
   "sidebar": {
     "home": "Trang chủ",
@@ -55,7 +57,8 @@
     "password": "Mật khẩu*"
   },
   "commonTableHeader": {
-    "serial": "STT"
+    "serial": "STT",
+    "nothing": ""
   },
   "book": {
     "listBook": "Danh sách sách",
@@ -75,6 +78,10 @@
     "searchPlaceholder": "Tìm thể loại theo tên, mã thể loại",
     "listAuthor": "Danh sách thể loại",
     "categoryCode": "Mã thể loại",
-    "categoryName": "Tên thể loại"
+    "categoryName": "Tên thể loại",
+    "acceptDeletCategory": "Bạn chắc chắn muốn xóa thể loại này?",
+    "deleted": "Xóa thể loại thành công",
+    "server_error": "Lỗi máy chủ",
+    "bad_request": "Yêu cầu không hợp lệ"
   }
 }

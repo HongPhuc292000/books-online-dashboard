@@ -1,5 +1,5 @@
 import { LoginRequest, LoginResponse, RegisterRequest } from "types";
-import { Cookies } from "types/enums";
+import { CookiesEnum } from "types/enums";
 import { baseUrl } from "utils/constants";
 import { getCookies } from "utils/cookies";
 import { createService, createServiceNoToken } from "./axios";
@@ -19,7 +19,7 @@ const register = async (formData: RegisterRequest): Promise<LoginRequest> => {
 
 const logout = async (): Promise<LoginResponse> => {
   const response = await instanceWithToken.post(
-    `v1/auth/logout/${getCookies(Cookies.REFRESHTOKEN)}`
+    `v1/auth/logout/${getCookies(CookiesEnum.REFRESHTOKEN)}`
   );
   return response.data;
 };

@@ -13,6 +13,11 @@ const getAllCategories = async (
   return response.data;
 };
 
-const categoryService = { getAllCategories };
+const deleteCategory = async (id: string): Promise<string> => {
+  const response = await instanceWithToken.delete(`v1/category/${id}`);
+  return response.data;
+};
+
+const categoryService = { getAllCategories, deleteCategory };
 
 export default categoryService;

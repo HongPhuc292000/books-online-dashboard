@@ -7,8 +7,9 @@ export interface HeaderProps {
   name: string;
   minWidth?: number;
   isCommonLabel?: boolean;
-  align?: "right" | "center";
+  align?: "right" | "center" | "right";
   format?: (value: number) => string;
+  width?: number;
 }
 
 interface TableHeaderProps {
@@ -27,9 +28,13 @@ const TableHeader = memo(({ tableName, listHeaders }: TableHeaderProps) => {
           <TableCell
             key={header.name}
             align={header.align}
-            style={{
+            sx={{
               minWidth: header.minWidth,
               backgroundColor: theme.palette.grey[300],
+              width: header.width,
+              "&:last-child": {
+                borderTopRightRadius: 8,
+              },
             }}
           >
             <TableHeaderLabel>

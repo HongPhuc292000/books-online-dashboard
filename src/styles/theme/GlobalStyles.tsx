@@ -19,6 +19,21 @@ export default function GlobalStyles() {
           boxSizing: "border-box",
           scrollBehavior: "smooth",
         },
+        "::-webkit-scrollbar": {
+          width: "16px",
+        },
+        "::-webkit-scrollbar-track": {
+          boxShadow: "inset 0 0 4px grey",
+          borderRadius: "8px",
+        },
+        "::-webkit-scrollbar-thumb": {
+          background: theme.palette.grey[400],
+          borderRadius: "8px",
+        },
+
+        "::-webkit-scrollbar-thumb:hover": {
+          background: theme.palette.grey[600],
+        },
         html: {
           fontFamily: "Roboto, Arial, sans-serif",
         },

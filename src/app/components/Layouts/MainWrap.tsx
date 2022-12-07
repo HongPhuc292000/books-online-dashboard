@@ -5,8 +5,8 @@ const MainWrap = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     height: `calc(100vh - ${appbarHeight.mainXs})`,
   },
-  [theme.breakpoints.up("sm")]: {
-    height: `calc(100vh - ${appbarHeight.mainSm})`,
+  [theme.breakpoints.up("md")]: {
+    height: `calc(100vh - ${appbarHeight.mainMd})`,
   },
 }));
 

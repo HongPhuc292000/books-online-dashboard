@@ -1,14 +1,14 @@
 import palette from "./theme/palette";
 
-const appbarSmHeight = 8;
+const appbarMdHeight = 8;
 const appbarXsHeight = 7;
 const mainPadding = 4;
 const spacing = 8;
 
 export const appbarHeight = {
-  sm: appbarSmHeight,
+  md: appbarMdHeight,
   xs: appbarXsHeight,
-  mainSm: `${appbarSmHeight * spacing + mainPadding * spacing * 2}px`,
+  mainMd: `${appbarMdHeight * spacing + mainPadding * spacing * 2}px`,
   mainXs: `${appbarXsHeight * spacing + mainPadding * spacing * 2}px`,
   mainPadding,
 };

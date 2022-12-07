@@ -21,6 +21,18 @@ function* getAllCategories(
   }
 }
 
+function* deleleCategory(
+  action: PayloadAction<string, string, (message?: any) => void>
+) {
+  try {
+    yield call(categoryService.deleteCategory, action.payload);
+    action.meta();
+  } catch (error: any) {
+    action.meta(error.response.data);
+  }
+}
+
 export function* categorySaga() {
   yield takeLatest(actions.getAllCategories, getAllCategories);
+  yield takeLatest(actions.deleleCategory, deleleCategory);
 }

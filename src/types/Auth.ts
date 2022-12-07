@@ -1,5 +1,3 @@
-import { UserRole } from "./enums";
-
 export interface LoginRequest {
   username: string;
   password: string;

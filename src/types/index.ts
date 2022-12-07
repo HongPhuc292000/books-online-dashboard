@@ -7,8 +7,9 @@ export * from "./Category";
 
 export * from "./Filter";
 
-export type { SelectEnum } from "./enums";
 export interface Pageable<T> {
   data?: T[];
   total?: number;
+  page?: number;
+  size?: number;
 }

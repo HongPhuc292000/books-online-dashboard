@@ -17,6 +17,12 @@ export const categorySlice = createSlice({
     getAllCategoriesSuccess(state, action: PayloadAction<Pageable<Category>>) {
       state.listCategories = action.payload;
     },
+    deleleCategory: {
+      reducer() {},
+      prepare(id: string, meta: (message: any) => void) {
+        return { payload: id, meta };
+      },
+    },
   },
 });
 

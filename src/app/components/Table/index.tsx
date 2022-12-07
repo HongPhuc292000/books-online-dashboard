@@ -16,6 +16,8 @@ interface StickyHeadTableProps {
   renderItem: (item: any, index: number) => any[];
   total?: number;
   items?: any[];
+  pageResponse?: number;
+  sizeResponse?: number;
   filter?: any;
   onFetchDataForPage?: ({ page, size }: Filter) => void;
 }
@@ -27,11 +29,13 @@ const StickyHeadTable = memo(
     renderItem,
     items = [],
     total = 0,
+    pageResponse = 0,
+    sizeResponse = 10,
     filter,
     onFetchDataForPage,
   }: StickyHeadTableProps) => {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(filter?.size || 10);
+    const [page, setPage] = React.useState(pageResponse);
+    const [rowsPerPage, setRowsPerPage] = React.useState(sizeResponse);
 
     const handleChangePage = (event: unknown, newPage: number) => {
       if (onFetchDataForPage) {
@@ -45,6 +49,7 @@ const StickyHeadTable = memo(
     ) => {
       const newRowPerPage = +event.target.value;
       setRowsPerPage(newRowPerPage);
+      setPage(0);
       if (onFetchDataForPage) {
         onFetchDataForPage({ ...filter, page: 0, size: newRowPerPage });
       }
@@ -52,25 +57,26 @@ const StickyHeadTable = memo(
 
     return (
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: 3 }}>
-        <TableContainer sx={{ maxHeight: "66vh" }}>
+        <TableContainer sx={{ maxHeight: "60vh" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHeader listHeaders={headers} tableName={tableName} />
             <TableBody>
               {items.map((item, index) => {
                 return (
                   <TableRow hover key={`item${index}`}>
-                    {renderItem(item, index + 1 + page * rowsPerPage).map(
-                      (col, index) => {
-                        return (
-                          <TableCell
-                            key={`item${index}`}
-                            align={headers[index].align}
-                          >
-                            {col}
-                          </TableCell>
-                        );
-                      }
-                    )}
+                    {renderItem(
+                      item,
+                      index + 1 + pageResponse * sizeResponse
+                    ).map((col, index) => {
+                      return (
+                        <TableCell
+                          key={`item${index}`}
+                          align={headers[index].align}
+                        >
+                          {col}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 );
               })}

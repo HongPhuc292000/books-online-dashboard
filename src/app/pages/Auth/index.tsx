@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { LoginRequest } from "types";
-import { Cookies } from "types/enums";
+import { CookiesEnum } from "types/enums";
 import { deleteCookie } from "utils/cookies";
 import { LoginSchema } from "./loginShema.data";
 import { authActions } from "./slice/index";
@@ -60,8 +60,8 @@ const Auth = ({ setLoading }: LoginFormProps) => {
   });
 
   useEffect(() => {
-    deleteCookie(Cookies.AUTHTOKEN);
-    deleteCookie(Cookies.REFRESHTOKEN);
+    deleteCookie(CookiesEnum.AUTHTOKEN);
+    deleteCookie(CookiesEnum.REFRESHTOKEN);
   }, []);
 
   return (

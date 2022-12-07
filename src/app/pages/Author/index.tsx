@@ -21,6 +21,7 @@ interface ListAuthorProps {
 }
 
 const headers: HeaderProps[] = [
+  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
   { name: "name" },
   { name: "yearOfBirth", align: "right" },
   { name: "yearPassed", align: "right" },
@@ -70,8 +71,9 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
     [filter]
   );
 
-  const renderItem = useCallback((item: Author) => {
+  const renderItem = useCallback((item: Author, index: number) => {
     return [
+      <TableContentLabel>{index}</TableContentLabel>,
       <TableContentLabel>{item.name}</TableContentLabel>,
       <TableContentLabel>{item.yearOfBirth}</TableContentLabel>,
       <TableContentLabel>{item.yearPassed}</TableContentLabel>,
@@ -99,6 +101,8 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
           renderItem={renderItem}
           items={listAuthor?.data}
           total={listAuthor?.total}
+          pageResponse={listAuthor?.page}
+          sizeResponse={listAuthor?.size}
           tableName="author"
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}

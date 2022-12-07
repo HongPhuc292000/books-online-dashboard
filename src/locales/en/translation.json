@@ -27,7 +27,9 @@
     "welcome": "",
     "pageNotFound": "",
     "returnHome": "",
-    "search": ""
+    "search": "",
+    "acceptDelete": "",
+    "accept": ""
   },
   "sidebar": {
     "home": "",
@@ -55,7 +57,8 @@
     "password": ""
   },
   "commonTableHeader": {
-    "serial": ""
+    "serial": "",
+    "nothing": ""
   },
   "book": {
     "listBook": "",
@@ -74,6 +77,10 @@
     "searchPlaceholder": "",
     "listAuthor": "",
     "categoryCode": "",
-    "categoryName": ""
+    "categoryName": "",
+    "acceptDeletCategory": "",
+    "deleted": "",
+    "server_error": "",
+    "bad_request": ""
   }
 }

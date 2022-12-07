@@ -8,7 +8,7 @@ import {
   RegisterRequest,
   UserDetail,
 } from "types";
-import { Cookies } from "types/enums";
+import { CookiesEnum } from "types/enums";
 import {
   decodeTokenGetId,
   deleteCookie,
@@ -22,8 +22,8 @@ function* login(
 ) {
   try {
     const result: LoginResponse = yield call(authService.login, action.payload);
-    setCookie(Cookies.AUTHTOKEN, result.accessToken);
-    setCookie(Cookies.REFRESHTOKEN, result.refreshToken);
+    setCookie(CookiesEnum.AUTHTOKEN, result.accessToken);
+    setCookie(CookiesEnum.REFRESHTOKEN, result.refreshToken);
     const userInfo: UserDetail = yield call(
       userService.getDetailUser,
       decodeTokenGetId(result.accessToken)
@@ -48,8 +48,8 @@ function* register(
       authService.login,
       registerResult
     );
-    setCookie(Cookies.AUTHTOKEN, loginResult.accessToken);
-    setCookie(Cookies.REFRESHTOKEN, loginResult.refreshToken);
+    setCookie(CookiesEnum.AUTHTOKEN, loginResult.accessToken);
+    setCookie(CookiesEnum.REFRESHTOKEN, loginResult.refreshToken);
     const userInfo: UserDetail = yield call(
       userService.getDetailUser,
       decodeTokenGetId(loginResult.accessToken)
@@ -65,8 +65,8 @@ function* register(
 function* logout(action: PayloadAction<(error?: any) => void>) {
   try {
     yield call(authService.logout);
-    deleteCookie(Cookies.AUTHTOKEN);
-    deleteCookie(Cookies.REFRESHTOKEN);
+    deleteCookie(CookiesEnum.AUTHTOKEN);
+    deleteCookie(CookiesEnum.REFRESHTOKEN);
     yield put(actions.loginSuccess(undefined));
     action.payload();
   } catch {
@@ -83,7 +83,7 @@ function* getUserInfo(
       action.payload
     );
     yield put(actions.getUserInfoSuccess(userInfo));
-    yield put(actions.loginSuccess(getCookies(Cookies.AUTHTOKEN)));
+    yield put(actions.loginSuccess(getCookies(CookiesEnum.AUTHTOKEN)));
     action.meta();
   } catch (error: any) {
     action.meta(error.response.data);
