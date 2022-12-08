@@ -29,7 +29,8 @@
     "returnHome": "Quay về trang chủ",
     "search": "Tìm kiếm",
     "acceptDelete": "Xác nhận xóa",
-    "accept": "Xác nhận"
+    "accept": "Xác nhận",
+    "addNew": "Thêm mới"
   },
   "sidebar": {
     "home": "Trang chủ",
@@ -47,15 +48,14 @@
     "FULL": "Full"
   },
   "auth": {
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
     "username_not_correct": "Tên tài khoản không chính xác",
     "password_not_correct": "Mật khẩu không chính xác",
     "server_error": "Lỗi máy chủ",
     "loginSuccess": "Chào mừng bạn"
   },
-  "formInput": {
-    "username": "Tên đăng nhập*",
-    "password": "Mật khẩu*"
-  },
+
   "commonTableHeader": {
     "serial": "STT",
     "nothing": ""
@@ -77,10 +77,18 @@
   "category": {
     "searchPlaceholder": "Tìm thể loại theo tên, mã thể loại",
     "listAuthor": "Danh sách thể loại",
-    "categoryCode": "Mã thể loại",
-    "categoryName": "Tên thể loại",
+    "type": "Mã thể loại",
+    "name": "Tên thể loại",
+    "typeRequired": "Mã thể loại không được trống và chỉ chứa các ký tự A-Z, 0-9",
+    "nameRequired": "Tên thể loại không được để trống",
     "acceptDeletCategory": "Bạn chắc chắn muốn xóa thể loại này?",
-    "deleted": "Xóa thể loại thành công",
+    "deleteSuccess": "Xóa thể loại thành công",
+    "deleteFailure": "Xóa thể loại không thành công",
+    "addNewCategory": "Thêm thể loại mới",
+    "addSuccess": "Thêm thể loại mới thành công",
+    "addFailure": "Thêm thể loại mới không thành công",
+    "name_exist": "Tên thể loại đã tồn tại",
+    "type_exist": "Mã thể loại đã tồn tại",
     "server_error": "Lỗi máy chủ",
     "bad_request": "Yêu cầu không hợp lệ"
   }

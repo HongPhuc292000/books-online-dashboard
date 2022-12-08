@@ -69,8 +69,19 @@ const Auth = ({ setLoading }: LoginFormProps) => {
       <Paper elevation={3} sx={{ p: 4, width: 500 }}>
         <Logo fontSize={36} />
         <Box component="form" sx={{ mt: 4 }} onSubmit={formik.handleSubmit}>
-          <SimpleTextField formik={formik} field="username" />
-          <SimpleTextField formik={formik} field="password" type="password" />
+          <SimpleTextField
+            formik={formik}
+            field="username"
+            tableName="auth"
+            required={true}
+          />
+          <SimpleTextField
+            formik={formik}
+            field="password"
+            tableName="auth"
+            type="password"
+            required={true}
+          />
           <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
             <Button
               variant="contained"

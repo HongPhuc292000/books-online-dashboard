@@ -1,5 +1,5 @@
 import querystring from "query-string";
-import { Category, Filter, Pageable } from "types";
+import { AddNewCategoryRequest, Category, Filter, Pageable } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
@@ -13,11 +13,16 @@ const getAllCategories = async (
   return response.data;
 };
 
-const deleteCategory = async (id: string): Promise<string> => {
+const deleteCategory = async (id: string) => {
   const response = await instanceWithToken.delete(`v1/category/${id}`);
   return response.data;
 };
 
-const categoryService = { getAllCategories, deleteCategory };
+const addNewCategory = async (formValue: AddNewCategoryRequest) => {
+  const response = await instanceWithToken.post("v1/category", formValue);
+  return response.data;
+};
+
+const categoryService = { getAllCategories, deleteCategory, addNewCategory };
 
 export default categoryService;

@@ -29,7 +29,8 @@
     "returnHome": "",
     "search": "",
     "acceptDelete": "",
-    "accept": ""
+    "accept": "",
+    "addNew": ""
   },
   "sidebar": {
     "home": "",
@@ -47,14 +48,12 @@
     "FULL": "Full"
   },
   "auth": {
+    "username": "",
+    "password": "",
     "username_not_correct": "",
     "password_not_correct": "",
     "loginSuccess": "",
     "server_error": ""
-  },
-  "formInput": {
-    "username": "",
-    "password": ""
   },
   "commonTableHeader": {
     "serial": "",
@@ -76,10 +75,18 @@
   "category": {
     "searchPlaceholder": "",
     "listAuthor": "",
-    "categoryCode": "",
-    "categoryName": "",
+    "type": "",
+    "name": "",
+    "typeRequired": "",
+    "nameRequired": "",
     "acceptDeletCategory": "",
-    "deleted": "",
+    "deleteSuccess": "",
+    "deleteFailure": "",
+    "addNewCategory": "",
+    "addSuccess": "",
+    "addFailure": "",
+    "name_exist": "",
+    "type_exist": "",
     "server_error": "",
     "bad_request": ""
   }

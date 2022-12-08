@@ -57,7 +57,7 @@ const StickyHeadTable = memo(
 
     return (
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: 3 }}>
-        <TableContainer sx={{ maxHeight: "60vh" }}>
+        <TableContainer sx={{ height: "60vh" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHeader listHeaders={headers} tableName={tableName} />
             <TableBody>

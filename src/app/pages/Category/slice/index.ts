@@ -1,6 +1,6 @@
 import { CategoryState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Category, Filter, Pageable } from "types";
+import { AddNewCategoryRequest, Category, Filter, Pageable } from "types";
 
 export const initialState: CategoryState = {};
 
@@ -21,6 +21,12 @@ export const categorySlice = createSlice({
       reducer() {},
       prepare(id: string, meta: (message: any) => void) {
         return { payload: id, meta };
+      },
+    },
+    addNewCategory: {
+      reducer() {},
+      prepare(formValue: AddNewCategoryRequest, meta: (message: any) => void) {
+        return { payload: formValue, meta };
       },
     },
   },

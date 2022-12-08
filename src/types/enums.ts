@@ -10,7 +10,9 @@ export enum StatusEnum {
 }
 
 // Dialog enums
-export enum CategoryDialogEnum {
+
+export enum CommonDialogEnum {
   DELETE = "DELETE",
   ADD = "ADD",
+  EDIT = "EDIT",
 }

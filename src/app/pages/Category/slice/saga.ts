@@ -2,7 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import categoryService from "services/category";
 
-import { Category, Filter, Pageable } from "types";
+import { AddNewCategoryRequest, Category, Filter, Pageable } from "types";
 
 import { categoryActions as actions } from ".";
 
@@ -28,11 +28,31 @@ function* deleleCategory(
     yield call(categoryService.deleteCategory, action.payload);
     action.meta();
   } catch (error: any) {
-    action.meta(error.response.data);
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("deleteFailure");
+    }
+  }
+}
+
+function* addNewCategory(
+  action: PayloadAction<AddNewCategoryRequest, string, (message?: any) => void>
+) {
+  try {
+    yield call(categoryService.addNewCategory, action.payload);
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("addFailure");
+    }
   }
 }
 
 export function* categorySaga() {
   yield takeLatest(actions.getAllCategories, getAllCategories);
   yield takeLatest(actions.deleleCategory, deleleCategory);
+  yield takeLatest(actions.addNewCategory, addNewCategory);
 }

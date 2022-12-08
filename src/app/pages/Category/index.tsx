@@ -15,10 +15,12 @@ import { debounce } from "lodash";
 import { memo, useCallback, useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Category, Filter } from "types";
-import { CategoryDialogEnum } from "types/enums";
+import { CommonDialogEnum } from "types/enums";
 
+import AddCategory from "./AddCategory";
 import { categoryActions } from "./slice";
 import { selectCategory } from "./slice/selector";
+import AddIconButton from "app/components/Button/AddIconButton";
 
 interface ListCategoryProps {
   setLoading?: Function;
@@ -26,8 +28,8 @@ interface ListCategoryProps {
 
 const headers: HeaderProps[] = [
   { name: "serial", align: "center", isCommonLabel: true, width: 88 },
-  { name: "categoryCode" },
-  { name: "categoryName" },
+  { name: "type" },
+  { name: "name" },
   { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
 ];
 
@@ -37,12 +39,10 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
   const { listCategories } = useAppSelector(selectCategory);
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showSuccessSnackbar, showErrorSnackbar } = useToastMessage();
-  const [showDialog, setShowdialog] = useState<CategoryDialogEnum | undefined>(
-    undefined
-  );
+  const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<string>("");
 
-  const handleFetchData = (params: Filter) => {
+  const handleFetchData = useCallback((params: Filter) => {
     showLoading();
     dispatch(
       categoryActions.getAllCategories(params, (error) => {
@@ -52,7 +52,8 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
         hideLoading();
       })
     );
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { filter, onFilterToQueryString } = useFilter({
     onFetchData: handleFetchData,
@@ -87,10 +88,15 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
     setShowdialog(undefined);
   }, []);
 
-  const handleShowDialog = useCallback((id: string) => {
-    setShowdialog(CategoryDialogEnum.DELETE);
-    setSelectedItem(id);
-  }, []);
+  const handleShowDialog = useCallback(
+    (action: string | undefined, id?: string) => {
+      if (id) {
+        setSelectedItem(id);
+      }
+      setShowdialog(action);
+    },
+    []
+  );
 
   const handleDeleteCategory = () => {
     setShowdialog(undefined);
@@ -101,9 +107,9 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
           hideLoading();
           showErrorSnackbar(t(`category.${error}`));
         } else {
-          handleFetchData({});
           hideLoading();
-          showSuccessSnackbar(t("category.deleted"));
+          showSuccessSnackbar(t("category.deleteSuccess"));
+          handleFetchData({});
         }
       })
     );
@@ -152,11 +158,19 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
         <PageTitle variant="h4">{t(`category.listAuthor`)}</PageTitle>
-        <SearchBar
-          keyword={filter.searchKey}
-          onSearch={onSearch}
-          placeholder={t("category.searchPlaceholder")}
-        />
+        <Grid container justifyContent="space-between">
+          <Grid item xs={12} sm="auto">
+            <SearchBar
+              keyword={filter.searchKey}
+              onSearch={onSearch}
+              placeholder={t("category.searchPlaceholder")}
+            />
+          </Grid>
+          <Grid item sm="auto" container justifyContent="flex-end">
+            <AddIconButton onAddItem={handleShowDialog} />
+          </Grid>
+        </Grid>
+
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
@@ -169,10 +183,24 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
           onFetchDataForPage={handleFetchDataForPage}
         />
         <ActionDialog
+          title={t("category.addNewCategory")}
+          isOpen={showDialog === CommonDialogEnum.ADD}
+          dialogContent={
+            <AddCategory
+              onCloseDialog={handleCloseDialog}
+              onFetchData={handleFetchData}
+              showLoading={showLoading}
+              hideLoading={hideLoading}
+            />
+          }
+          onCancel={handleCloseDialog}
+        />
+        <ActionDialog
           title={t("common.acceptDelete")}
-          isOpen={showDialog === CategoryDialogEnum.DELETE}
+          isOpen={showDialog === CommonDialogEnum.DELETE}
           dialogContent={DeleteDialogContent}
           onCancel={handleCloseDialog}
+          maxWidth="xs"
         />
       </Paper>
     </MainWrap>

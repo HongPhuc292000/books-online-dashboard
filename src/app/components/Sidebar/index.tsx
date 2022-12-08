@@ -100,7 +100,7 @@ export default function Sidebar() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: appbarHeight.mainPadding,
+          p: { sm: appbarHeight.mainPadding },
           width: { md: `calc(100% - ${drawerWidth}px)` },
           mt: { xs: appbarHeight.xs, md: appbarHeight.md },
         }}

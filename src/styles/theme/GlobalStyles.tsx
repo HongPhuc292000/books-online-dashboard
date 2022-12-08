@@ -38,8 +38,7 @@ export default function GlobalStyles() {
           fontFamily: "Roboto, Arial, sans-serif",
         },
         body: {
-          backgroundImage: `linear-gradient(${theme.palette.grey[200]},${theme.palette.grey[50]})`,
-          backgroundRepeat: "no-repeat",
+          backgroundColor: `#F0F0F0`,
         },
       }}
     />
