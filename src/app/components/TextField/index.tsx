@@ -26,8 +26,8 @@ export const SimpleTextField = ({
       value={formik.values[field]}
       onChange={formik.handleChange}
       fullWidth
+      sx={{ mb: 2 }}
       label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
-      margin="normal"
       error={formik.touched[field] && !!formik.errors[field]}
       helperText={formik.touched[field] && t(formik.errors[field] as string)}
       InputLabelProps={{

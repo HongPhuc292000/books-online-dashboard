@@ -17,12 +17,16 @@ function* getAllCategories(
     yield put(actions.getAllCategoriesSuccess(result));
     action.meta();
   } catch (error: any) {
-    action.meta(error.response.data);
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("getListFailure");
+    }
   }
 }
 
 function* deleleCategory(
-  action: PayloadAction<string, string, (message?: any) => void>
+  action: PayloadAction<string, string, (error?: any) => void>
 ) {
   try {
     yield call(categoryService.deleteCategory, action.payload);
@@ -37,7 +41,7 @@ function* deleleCategory(
 }
 
 function* addNewCategory(
-  action: PayloadAction<AddNewCategoryRequest, string, (message?: any) => void>
+  action: PayloadAction<AddNewCategoryRequest, string, (error?: any) => void>
 ) {
   try {
     yield call(categoryService.addNewCategory, action.payload);

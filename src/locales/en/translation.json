@@ -67,10 +67,21 @@
   },
   "author": {
     "searchPlaceholder": "",
+    "listAuthor": "",
     "name": "",
     "yearOfBirth": "",
     "yearPassed": "",
-    "description": ""
+    "description": "",
+    "addNewAuthor": "",
+    "nameRequired": "",
+    "getListFailure": "",
+    "acceptDeletAuthor": "",
+    "deleteSuccess": "",
+    "deleteFailure": "",
+    "addSuccess": "",
+    "addFailure": "",
+    "server_error": "",
+    "bad_request": ""
   },
   "category": {
     "searchPlaceholder": "",
@@ -85,6 +96,7 @@
     "addNewCategory": "",
     "addSuccess": "",
     "addFailure": "",
+    "getListFailure": "",
     "name_exist": "",
     "type_exist": "",
     "server_error": "",

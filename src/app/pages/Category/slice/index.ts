@@ -25,7 +25,7 @@ export const categorySlice = createSlice({
     },
     addNewCategory: {
       reducer() {},
-      prepare(formValue: AddNewCategoryRequest, meta: (message: any) => void) {
+      prepare(formValue: AddNewCategoryRequest, meta: (error: any) => void) {
         return { payload: formValue, meta };
       },
     },

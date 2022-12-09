@@ -1,6 +1,6 @@
 import { AuthorState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Author, Filter, Pageable } from "types";
+import { AddNewAuthorRequest, Author, Filter, Pageable } from "types";
 
 export const initialState: AuthorState = {};
 
@@ -16,6 +16,18 @@ export const authorSlice = createSlice({
     },
     getAllAuthorsSuccess(state, action: PayloadAction<Pageable<Author>>) {
       state.listAuthor = action.payload;
+    },
+    deleleAuthor: {
+      reducer() {},
+      prepare(id: string, meta: (error: any) => void) {
+        return { payload: id, meta };
+      },
+    },
+    addNewAuthor: {
+      reducer() {},
+      prepare(formValue: AddNewAuthorRequest, meta: (error: any) => void) {
+        return { payload: formValue, meta };
+      },
     },
   },
 });

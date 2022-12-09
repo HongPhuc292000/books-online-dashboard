@@ -72,7 +72,17 @@
     "name": "Tên tác giả",
     "yearOfBirth": "Năm sinh",
     "yearPassed": "Năm mất",
-    "description": "Mô tả"
+    "description": "Mô tả",
+    "addNewAuthor": "Thêm tác giả mới",
+    "nameRequired": "Tên tác giả không được để trống",
+    "getListFailure": "Lỗi không xác định",
+    "acceptDeletAuthor": "Bạn chắc chắn muốn xóa tác giả này?",
+    "deleteSuccess": "Xóa tác giả thành công",
+    "deleteFailure": "Xóa tác giả không thành công",
+    "addSuccess": "Thêm tác giả mới thành công",
+    "addFailure": "Thêm tác giả mới không thành công",
+    "server_error": "Lỗi máy chủ",
+    "bad_request": "Yêu cầu không hợp lệ"
   },
   "category": {
     "searchPlaceholder": "Tìm thể loại theo tên, mã thể loại",
@@ -87,6 +97,7 @@
     "addNewCategory": "Thêm thể loại mới",
     "addSuccess": "Thêm thể loại mới thành công",
     "addFailure": "Thêm thể loại mới không thành công",
+    "getListFailure": "Lỗi không xác định",
     "name_exist": "Tên thể loại đã tồn tại",
     "type_exist": "Mã thể loại đã tồn tại",
     "server_error": "Lỗi máy chủ",

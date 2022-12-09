@@ -1,5 +1,5 @@
 import querystring from "query-string";
-import { Author, Filter, Pageable } from "types";
+import { AddNewAuthorRequest, Author, Filter, Pageable } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
@@ -11,6 +11,16 @@ const getAllAuthors = async (params: Filter): Promise<Pageable<Author>> => {
   return response.data;
 };
 
-const authorService = { getAllAuthors };
+const deleteAuthor = async (id: string) => {
+  const response = await instanceWithToken.delete(`v1/author/${id}`);
+  return response.data;
+};
+
+const addNewCategory = async (formValue: AddNewAuthorRequest) => {
+  const response = await instanceWithToken.post("v1/author", formValue);
+  return response.data;
+};
+
+const authorService = { getAllAuthors, deleteAuthor, addNewCategory };
 
 export default authorService;
