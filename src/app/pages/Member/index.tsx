@@ -13,45 +13,42 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Author, Filter } from "types";
+import { Filter, Member } from "types";
 import { CommonDialogEnum } from "types/enums";
-import { formatNomalDate } from "utils/formatDate";
 
-import AddAuthor from "./AddAuthor";
-import EditAuthor from "./EditAuthor";
-import { authorActions } from "./slice";
-import { selectAuthor } from "./slice/selector";
+import { memberActions } from "./slice";
+import { selectMember } from "./slice/selector";
 
-interface ListAuthorProps {
+interface ListMembersProps {
   setLoading?: Function;
 }
 
 const headers: HeaderProps[] = [
   { name: "serial", align: "center", isCommonLabel: true, width: 88 },
-  { name: "name" },
-  { name: "yearOfBirth", align: "right" },
-  { name: "yearPassed", align: "right" },
+  { name: "username" },
+  { name: "fullname" },
+  { name: "phoneNumber" },
+  { name: "email" },
   { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
 ];
 
-const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
+const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { listAuthor } = useAppSelector(selectAuthor);
+  const { listMembers } = useAppSelector(selectMember);
   const { showLoading, hideLoading } = useLoading({ setLoading });
-  const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
-
+  const { showErrorSnackbar } = useToastMessage();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<string>("");
 
   const handleFetchData = (params: Filter) => {
     showLoading();
     dispatch(
-      authorActions.getAllAuthors(params, (error) => {
+      memberActions.getAllMembers(params, (error) => {
         if (error) {
-          showErrorSnackbar(t(`author.${error}`));
+          showErrorSnackbar(t(`member.${error}`));
         }
         hideLoading();
       })
@@ -61,6 +58,37 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   const { filter, onFilterToQueryString } = useFilter({
     onFetchData: handleFetchData,
   });
+
+  const handleShowDialog = useCallback(
+    (action: string | undefined, id?: string) => {
+      if (id) {
+        setSelectedItem(id);
+      }
+      setShowdialog(action);
+    },
+    []
+  );
+
+  const handleDeleteMember = () => {
+    setShowdialog(undefined);
+    showLoading();
+    // dispatch(
+    //   authorActions.deleleAuthor(selectedItem, (error) => {
+    //     if (error) {
+    //       hideLoading();
+    //       showErrorSnackbar(t(`author.${error}`));
+    //     } else {
+    //       hideLoading();
+    //       showSuccessSnackbar(t("author.deleteSuccess"));
+    //       handleFetchData({});
+    //     }
+    //   })
+    // );
+  };
+
+  const handleCloseDialog = useCallback(() => {
+    setShowdialog(undefined);
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onSearch = useCallback(
@@ -87,50 +115,13 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
     [filter]
   );
 
-  const handleShowDialog = useCallback(
-    (action: string | undefined, id?: string) => {
-      if (id) {
-        setSelectedItem(id);
-      }
-      setShowdialog(action);
-    },
-    []
-  );
-
-  const handleCloseDialog = useCallback(() => {
-    setShowdialog(undefined);
-  }, []);
-
-  const handleDeleteCategory = () => {
-    setShowdialog(undefined);
-    showLoading();
-    dispatch(
-      authorActions.deleleAuthor(selectedItem, (error) => {
-        if (error) {
-          hideLoading();
-          showErrorSnackbar(t(`author.${error}`));
-        } else {
-          hideLoading();
-          showSuccessSnackbar(t("author.deleteSuccess"));
-          handleFetchData({});
-        }
-      })
-    );
-  };
-
-  const handleSelectRow = (id: string) => {
-    setSelectedItem(id);
-    setShowdialog(CommonDialogEnum.EDIT);
-  };
-
-  const renderItem = useCallback((item: Author, index: number) => {
+  const renderItem = useCallback((item: Member, index: number) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.name}</TableContentLabel>,
-      <TableContentLabel>
-        {formatNomalDate(item.yearOfBirth)}
-      </TableContentLabel>,
-      <TableContentLabel>{formatNomalDate(item.yearPassed)}</TableContentLabel>,
+      <TableContentLabel>{item.username}</TableContentLabel>,
+      <TableContentLabel>{item.fullname}</TableContentLabel>,
+      <TableContentLabel>{item.phoneNumber}</TableContentLabel>,
+      <TableContentLabel>{item.email}</TableContentLabel>,
       <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,7 +136,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
             variant="contained"
             color="success"
             sx={{ mr: 2 }}
-            onClick={handleDeleteCategory}
+            onClick={handleDeleteMember}
           >
             {t("common.accept")}
           </Button>
@@ -160,7 +151,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
 
   useEffect(() => {
     return () => {
-      dispatch(authorActions.getAllAuthorsSuccess({}));
+      dispatch(memberActions.getAllMembersSuccess({}));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -168,13 +159,13 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitle variant="h4">{t(`author.listAuthor`)}</PageTitle>
+        <PageTitle variant="h4">{t(`member.listMembers`)}</PageTitle>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} sm="auto">
             <SearchBar
               keyword={filter.searchKey}
               onSearch={onSearch}
-              placeholder={t("author.searchPlaceholder")}
+              placeholder={t("member.searchPlaceholder")}
             />
           </Grid>
           <Grid item sm="auto" container justifyContent="flex-end">
@@ -184,14 +175,14 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
-          items={listAuthor?.data}
-          total={listAuthor?.total}
-          pageResponse={listAuthor?.page}
-          sizeResponse={listAuthor?.size}
-          tableName="author"
+          items={listMembers?.data}
+          total={listMembers?.total}
+          pageResponse={listMembers?.page}
+          sizeResponse={listMembers?.size}
+          tableName="member"
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
-          onSelectRow={handleSelectRow}
+          // onSelectRow={handleSelectRow}
         />
         <ActionDialog
           title={t("common.acceptDelete")}
@@ -200,38 +191,9 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
           onCancel={handleCloseDialog}
           maxWidth="xs"
         />
-        <ActionDialog
-          title={t("author.addNewAuthor")}
-          isOpen={showDialog === CommonDialogEnum.ADD}
-          dialogContent={
-            <AddAuthor
-              onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
-              showLoading={showLoading}
-              hideLoading={hideLoading}
-            />
-          }
-          onCancel={handleCloseDialog}
-          maxWidth="md"
-        />
-        <ActionDialog
-          title={t("author.editAuthor")}
-          isOpen={showDialog === CommonDialogEnum.EDIT}
-          dialogContent={
-            <EditAuthor
-              onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
-              showLoading={showLoading}
-              hideLoading={hideLoading}
-              id={selectedItem}
-            />
-          }
-          onCancel={handleCloseDialog}
-          maxWidth="md"
-        />
       </Paper>
     </MainWrap>
   );
 });
 
-export default withLoading(ListAuthors);
+export default withLoading(ListMembers);

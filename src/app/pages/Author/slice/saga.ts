@@ -1,8 +1,9 @@
+import { formatMuiErrorMessage } from "@mui/utils";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import authorService from "services/author";
 
-import { AddNewAuthorRequest, Author, Filter, Pageable } from "types";
+import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
 
 import { authorActions as actions } from ".";
 
@@ -41,10 +42,49 @@ function* deleleAuthor(
 }
 
 function* addNewAuthor(
-  action: PayloadAction<AddNewAuthorRequest, string, (error?: any) => void>
+  action: PayloadAction<AddEditAuthorRequest, string, (error?: any) => void>
 ) {
   try {
-    yield call(authorService.addNewCategory, action.payload);
+    yield call(authorService.addNewAuthor, action.payload);
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("addFailure");
+    }
+  }
+}
+
+function* getDetailAuthor(
+  action: PayloadAction<string, string, (error?: any) => void>
+) {
+  try {
+    const result: Author = yield call(
+      authorService.getDetailAuthor,
+      action.payload
+    );
+    yield put(actions.getDetailAuthorSuccess(result));
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("getDetailFailure");
+    }
+  }
+}
+
+function* editAuthor(
+  action: PayloadAction<
+    { id: string; formValues: AddEditAuthorRequest },
+    string,
+    (error?: any) => void
+  >
+) {
+  try {
+    const { id, formValues } = action.payload;
+    yield call(authorService.editAuthor, id, formValues);
     action.meta();
   } catch (error: any) {
     if (error.response.data) {
@@ -59,4 +99,6 @@ export function* authorSaga() {
   yield takeLatest(actions.getAllAuthors, getAllAuthors);
   yield takeLatest(actions.deleleAuthor, deleleAuthor);
   yield takeLatest(actions.addNewAuthor, addNewAuthor);
+  yield takeLatest(actions.getDetailAuthor, getDetailAuthor);
+  yield takeLatest(actions.editAuthor, editAuthor);
 }

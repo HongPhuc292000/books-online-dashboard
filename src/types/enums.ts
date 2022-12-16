@@ -16,3 +16,8 @@ export enum CommonDialogEnum {
   ADD = "ADD",
   EDIT = "EDIT",
 }
+
+export enum DiscountTypeEnum {
+  PERCENT = "PERCENT",
+  CASH = "CASH",
+}

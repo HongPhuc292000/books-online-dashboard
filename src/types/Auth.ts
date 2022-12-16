@@ -8,9 +8,9 @@ export interface LoginResponse {
   refreshToken: string;
 }
 
-export interface RegisterRequest {
-  username: string;
-  password: string;
-  fullname: string;
-  email: string;
+export interface TokenI {
+  id: string;
+  roles: string[];
+  iat: number;
+  exp: number;
 }

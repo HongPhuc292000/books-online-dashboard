@@ -7,8 +7,12 @@ import { isAuthenticated } from "utils/auth";
 import Auth from "app/pages/Auth";
 import NotFound from "app/pages/NotFound";
 import ListBooks from "app/pages/Book";
-import ListAuthors from "app/pages/Author/index";
-import ListCategories from "app/pages/Category/index";
+import ListAuthors from "app/pages/Author";
+import ListCategories from "app/pages/Category";
+import ListDiscounts from "app/pages/Discount";
+import ListMembers from "app/pages/Member";
+import ListCustomers from "app/pages/Customer";
+import ListOrders from "app/pages/Order";
 
 import path from "./path";
 
@@ -31,6 +35,14 @@ export default function Router() {
           element: <Welcome />,
         },
         {
+          path: path.member,
+          element: <ListMembers />,
+        },
+        {
+          path: path.customer,
+          element: <ListCustomers />,
+        },
+        {
           path: path.book,
           element: <ListBooks />,
         },
@@ -41,6 +53,14 @@ export default function Router() {
         {
           path: path.category,
           element: <ListCategories />,
+        },
+        {
+          path: path.discount,
+          element: <ListDiscounts />,
+        },
+        {
+          path: path.order,
+          element: <ListOrders />,
         },
       ],
     },

@@ -30,7 +30,8 @@
     "search": "Tìm kiếm",
     "acceptDelete": "Xác nhận xóa",
     "accept": "Xác nhận",
-    "addNew": "Thêm mới"
+    "addNew": "Thêm mới",
+    "edit": "Cập nhật"
   },
   "sidebar": {
     "home": "Trang chủ",
@@ -39,7 +40,8 @@
     "manageBooks": "Quản lý sách",
     "manageAuthors": "Quản lý tác giả",
     "manageCategories": "Quản lý thể loại",
-    "manageOrders": "Quản lý đơn hàng"
+    "manageOrders": "Quản lý đơn hàng",
+    "manageDiscounts": "Quản lý mã giảm giá"
   },
   "enums": {
     "ALL": "Tất cả",
@@ -58,7 +60,8 @@
 
   "commonTableHeader": {
     "serial": "STT",
-    "nothing": ""
+    "nothing": "",
+    "amount": "Số lượng"
   },
   "book": {
     "listBook": "Danh sách sách",
@@ -67,7 +70,7 @@
     "author": "Tác giả"
   },
   "author": {
-    "searchPlaceholder": "Tìm kiếm tác giả theo tên",
+    "searchPlaceholder": "Tìm kiếm theo tên",
     "listAuthor": "Danh sách tác giả",
     "name": "Tên tác giả",
     "yearOfBirth": "Năm sinh",
@@ -75,17 +78,23 @@
     "description": "Mô tả",
     "addNewAuthor": "Thêm tác giả mới",
     "nameRequired": "Tên tác giả không được để trống",
-    "getListFailure": "Lỗi không xác định",
+    "yearOfBirthNotValid": "Năm sinh không hợp lệ",
+    "yearPassedNotValid": "Năm mất không hợp lệ",
+    "getListFailure": "Lấy danh sách tác giả không thành công",
     "acceptDeletAuthor": "Bạn chắc chắn muốn xóa tác giả này?",
     "deleteSuccess": "Xóa tác giả thành công",
     "deleteFailure": "Xóa tác giả không thành công",
     "addSuccess": "Thêm tác giả mới thành công",
     "addFailure": "Thêm tác giả mới không thành công",
+    "getDetailFailure": "Lấy thông tin tác giả không thành công",
+    "editAuthor": "Cập nhật thông tin tác giả",
+    "editSuccess": "Cập nhật thông tin tác giả thành công",
+    "editFailure": "Cập nhật thông tin tác giả không thành công",
     "server_error": "Lỗi máy chủ",
     "bad_request": "Yêu cầu không hợp lệ"
   },
   "category": {
-    "searchPlaceholder": "Tìm thể loại theo tên, mã thể loại",
+    "searchPlaceholder": "Tìm theo tên, mã thể loại",
     "listAuthor": "Danh sách thể loại",
     "type": "Mã thể loại",
     "name": "Tên thể loại",
@@ -102,5 +111,32 @@
     "type_exist": "Mã thể loại đã tồn tại",
     "server_error": "Lỗi máy chủ",
     "bad_request": "Yêu cầu không hợp lệ"
+  },
+  "member": {
+    "searchPlaceholder": "Tìm kiếm theo tên, số điện thoại",
+    "listMembers": "Danh sách thành viên",
+    "username": "Tên đăng nhập",
+    "fullname": "Tên đầy đủ",
+    "phoneNumber": "Số điện thoại",
+    "email": "Email"
+  },
+  "customer": {
+    "listCustomers": "Danh sách khách hàng"
+  },
+  "discount": {
+    "searchPlaceholder": "Tìm kiếm theo mã",
+    "listDiscounts": "Danh sách mã giảm giá",
+    "code": "Mã giảm giá",
+    "value": "Giá trị giảm",
+    "used": "Đã sử dụng",
+    "getListFailure": "Lấy danh sách mã giảm giá không thành công",
+    "deleteSuccess": "Xóa mã thành công",
+    "deleteFailure": "Xóa mã không thành công",
+    "used_code": "Mã đã được sử dụng",
+    "bad_request": "Yêu cầu không hợp lệ",
+    "server_error": "Lỗi máy chủ"
+  },
+  "order": {
+    "listOrders": "Danh sách đơn hàng"
   }
 }

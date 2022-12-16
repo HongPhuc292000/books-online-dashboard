@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import { Stack } from "@mui/system";
 import { SimpleDatePicker } from "app/components/DatePicker";
 import { SimpleTextField } from "app/components/TextField";
@@ -16,19 +17,30 @@ const CommonFields = memo(({ formik }: CommonFieldsProps) => {
         tableName="author"
         required={true}
       />
-      <Stack>
-        <SimpleDatePicker
-          formik={formik}
-          field="yearOfBirth"
-          tableName="author"
-        />
-        <SimpleDatePicker
-          formik={formik}
-          field="yearPassed"
-          tableName="author"
-        />
-      </Stack>
-      <SimpleTextField formik={formik} field="description" tableName="author" />
+      {/* <Stack> */}
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <SimpleDatePicker
+            formik={formik}
+            field="yearOfBirth"
+            tableName="author"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <SimpleDatePicker
+            formik={formik}
+            field="yearPassed"
+            tableName="author"
+          />
+        </Grid>
+      </Grid>
+      {/* </Stack> */}
+      <SimpleTextField
+        formik={formik}
+        field="description"
+        tableName="author"
+        rows={5}
+      />
     </>
   );
 });

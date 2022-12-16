@@ -1,8 +1,16 @@
 import { AuthorState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AddNewAuthorRequest, Author, Filter, Pageable } from "types";
+import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
 
-export const initialState: AuthorState = {};
+export const initialState: AuthorState = {
+  detailAuthor: {
+    _id: "",
+    name: "",
+    yearOfBirth: null,
+    yearPassed: null,
+    description: "",
+  },
+};
 
 export const authorSlice = createSlice({
   name: "author",
@@ -10,8 +18,8 @@ export const authorSlice = createSlice({
   reducers: {
     getAllAuthors: {
       reducer() {},
-      prepare(params: Filter, meta: (error?: any) => void) {
-        return { payload: params, meta };
+      prepare(payload: Filter, meta: (error?: any) => void) {
+        return { payload, meta };
       },
     },
     getAllAuthorsSuccess(state, action: PayloadAction<Pageable<Author>>) {
@@ -19,14 +27,32 @@ export const authorSlice = createSlice({
     },
     deleleAuthor: {
       reducer() {},
-      prepare(id: string, meta: (error: any) => void) {
-        return { payload: id, meta };
+      prepare(payload: string, meta: (error: any) => void) {
+        return { payload, meta };
       },
     },
     addNewAuthor: {
       reducer() {},
-      prepare(formValue: AddNewAuthorRequest, meta: (error: any) => void) {
-        return { payload: formValue, meta };
+      prepare(payload: AddEditAuthorRequest, meta: (error: any) => void) {
+        return { payload, meta };
+      },
+    },
+    getDetailAuthor: {
+      reducer() {},
+      prepare(payload: string, meta: (error?: any) => void) {
+        return { payload, meta };
+      },
+    },
+    getDetailAuthorSuccess(state, action: PayloadAction<Author>) {
+      state.detailAuthor = action.payload;
+    },
+    editAuthor: {
+      reducer() {},
+      prepare(
+        payload: { id: string; formValues: AddEditAuthorRequest },
+        meta: (error: any) => void
+      ) {
+        return { payload, meta };
       },
     },
   },

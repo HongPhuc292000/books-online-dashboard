@@ -1,4 +1,5 @@
 import { useMediaQuery, useTheme, TextField } from "@mui/material";
+import { Stack } from "@mui/system";
 import { DesktopDatePicker, MobileDatePicker } from "@mui/x-date-pickers";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
@@ -23,51 +24,59 @@ export const SimpleDatePicker = ({
   return (
     <>
       {isMobile ? (
-        <MobileDatePicker
-          label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
-          value={formik.values[field]}
-          inputFormat="DD/MM/YYYY"
-          onChange={(newValue) => {
-            formik.setFieldValue(field, moment(newValue).format(), true);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              name={field}
-              sx={{ mb: 2 }}
-              error={formik.touched[field] && !!formik.errors[field]}
-              helperText={
-                formik.touched[field] && t(formik.errors[field] as string)
-              }
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          )}
-        />
+        <Stack>
+          <MobileDatePicker
+            label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
+            value={formik.values[field]}
+            inputFormat="DD/MM/YYYY"
+            onChange={(newValue) => {
+              formik.setFieldValue(field, moment(newValue).format(), true);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                name={field}
+                sx={{ mb: 2 }}
+                error={formik.touched[field] && !!formik.errors[field]}
+                helperText={
+                  formik.touched[field] && t(formik.errors[field] as string)
+                }
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            )}
+          />
+        </Stack>
       ) : (
-        <DesktopDatePicker
-          label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
-          value={formik.values[field]}
-          inputFormat="DD/MM/YYYY"
-          onChange={(newValue) => {
-            formik.setFieldValue(field, moment(newValue).format(), true);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              name={field}
-              sx={{ mb: 2 }}
-              error={formik.touched[field] && !!formik.errors[field]}
-              helperText={
-                formik.touched[field] && t(formik.errors[field] as string)
+        <Stack>
+          <DesktopDatePicker
+            label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
+            value={formik.values[field]}
+            inputFormat="DD/MM/YYYY"
+            onChange={(newValue) => {
+              if (newValue) {
+                formik.setFieldValue(field, moment(newValue).format(), true);
+              } else {
+                formik.setFieldValue(field, null, true);
               }
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          )}
-        />
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                name={field}
+                sx={{ mb: 2 }}
+                error={formik.touched[field] && !!formik.errors[field]}
+                helperText={
+                  formik.touched[field] && t(formik.errors[field] as string)
+                }
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            )}
+          />
+        </Stack>
       )}
     </>
   );

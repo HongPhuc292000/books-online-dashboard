@@ -4,10 +4,10 @@ import { useFormik } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { AddNewAuthorRequest, Filter } from "types";
+import { AddEditAuthorRequest, Filter } from "types";
 
 import { authorActions } from "../slice";
-import { AddAuthorSchema } from "../components/addCategorySchema.data";
+import { AuthorSchema } from "../components/authorSchema.data";
 import CommonFields from "../components/CommonFields";
 
 interface AddAuthorProps {
@@ -27,7 +27,7 @@ const AddAuthor = memo(
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
-    const handleSubmit = (values: AddNewAuthorRequest) => {
+    const handleSubmit = (values: AddEditAuthorRequest) => {
       onCloseDialog();
       showLoading();
       dispatch(
@@ -51,13 +51,11 @@ const AddAuthor = memo(
         yearPassed: null,
         description: "",
       },
-      validationSchema: AddAuthorSchema,
+      validationSchema: AuthorSchema,
       onSubmit: (values) => {
         handleSubmit(values);
       },
     });
-
-    console.log(formik.values);
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>

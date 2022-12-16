@@ -5,7 +5,7 @@ import { createService } from "./axios";
 const instanceWithToken = createService(baseUrl);
 
 const getDetailUser = async (userId: string): Promise<UserDetail> => {
-  const response = await instanceWithToken.get(`v1/user/${userId}`);
+  const response = await instanceWithToken.get(`v1/profile/${userId}`);
   return response.data;
 };
 

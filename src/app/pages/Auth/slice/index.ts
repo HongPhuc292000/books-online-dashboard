@@ -1,6 +1,6 @@
 import { AuthState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginRequest, RegisterRequest } from "types";
+import { LoginRequest } from "types";
 import { UserDetail } from "types/User";
 
 export const initialState: AuthState = {};
@@ -12,15 +12,6 @@ export const authSlice = createSlice({
     login: {
       reducer() {},
       prepare(params: LoginRequest, meta: (error?: any) => void) {
-        return { payload: params, meta };
-      },
-    },
-    loginSuccess(state, action: PayloadAction<string | undefined>) {
-      state.authToken = action.payload;
-    },
-    register: {
-      reducer() {},
-      prepare(params: RegisterRequest, meta: (error?: any) => void) {
         return { payload: params, meta };
       },
     },
@@ -37,7 +28,13 @@ export const authSlice = createSlice({
       },
     },
     getUserInfoSuccess(state, action: PayloadAction<UserDetail>) {
-      state.user = action.payload;
+      state.me = action.payload;
+    },
+    refreshToken: {
+      reducer() {},
+      prepare(meta: (error?: any) => void) {
+        return { payload: meta };
+      },
     },
   },
 });

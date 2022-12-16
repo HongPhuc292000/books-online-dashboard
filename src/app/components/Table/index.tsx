@@ -20,6 +20,7 @@ interface StickyHeadTableProps {
   sizeResponse?: number;
   filter?: any;
   onFetchDataForPage?: ({ page, size }: Filter) => void;
+  onSelectRow?: (id: string) => void;
 }
 
 const StickyHeadTable = memo(
@@ -33,6 +34,7 @@ const StickyHeadTable = memo(
     sizeResponse = 10,
     filter,
     onFetchDataForPage,
+    onSelectRow,
   }: StickyHeadTableProps) => {
     const [page, setPage] = React.useState(pageResponse);
     const [rowsPerPage, setRowsPerPage] = React.useState(sizeResponse);
@@ -63,7 +65,20 @@ const StickyHeadTable = memo(
             <TableBody>
               {items.map((item, index) => {
                 return (
-                  <TableRow hover key={`item${index}`}>
+                  <TableRow
+                    sx={{
+                      "&:hover": {
+                        cursor: onSelectRow ? "pointer" : "default",
+                      },
+                    }}
+                    hover
+                    key={`item${index}`}
+                    onClick={() => {
+                      if (onSelectRow) {
+                        onSelectRow(item._id);
+                      }
+                    }}
+                  >
                     {renderItem(
                       item,
                       index + 1 + pageResponse * sizeResponse

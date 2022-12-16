@@ -10,12 +10,13 @@ interface DeleteIconButtonProps {
 
 export const DeleteIconButton = memo(
   ({ onDelete, id }: DeleteIconButtonProps) => {
-    const handleClickDelete = () => {
+    const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
       onDelete(CommonDialogEnum.DELETE, id);
+      e.stopPropagation();
     };
 
     return (
-      <IconButton color="error" onClick={handleClickDelete}>
+      <IconButton color="error" onClick={(e) => handleClickDelete(e)}>
         <DeleteIcon />
       </IconButton>
     );

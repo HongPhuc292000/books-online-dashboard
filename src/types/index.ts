@@ -4,6 +4,8 @@ export * from "./User";
 export * from "./Book";
 export * from "./Author";
 export * from "./Category";
+export * from "./Member";
+export * from "./Discount";
 
 export * from "./Filter";
 

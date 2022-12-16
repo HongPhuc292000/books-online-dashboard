@@ -7,6 +7,7 @@ import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import CategoryIcon from "@mui/icons-material/Category";
 import BookIcon from "@mui/icons-material/Book";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import DiscountIcon from "@mui/icons-material/Discount";
 
 /*
 demo create newsidebar with children
@@ -32,12 +33,12 @@ export const pages: HeaderNavChangePageI[] = [
   },
   {
     title: "manageMembers",
-    link: "",
+    link: path.member,
     icon: <ManageAccountsIcon />,
   },
   {
     title: "manageCustomers",
-    link: "",
+    link: path.customer,
     icon: <PeopleAltIcon />,
   },
   {
@@ -56,8 +57,13 @@ export const pages: HeaderNavChangePageI[] = [
     icon: <BookIcon />,
   },
   {
+    title: "manageDiscounts",
+    link: path.discount,
+    icon: <DiscountIcon />,
+  },
+  {
     title: "manageOrders",
-    link: "",
+    link: path.order,
     icon: <ShoppingBagIcon />,
   },
 ];

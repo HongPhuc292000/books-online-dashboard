@@ -3,12 +3,12 @@ export interface Author {
   name: string;
   yearOfBirth: string | null;
   yearPassed: string | null;
-  description: string;
+  description?: string;
 }
 
-export interface AddNewAuthorRequest {
+export interface AddEditAuthorRequest {
   name: string;
-  yearOfBirth?: string | null;
-  yearPassed?: string | null;
+  yearOfBirth: string | null;
+  yearPassed: string | null;
   description?: string;
 }

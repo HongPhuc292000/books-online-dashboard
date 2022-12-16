@@ -30,7 +30,8 @@
     "search": "",
     "acceptDelete": "",
     "accept": "",
-    "addNew": ""
+    "addNew": "",
+    "edit": ""
   },
   "sidebar": {
     "home": "",
@@ -39,7 +40,8 @@
     "manageBooks": "",
     "manageAuthors": "",
     "manageCategories": "",
-    "manageOrders": ""
+    "manageOrders": "",
+    "manageDiscounts": ""
   },
   "enums": {
     "ALL": "All",
@@ -57,7 +59,8 @@
   },
   "commonTableHeader": {
     "serial": "",
-    "nothing": ""
+    "nothing": "",
+    "amount": ""
   },
   "book": {
     "listBook": "",
@@ -74,12 +77,18 @@
     "description": "",
     "addNewAuthor": "",
     "nameRequired": "",
+    "yearOfBirthNotValid": "",
+    "yearPassedNotValid": "",
     "getListFailure": "",
     "acceptDeletAuthor": "",
     "deleteSuccess": "",
     "deleteFailure": "",
     "addSuccess": "",
     "addFailure": "",
+    "getDetailFailure": "",
+    "editAuthor": "",
+    "editSuccess": "",
+    "editFailure": "",
     "server_error": "",
     "bad_request": ""
   },
@@ -101,5 +110,32 @@
     "type_exist": "",
     "server_error": "",
     "bad_request": ""
+  },
+  "member": {
+    "searchPlaceholder": "",
+    "listMembers": "",
+    "username": "",
+    "fullname": "",
+    "phoneNumber": "",
+    "email": ""
+  },
+  "customer": {
+    "listCustomers": ""
+  },
+  "discount": {
+    "searchPlaceholder": "",
+    "listDiscounts": "",
+    "code": "",
+    "value": "",
+    "used": "",
+    "getListFailure": "",
+    "deleteSuccess": "",
+    "deleteFailure": "",
+    "used_code": "",
+    "bad_request": "",
+    "server_error": ""
+  },
+  "order": {
+    "listOrders": ""
   }
 }
