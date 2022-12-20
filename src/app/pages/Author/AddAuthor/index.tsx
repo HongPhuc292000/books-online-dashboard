@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { AddEditAuthorRequest, Filter } from "types";
@@ -24,6 +24,7 @@ const AddAuthor = memo(
     showLoading,
     hideLoading,
   }: AddAuthorProps) => {
+    const [image, setImage] = useState<File | null>(null);
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
@@ -46,6 +47,7 @@ const AddAuthor = memo(
 
     const formik = useFormik({
       initialValues: {
+        imageUrl: "",
         name: "",
         yearOfBirth: null,
         yearPassed: null,
@@ -59,7 +61,7 @@ const AddAuthor = memo(
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <CommonFields formik={formik} />
+        <CommonFields formik={formik} image={image} setImage={setImage} />
         <Box sx={{ display: "flex", justifyContent: "right", mt: 2 }}>
           <Button
             variant="contained"

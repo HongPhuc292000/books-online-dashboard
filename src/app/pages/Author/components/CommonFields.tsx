@@ -2,15 +2,41 @@ import { Grid } from "@mui/material";
 import { Stack } from "@mui/system";
 import { SimpleDatePicker } from "app/components/DatePicker";
 import { SimpleTextField } from "app/components/TextField";
-import { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 interface CommonFieldsProps {
   formik: any;
+  image: File | null;
+  setImage: Function;
 }
 
-const CommonFields = memo(({ formik }: CommonFieldsProps) => {
+const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
+  const [previewImage, setPreviewImage] = useState<string>();
+
+  useEffect(() => {
+    if (!image) {
+      setPreviewImage(undefined);
+      return;
+    }
+    // create the preview
+    const objectUrl = URL.createObjectURL(image);
+    setPreviewImage(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
   return (
     <>
+      <input
+        type="file"
+        onChange={(e) => {
+          if (e.target.files) {
+            setImage(e.target.files[0]);
+          }
+        }}
+      />
+      <img src={previewImage} />
       <SimpleTextField
         formik={formik}
         field="name"

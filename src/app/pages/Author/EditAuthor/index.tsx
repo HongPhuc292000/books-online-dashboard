@@ -66,6 +66,7 @@ const EditAuthor = memo(
       formik.resetForm({
         values: {
           _id: "",
+          imageUrl: detailAuthor.imageUrl,
           name: detailAuthor.name,
           yearOfBirth: detailAuthor.yearOfBirth,
           yearPassed: detailAuthor.yearPassed,
@@ -99,7 +100,7 @@ const EditAuthor = memo(
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <CommonFields formik={formik} />
+        {/* <CommonFields formik={formik} /> */}
         <Box sx={{ display: "flex", justifyContent: "right", mt: 2 }}>
           <Button
             variant="contained"

@@ -5,6 +5,7 @@ import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
 export const initialState: AuthorState = {
   detailAuthor: {
     _id: "",
+    imageUrl: "",
     name: "",
     yearOfBirth: null,
     yearPassed: null,
