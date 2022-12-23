@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -36,8 +36,8 @@ const StickyHeadTable = memo(
     onFetchDataForPage,
     onSelectRow,
   }: StickyHeadTableProps) => {
-    const [page, setPage] = React.useState(pageResponse);
-    const [rowsPerPage, setRowsPerPage] = React.useState(sizeResponse);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event: unknown, newPage: number) => {
       if (onFetchDataForPage) {
@@ -56,6 +56,14 @@ const StickyHeadTable = memo(
         onFetchDataForPage({ ...filter, page: 0, size: newRowPerPage });
       }
     };
+
+    useEffect(() => {
+      setPage(pageResponse);
+    }, [pageResponse]);
+
+    useEffect(() => {
+      setRowsPerPage(sizeResponse);
+    }, [sizeResponse]);
 
     return (
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: 3 }}>

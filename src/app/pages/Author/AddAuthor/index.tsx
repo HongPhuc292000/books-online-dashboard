@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { AddEditAuthorRequest, Filter } from "types";
+import { AddEditAuthorRequest, Filter, ImageFileType } from "types";
 
 import { authorActions } from "../slice";
 import { AuthorSchema } from "../components/authorSchema.data";
@@ -24,7 +24,10 @@ const AddAuthor = memo(
     showLoading,
     hideLoading,
   }: AddAuthorProps) => {
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<ImageFileType>({
+      file: null,
+      url: "",
+    });
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
@@ -32,16 +35,19 @@ const AddAuthor = memo(
       onCloseDialog();
       showLoading();
       dispatch(
-        authorActions.addNewAuthor(values, (error) => {
-          if (error) {
-            hideLoading();
-            showErrorSnackbar(t(`author.${error}`));
-          } else {
-            hideLoading();
-            showSuccessSnackbar(t(`author.addSuccess`));
-            onFetchData({});
+        authorActions.addNewAuthor(
+          { formData: values, file: image.file },
+          (error) => {
+            if (error) {
+              hideLoading();
+              showErrorSnackbar(t(`author.${error}`));
+            } else {
+              hideLoading();
+              showSuccessSnackbar(t(`author.addSuccess`));
+              onFetchData({});
+            }
           }
-        })
+        )
       );
     };
 
@@ -78,7 +84,7 @@ const AddAuthor = memo(
               onCloseDialog();
             }}
           >
-            {t("common.cancel")}
+            {t("common.close")}
           </Button>
         </Box>
       </Box>

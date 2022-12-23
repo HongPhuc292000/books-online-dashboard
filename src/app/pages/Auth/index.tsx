@@ -1,7 +1,6 @@
-import { Box, styled, Paper, Button } from "@mui/material";
+import { Box, styled, Paper, Button, TextField } from "@mui/material";
 import { withLoading } from "app/components/HOC/withLoadingPage";
 import Logo from "app/components/Logo";
-import { SimpleTextField } from "app/components/TextField";
 import { useAppDispatch } from "app/hooks";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
@@ -69,18 +68,38 @@ const Auth = ({ setLoading }: LoginFormProps) => {
       <Paper elevation={3} sx={{ p: 4, width: 500 }}>
         <Logo fontSize={36} />
         <Box component="form" sx={{ mt: 4 }} onSubmit={formik.handleSubmit}>
-          <SimpleTextField
-            formik={formik}
-            field="username"
-            tableName="auth"
-            required={true}
+          <TextField
+            id="username"
+            name="username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            label={`${t("auth.username")}`}
+            error={formik.touched.username && !!formik.errors.username}
+            helperText={
+              formik.touched.username && t(formik.errors.username as string)
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
-          <SimpleTextField
-            formik={formik}
-            field="password"
-            tableName="auth"
+          <TextField
+            id="password"
+            name="password"
             type="password"
-            required={true}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            label={`${t("auth.password")}`}
+            error={formik.touched.password && !!formik.errors.password}
+            helperText={
+              formik.touched.password && t(formik.errors.password as string)
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
             <Button

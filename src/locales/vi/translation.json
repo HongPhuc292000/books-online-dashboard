@@ -31,7 +31,9 @@
     "acceptDelete": "Xác nhận xóa",
     "accept": "Xác nhận",
     "addNew": "Thêm mới",
-    "edit": "Cập nhật"
+    "edit": "Cập nhật",
+    "reset": "Đặt lại",
+    "close": "Đóng"
   },
   "sidebar": {
     "home": "Trang chủ",

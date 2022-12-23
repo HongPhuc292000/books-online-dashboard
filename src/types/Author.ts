@@ -8,7 +8,7 @@ export interface Author {
 }
 
 export interface AddEditAuthorRequest {
-  imageUrl: string;
+  imageUrl?: string;
   name: string;
   yearOfBirth: string | null;
   yearPassed: string | null;

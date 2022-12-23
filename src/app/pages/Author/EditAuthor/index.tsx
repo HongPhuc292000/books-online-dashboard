@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { AddEditAuthorRequest, Author, Filter } from "types";
+import { AddEditAuthorRequest, Author, Filter, ImageFileType } from "types";
 import { useAppSelector } from "app/hooks";
 
 import { authorActions, initialState } from "../slice";
@@ -29,6 +29,10 @@ const EditAuthor = memo(
     hideLoading,
     id,
   }: EditAuthorProps) => {
+    const [image, setImage] = useState<ImageFileType>({
+      file: null,
+      url: "",
+    });
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { detailAuthor } = useAppSelector(selectAuthor);
@@ -38,7 +42,12 @@ const EditAuthor = memo(
       showLoading();
       dispatch(
         authorActions.editAuthor(
-          { id: detailAuthor._id, formValues: values },
+          {
+            id: detailAuthor._id,
+            formData: values,
+            file: image.file,
+            beforeImage: detailAuthor.imageUrl,
+          },
           (error) => {
             if (error) {
               hideLoading();
@@ -58,11 +67,11 @@ const EditAuthor = memo(
       validationSchema: AuthorSchema,
       onSubmit: (values: Author) => {
         const { _id, ...others } = values;
-        handleSubmit(others);
+        handleSubmit({ ...others, imageUrl: image.url });
       },
     });
 
-    React.useEffect(() => {
+    const handleResetForm = () => {
       formik.resetForm({
         values: {
           _id: "",
@@ -73,6 +82,11 @@ const EditAuthor = memo(
           description: detailAuthor.description,
         },
       });
+      setImage({ ...image, url: detailAuthor.imageUrl });
+    };
+
+    React.useEffect(() => {
+      handleResetForm();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [detailAuthor]);
 
@@ -100,15 +114,18 @@ const EditAuthor = memo(
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>
-        {/* <CommonFields formik={formik} /> */}
+        <CommonFields formik={formik} image={image} setImage={setImage} />
         <Box sx={{ display: "flex", justifyContent: "right", mt: 2 }}>
+          <Button variant="contained" color="success" type="submit">
+            {t("common.edit")}
+          </Button>
           <Button
             variant="contained"
-            color="success"
-            type="submit"
-            sx={{ mr: 1 }}
+            color="primary"
+            sx={{ mx: 1 }}
+            onClick={handleResetForm}
           >
-            {t("common.edit")}
+            {t("common.reset")}
           </Button>
           <Button
             variant="contained"
@@ -117,7 +134,7 @@ const EditAuthor = memo(
               onCloseDialog();
             }}
           >
-            {t("common.cancel")}
+            {t("common.close")}
           </Button>
         </Box>
       </Box>

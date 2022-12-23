@@ -1,10 +1,10 @@
-import { formatMuiErrorMessage } from "@mui/utils";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import authorService from "services/author";
 
 import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
 
+import commonService from "services/common";
 import { authorActions as actions } from ".";
 
 function* getAllAuthors(
@@ -42,10 +42,24 @@ function* deleleAuthor(
 }
 
 function* addNewAuthor(
-  action: PayloadAction<AddEditAuthorRequest, string, (error?: any) => void>
+  action: PayloadAction<
+    { formData: AddEditAuthorRequest; file: null | File },
+    string,
+    (error?: any) => void
+  >
 ) {
   try {
-    yield call(authorService.addNewAuthor, action.payload);
+    const { file, formData } = action.payload;
+    if (file) {
+      const newUrl: string = yield call(
+        commonService.uploadImage,
+        file,
+        "authors"
+      );
+      yield call(authorService.addNewAuthor, { ...formData, imageUrl: newUrl });
+    } else {
+      yield call(authorService.addNewAuthor, formData);
+    }
     action.meta();
   } catch (error: any) {
     if (error.response.data) {
@@ -77,14 +91,34 @@ function* getDetailAuthor(
 
 function* editAuthor(
   action: PayloadAction<
-    { id: string; formValues: AddEditAuthorRequest },
+    {
+      id: string;
+      formData: AddEditAuthorRequest;
+      file: null | File;
+      beforeImage?: string;
+    },
     string,
     (error?: any) => void
   >
 ) {
   try {
-    const { id, formValues } = action.payload;
-    yield call(authorService.editAuthor, id, formValues);
+    const { id, formData, file, beforeImage } = action.payload;
+    if (beforeImage && beforeImage !== formData.imageUrl) {
+      yield call(commonService.deleteImage, beforeImage);
+    }
+    if (file) {
+      const newUrl: string = yield call(
+        commonService.uploadImage,
+        file,
+        "authors"
+      );
+      yield call(authorService.editAuthor, id, {
+        ...formData,
+        imageUrl: newUrl,
+      });
+    } else {
+      yield call(authorService.editAuthor, id, formData);
+    }
     action.meta();
   } catch (error: any) {
     if (error.response.data) {

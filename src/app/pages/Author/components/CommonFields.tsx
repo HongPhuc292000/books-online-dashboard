@@ -1,49 +1,42 @@
-import { Grid } from "@mui/material";
-import { Stack } from "@mui/system";
+import { Grid, TextField } from "@mui/material";
+import MediaCard from "app/components/MediaCard";
 import { SimpleDatePicker } from "app/components/DatePicker";
-import { SimpleTextField } from "app/components/TextField";
-import React, { memo, useEffect, useState } from "react";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import { ImageFileType } from "types";
 
 interface CommonFieldsProps {
   formik: any;
-  image: File | null;
+  image: ImageFileType;
   setImage: Function;
 }
 
 const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
-  const [previewImage, setPreviewImage] = useState<string>();
-
-  useEffect(() => {
-    if (!image) {
-      setPreviewImage(undefined);
-      return;
-    }
-    // create the preview
-    const objectUrl = URL.createObjectURL(image);
-    setPreviewImage(objectUrl);
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [image]);
+  const { t } = useTranslation();
 
   return (
     <>
-      <input
-        type="file"
-        onChange={(e) => {
-          if (e.target.files) {
-            setImage(e.target.files[0]);
-          }
-        }}
-      />
-      <img src={previewImage} />
-      <SimpleTextField
-        formik={formik}
-        field="name"
-        tableName="author"
-        required={true}
-      />
-      {/* <Stack> */}
+      <Grid container spacing={2} alignItems="end">
+        <Grid item>
+          <MediaCard url={image.url} setImage={setImage} />
+        </Grid>
+        <Grid item flex={1}>
+          <TextField
+            id="name"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            label={`${t("author.name")}*`}
+            error={formik.touched.name && !!formik.errors.name}
+            helperText={formik.touched.name && t(formik.errors.name as string)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <SimpleDatePicker
@@ -60,12 +53,23 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
           />
         </Grid>
       </Grid>
-      {/* </Stack> */}
-      <SimpleTextField
-        formik={formik}
-        field="description"
-        tableName="author"
+      <TextField
+        id="description"
+        name="description"
+        value={formik.values.description}
+        onChange={formik.handleChange}
+        fullWidth
+        sx={{ mb: 2 }}
+        label={`${t("author.description")}`}
+        error={formik.touched.description && !!formik.errors.description}
+        helperText={
+          formik.touched.description && t(formik.errors.description as string)
+        }
+        multiline
         rows={5}
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
     </>
   );

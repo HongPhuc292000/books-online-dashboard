@@ -101,7 +101,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
     setShowdialog(undefined);
   }, []);
 
-  const handleDeleteCategory = () => {
+  const handleDeleteAuthor = () => {
     setShowdialog(undefined);
     showLoading();
     dispatch(
@@ -145,7 +145,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
             variant="contained"
             color="success"
             sx={{ mr: 2 }}
-            onClick={handleDeleteCategory}
+            onClick={handleDeleteAuthor}
           >
             {t("common.accept")}
           </Button>

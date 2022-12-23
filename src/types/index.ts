@@ -15,3 +15,8 @@ export interface Pageable<T> {
   page?: number;
   size?: number;
 }
+
+export interface ImageFileType {
+  file: File | null;
+  url?: string;
+}

@@ -34,7 +34,10 @@ export const authorSlice = createSlice({
     },
     addNewAuthor: {
       reducer() {},
-      prepare(payload: AddEditAuthorRequest, meta: (error: any) => void) {
+      prepare(
+        payload: { formData: AddEditAuthorRequest; file: null | File },
+        meta: (error: any) => void
+      ) {
         return { payload, meta };
       },
     },
@@ -50,7 +53,12 @@ export const authorSlice = createSlice({
     editAuthor: {
       reducer() {},
       prepare(
-        payload: { id: string; formValues: AddEditAuthorRequest },
+        payload: {
+          id: string;
+          formData: AddEditAuthorRequest;
+          file: null | File;
+          beforeImage?: string;
+        },
         meta: (error: any) => void
       ) {
         return { payload, meta };

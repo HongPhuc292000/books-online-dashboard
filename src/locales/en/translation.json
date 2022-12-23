@@ -31,7 +31,9 @@
     "acceptDelete": "",
     "accept": "",
     "addNew": "",
-    "edit": ""
+    "edit": "",
+    "reset": "",
+    "close": ""
   },
   "sidebar": {
     "home": "",

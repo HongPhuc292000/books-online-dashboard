@@ -1,5 +1,4 @@
-import { Box, Button } from "@mui/material";
-import { SimpleTextField } from "app/components/TextField";
+import { Box, Button, TextField } from "@mui/material";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
 import { memo } from "react";
@@ -57,17 +56,33 @@ const AddCategory = memo(
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <SimpleTextField
-          formik={formik}
-          field="type"
-          tableName="category"
-          required={true}
+        <TextField
+          id="type"
+          name="type"
+          value={formik.values.type}
+          onChange={formik.handleChange}
+          fullWidth
+          sx={{ mb: 2 }}
+          label={`${t("category.type")}`}
+          error={formik.touched.type && !!formik.errors.type}
+          helperText={formik.touched.type && t(formik.errors.type as string)}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
-        <SimpleTextField
-          formik={formik}
-          field="name"
-          tableName="category"
-          required={true}
+        <TextField
+          id="name"
+          name="name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          fullWidth
+          sx={{ mb: 2 }}
+          label={`${t("category.name")}`}
+          error={formik.touched.name && !!formik.errors.name}
+          helperText={formik.touched.name && t(formik.errors.name as string)}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <Box sx={{ display: "flex", justifyContent: "right", mt: 2 }}>
           <Button
