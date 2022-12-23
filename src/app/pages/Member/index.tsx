@@ -17,6 +17,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Filter, Member } from "types";
 import { CommonDialogEnum } from "types/enums";
+import AddMember from "./AddMember";
 
 import { memberActions } from "./slice";
 import { selectMember } from "./slice/selector";
@@ -39,7 +40,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
   const { t } = useTranslation();
   const { listMembers } = useAppSelector(selectMember);
   const { showLoading, hideLoading } = useLoading({ setLoading });
-  const { showErrorSnackbar } = useToastMessage();
+  const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<string>("");
 
@@ -72,18 +73,18 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
   const handleDeleteMember = () => {
     setShowdialog(undefined);
     showLoading();
-    // dispatch(
-    //   authorActions.deleleAuthor(selectedItem, (error) => {
-    //     if (error) {
-    //       hideLoading();
-    //       showErrorSnackbar(t(`author.${error}`));
-    //     } else {
-    //       hideLoading();
-    //       showSuccessSnackbar(t("author.deleteSuccess"));
-    //       handleFetchData({});
-    //     }
-    //   })
-    // );
+    dispatch(
+      memberActions.deleleMember(selectedItem, (error) => {
+        if (error) {
+          hideLoading();
+          showErrorSnackbar(t(`member.${error}`));
+        } else {
+          hideLoading();
+          showSuccessSnackbar(t("member.deleteSuccess"));
+          handleFetchData({});
+        }
+      })
+    );
   };
 
   const handleCloseDialog = useCallback(() => {
@@ -130,7 +131,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
   const DeleteDialogContent = useMemo(() => {
     return (
       <Box>
-        <Typography>{t("author.acceptDeletAuthor")}</Typography>
+        <Typography>{t("member.acceptDeleteMember")}</Typography>
         <Grid container justifyContent="flex-end" mt={2}>
           <Button
             variant="contained"
@@ -190,6 +191,20 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           dialogContent={DeleteDialogContent}
           onCancel={handleCloseDialog}
           maxWidth="xs"
+        />
+        <ActionDialog
+          title={t("author.addNewAuthor")}
+          isOpen={showDialog === CommonDialogEnum.ADD}
+          dialogContent={
+            <AddMember
+              onCloseDialog={handleCloseDialog}
+              onFetchData={handleFetchData}
+              showLoading={showLoading}
+              hideLoading={hideLoading}
+            />
+          }
+          onCancel={handleCloseDialog}
+          maxWidth="md"
         />
       </Paper>
     </MainWrap>

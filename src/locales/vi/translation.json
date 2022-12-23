@@ -120,7 +120,15 @@
     "username": "Tên đăng nhập",
     "fullname": "Tên đầy đủ",
     "phoneNumber": "Số điện thoại",
-    "email": "Email"
+    "email": "Email",
+    "password": "Mật khẩu",
+    "birthday": "Năm sinh",
+    "acceptDeleteMember": "Bạn chắc chắn muốn xóa thành viên này?",
+    "getListFailure": "Lấy danh sách thành viên không thành công",
+    "deleteSuccess": "Xóa thành viên thành công",
+    "deleteFailure": "Xóa thành viên không thành công",
+    "server_error": "Lỗi máy chủ",
+    "bad_request": "Yêu cầu không hợp lệ"
   },
   "customer": {
     "listCustomers": "Danh sách khách hàng"

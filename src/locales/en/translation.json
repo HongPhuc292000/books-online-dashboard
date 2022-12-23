@@ -119,7 +119,13 @@
     "username": "",
     "fullname": "",
     "phoneNumber": "",
-    "email": ""
+    "email": "",
+    "password": "",
+    "birthday": "",
+    "acceptDeleteMember": "",
+    "getListFailure": "",
+    "deleteSuccess": "",
+    "deleteFailure": ""
   },
   "customer": {
     "listCustomers": ""

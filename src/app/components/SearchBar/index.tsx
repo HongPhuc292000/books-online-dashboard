@@ -42,6 +42,7 @@ const SearchBar = memo(
           }}
           sx={{
             flex: { xs: 1, sm: "auto" },
+            minWidth: { lg: minWidth },
           }}
         />
         <Button

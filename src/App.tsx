@@ -40,12 +40,12 @@ function App() {
       const token = getCookies(CookiesEnum.AUTHTOKEN);
       if (token) {
         const tokenDecoded: TokenI = jwtDecode(token);
-        const exp = moment(tokenDecoded.exp).valueOf();
+        const exp = moment(tokenDecoded.exp).valueOf() * 1000;
         const now = moment().valueOf();
 
         // if difference time now and expire time at least 3 minutes, get new access token
         if (exp - now <= maxTimeReset) {
-          renewAccessToken();
+          await renewAccessToken();
         }
       }
       // timeCheckReset minutes is the time that will be checked
