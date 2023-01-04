@@ -9,6 +9,12 @@ export enum StatusEnum {
   FULL = "FULL",
 }
 
+export enum GenderEnum {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
+}
+
 // Dialog enums
 
 export enum CommonDialogEnum {

@@ -1,17 +1,26 @@
+import { emailRegex } from "utils/constants";
 import * as Yup from "yup";
 
 export const MemberSchema = Yup.object().shape({
-  name: Yup.string().required("author.nameRequired"),
-  username: Yup.string().required("author.nameRequired"),
-  password: Yup.string().required("author.nameRequired"),
-  fullname: Yup.string().required("author.nameRequired"),
-  phoneNumber: Yup.string().required("author.nameRequired"),
+  username: Yup.string().required("common.usernameRequired"),
+  password: Yup.string().required("common.passwordRequired"),
+  fullname: Yup.string().required("common.fullnameRequired"),
+  phoneNumber: Yup.string()
+    .test(
+      "validate-phone-passed",
+      "member.phoneNotValid",
+      (value, context) => !!value && value[0] === "0"
+    )
+    .max(10, "member.phoneNotValid")
+    .min(10, "member.phoneNotValid")
+    .required("member.phoneRequired"),
   birthday: Yup.string()
     .test(
       "validate-memberBirthday-passed",
       "author.yearOfBirthNotValid",
       (value, context) => value !== "Invalid date"
     )
-    .required("author.nameRequired")
+    .required("member.birthdayRequired")
     .nullable(),
+  email: Yup.string().matches(emailRegex, "common.emailNotValid"),
 });

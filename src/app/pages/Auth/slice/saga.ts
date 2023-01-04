@@ -1,6 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import authService from "services/auth";
+import commonService from "services/common";
 import memberService from "services/user";
 import { LoginRequest, LoginResponse, UserDetail } from "types";
 import { CookiesEnum } from "types/enums";
@@ -67,9 +68,20 @@ function* refreshToken(action: PayloadAction<(error?: any) => void>) {
   }
 }
 
+function* getAllRoles(action: PayloadAction<(error?: any) => void>) {
+  try {
+    const roles: string[] = yield call(commonService.getAllRoles);
+    yield put(actions.getAllRolesSuccess(roles));
+    action.payload();
+  } catch (error: any) {
+    action.payload(error.response.data);
+  }
+}
+
 export function* authSaga() {
   yield takeLatest(actions.login.type, login);
   yield takeLatest(actions.logout.type, logout);
   yield takeLatest(actions.getUserInfo.type, getUserInfo);
   yield takeLatest(actions.refreshToken.type, refreshToken);
+  yield takeLatest(actions.getAllRoles.type, getAllRoles);
 }

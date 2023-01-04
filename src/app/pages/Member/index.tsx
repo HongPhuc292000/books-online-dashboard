@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { Filter, Member } from "types";
 import { CommonDialogEnum } from "types/enums";
 import AddMember from "./AddMember";
+import EditMember from "./EditMember";
 
 import { memberActions } from "./slice";
 import { selectMember } from "./slice/selector";
@@ -85,6 +86,11 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
         }
       })
     );
+  };
+
+  const handleSelectRow = (id: string) => {
+    setSelectedItem(id);
+    setShowdialog(CommonDialogEnum.EDIT);
   };
 
   const handleCloseDialog = useCallback(() => {
@@ -157,6 +163,20 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // const [province, setProvince] = useState<any>([]);
+
+  // const getProvinces = async () => {
+  //   await axios
+  //     .get("https://provinces.open-api.vn/api/?depth=1")
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getProvinces();
+  // }, []);
+
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
@@ -183,7 +203,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           tableName="member"
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
-          // onSelectRow={handleSelectRow}
+          onSelectRow={handleSelectRow}
         />
         <ActionDialog
           title={t("common.acceptDelete")}
@@ -201,6 +221,21 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
               onFetchData={handleFetchData}
               showLoading={showLoading}
               hideLoading={hideLoading}
+            />
+          }
+          onCancel={handleCloseDialog}
+          maxWidth="md"
+        />
+        <ActionDialog
+          title={t("author.editAuthor")}
+          isOpen={showDialog === CommonDialogEnum.EDIT}
+          dialogContent={
+            <EditMember
+              onCloseDialog={handleCloseDialog}
+              onFetchData={handleFetchData}
+              showLoading={showLoading}
+              hideLoading={hideLoading}
+              id={selectedItem}
             />
           }
           onCancel={handleCloseDialog}

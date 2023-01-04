@@ -6,6 +6,7 @@ import authorReducer from "app/pages/Author/slice/index";
 import categoryReducer from "app/pages/Category/slice/index";
 import memberReducer from "app/pages/Member/slice/index";
 import discountReducer from "app/pages/Discount/slice/index";
+import customerReducer from "app/pages/Customer/slice/index";
 import rootSaga from "./rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -18,6 +19,7 @@ export const store = configureStore({
     categoryState: categoryReducer,
     memberState: memberReducer,
     discountState: discountReducer,
+    customerState: customerReducer,
   },
   middleware: [sagaMiddleware],
 });

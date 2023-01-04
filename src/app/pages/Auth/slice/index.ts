@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LoginRequest } from "types";
 import { UserDetail } from "types/User";
 
-export const initialState: AuthState = {};
+export const initialState: AuthState = { roles: [] };
 
 export const authSlice = createSlice({
   name: "auth",
@@ -35,6 +35,15 @@ export const authSlice = createSlice({
       prepare(meta: (error?: any) => void) {
         return { payload: meta };
       },
+    },
+    getAllRoles: {
+      reducer() {},
+      prepare(meta: (error?: any) => void) {
+        return { payload: meta };
+      },
+    },
+    getAllRolesSuccess(state, action: PayloadAction<string[]>) {
+      state.roles = action.payload;
     },
   },
 });

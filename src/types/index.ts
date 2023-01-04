@@ -6,8 +6,10 @@ export * from "./Author";
 export * from "./Category";
 export * from "./Member";
 export * from "./Discount";
+export * from "./Customer";
 
 export * from "./Filter";
+export * from "./Address";
 
 export interface Pageable<T> {
   data?: T[];

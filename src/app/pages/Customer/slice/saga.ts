@@ -1,26 +1,26 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import commonService from "services/common";
-import memberService from "services/member";
+import customerService from "services/customer";
 import {
-  AddEditMemberRequest,
-  DetailMember,
+  AddEditCustomerRequest,
+  DetailCustomer,
   Filter,
-  Member,
+  Customer,
   Pageable,
 } from "types";
 
-import { memberActions as actions } from ".";
+import { customerActions as actions } from ".";
 
-function* getAllMembers(
+function* getAllCustomers(
   action: PayloadAction<Filter, string, (error?: any) => void>
 ) {
   try {
-    const result: Pageable<Member> = yield call(
-      memberService.getListMembers,
+    const result: Pageable<Customer> = yield call(
+      customerService.getListCustomers,
       action.payload
     );
-    yield put(actions.getAllMembersSuccess(result));
+    yield put(actions.getAllCustomersSuccess(result));
     action.meta();
   } catch (error: any) {
     if (error.response.data) {
@@ -31,11 +31,11 @@ function* getAllMembers(
   }
 }
 
-function* deleteMember(
+function* deleteCustomer(
   action: PayloadAction<string, string, (error?: any) => void>
 ) {
   try {
-    yield call(memberService.deleteMember, action.payload);
+    yield call(customerService.deleteCustomer, action.payload);
     action.meta();
   } catch (error: any) {
     if (error.response.data) {
@@ -46,9 +46,9 @@ function* deleteMember(
   }
 }
 
-function* addNewMember(
+function* addNewCustomer(
   action: PayloadAction<
-    { formData: AddEditMemberRequest; file: null | File },
+    { formData: AddEditCustomerRequest; file: null | File },
     string,
     (error?: any) => void
   >
@@ -59,11 +59,14 @@ function* addNewMember(
       const newUrl: string = yield call(
         commonService.uploadImage,
         file,
-        "members"
+        "customers"
       );
-      yield call(memberService.addNewMember, { ...formData, imageUrl: newUrl });
+      yield call(customerService.addNewCustomer, {
+        ...formData,
+        imageUrl: newUrl,
+      });
     } else {
-      yield call(memberService.addNewMember, formData);
+      yield call(customerService.addNewCustomer, formData);
     }
     action.meta();
   } catch (error: any) {
@@ -75,15 +78,15 @@ function* addNewMember(
   }
 }
 
-function* getDetailMember(
+function* getDetailCustomer(
   action: PayloadAction<string, string, (error?: any) => void>
 ) {
   try {
-    const result: DetailMember = yield call(
-      memberService.getDetailMember,
+    const result: DetailCustomer = yield call(
+      customerService.getDetailCustomer,
       action.payload
     );
-    yield put(actions.getDetailMemberSuccess(result));
+    yield put(actions.getDetailCustomerSuccess(result));
     action.meta();
   } catch (error: any) {
     if (error.response.data) {
@@ -94,11 +97,11 @@ function* getDetailMember(
   }
 }
 
-function* editMember(
+function* editCustomer(
   action: PayloadAction<
     {
       id: string;
-      formData: AddEditMemberRequest;
+      formData: AddEditCustomerRequest;
       file: null | File;
       beforeImage?: string;
     },
@@ -115,14 +118,14 @@ function* editMember(
       const newUrl: string = yield call(
         commonService.uploadImage,
         file,
-        "members"
+        "customers"
       );
-      yield call(memberService.editMember, id, {
+      yield call(customerService.editCustomer, id, {
         ...formData,
         imageUrl: newUrl,
       });
     } else {
-      yield call(memberService.editMember, id, formData);
+      yield call(customerService.editCustomer, id, formData);
     }
     action.meta();
   } catch (error: any) {
@@ -134,10 +137,10 @@ function* editMember(
   }
 }
 
-export function* memberSaga() {
-  yield takeLatest(actions.getAllMembers, getAllMembers);
-  yield takeLatest(actions.deleleMember, deleteMember);
-  yield takeLatest(actions.addNewMember, addNewMember);
-  yield takeLatest(actions.getDetailMember, getDetailMember);
-  yield takeLatest(actions.editMember, editMember);
+export function* customerSaga() {
+  yield takeLatest(actions.getAllCustomers, getAllCustomers);
+  yield takeLatest(actions.deleleCustomer, deleteCustomer);
+  yield takeLatest(actions.addNewCustomer, addNewCustomer);
+  yield takeLatest(actions.getDetailCustomer, getDetailCustomer);
+  yield takeLatest(actions.editCustomer, editCustomer);
 }

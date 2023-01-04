@@ -47,8 +47,6 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(listBook);
-
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>

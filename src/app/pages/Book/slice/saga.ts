@@ -8,8 +8,6 @@ import { bookActions as actions } from ".";
 
 function* getAllBooks(action: PayloadAction<(error?: any) => void>) {
   try {
-    console.log("alo");
-
     const result: Book[] = yield call(bookService.getAllBooks);
     yield put(actions.getAllBooksSuccess(result));
     action.payload();

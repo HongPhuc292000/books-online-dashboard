@@ -1,16 +1,16 @@
-import { MemberState } from "./types";
+import { CustomerState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  AddEditMemberRequest,
-  DetailMember,
+  AddEditCustomerRequest,
+  DetailCustomer,
   Filter,
-  Member,
+  Customer,
   Pageable,
 } from "types";
 import { GenderEnum } from "types/enums";
 
-export const initialState: MemberState = {
-  detailMember: {
+export const initialState: CustomerState = {
+  detailCustomer: {
     _id: "",
     imageUrl: "",
     username: "",
@@ -19,54 +19,53 @@ export const initialState: MemberState = {
     phoneNumber: "",
     email: "",
     birthday: "",
-    roles: [],
     gender: GenderEnum.MALE,
   },
 };
 
-export const memberSlice = createSlice({
-  name: "member",
+export const customerSlice = createSlice({
+  name: "customer",
   initialState,
   reducers: {
-    getAllMembers: {
+    getAllCustomers: {
       reducer() {},
       prepare(payload: Filter, meta: (error?: any) => void) {
         return { payload, meta };
       },
     },
-    getAllMembersSuccess(state, action: PayloadAction<Pageable<Member>>) {
-      state.listMembers = action.payload;
+    getAllCustomersSuccess(state, action: PayloadAction<Pageable<Customer>>) {
+      state.listCustomers = action.payload;
     },
-    deleleMember: {
+    deleleCustomer: {
       reducer() {},
       prepare(payload: string, meta: (error: any) => void) {
         return { payload, meta };
       },
     },
-    addNewMember: {
+    addNewCustomer: {
       reducer() {},
       prepare(
-        payload: { formData: AddEditMemberRequest; file: null | File },
+        payload: { formData: AddEditCustomerRequest; file: null | File },
         meta: (error: any) => void
       ) {
         return { payload, meta };
       },
     },
-    getDetailMember: {
+    getDetailCustomer: {
       reducer() {},
       prepare(payload: string, meta: (error?: any) => void) {
         return { payload, meta };
       },
     },
-    getDetailMemberSuccess(state, action: PayloadAction<DetailMember>) {
-      state.detailMember = action.payload;
+    getDetailCustomerSuccess(state, action: PayloadAction<DetailCustomer>) {
+      state.detailCustomer = action.payload;
     },
-    editMember: {
+    editCustomer: {
       reducer() {},
       prepare(
         payload: {
           id: string;
-          formData: AddEditMemberRequest;
+          formData: AddEditCustomerRequest;
           file: null | File;
           beforeImage?: string;
         },
@@ -79,6 +78,6 @@ export const memberSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { actions: memberActions } = memberSlice;
+export const { actions: customerActions } = customerSlice;
 
-export default memberSlice.reducer;
+export default customerSlice.reducer;

@@ -1,9 +1,15 @@
 import { Grid, TextField } from "@mui/material";
 import MediaCard from "app/components/MediaCard";
 import { SimpleDatePicker } from "app/components/DatePicker";
-import { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageFileType } from "types";
+import SelectRoles from "./SelectRoles";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { selectAuth } from "app/pages/Auth/slice/selector";
+import { authActions } from "app/pages/Auth/slice";
+import RadioSingleItem from "app/components/RadioSelect/RadioSingleItem";
+import { GenderEnum } from "types/enums";
 
 interface CommonFieldsProps {
   formik: any;
@@ -13,6 +19,13 @@ interface CommonFieldsProps {
 
 const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { roles } = useAppSelector(selectAuth);
+
+  useEffect(() => {
+    dispatch(authActions.getAllRoles(() => {}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -27,6 +40,11 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             fullWidth
+            onKeyPress={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
             sx={{ mb: 2 }}
             label={`${t("member.phoneNumber")}*`}
             error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
@@ -79,6 +97,7 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
           <TextField
             id="password"
             name="password"
+            type="password"
             value={formik.values.password}
             onChange={formik.handleChange}
             fullWidth
@@ -94,22 +113,6 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
           />
         </Grid>
       </Grid>
-      {/* <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <SimpleDatePicker
-            formik={formik}
-            field="yearOfBirth"
-            tableName="author"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <SimpleDatePicker
-            formik={formik}
-            field="yearPassed"
-            tableName="author"
-          />
-        </Grid>
-      </Grid> */}
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <TextField
@@ -119,7 +122,7 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
             onChange={formik.handleChange}
             fullWidth
             sx={{ mb: 2 }}
-            label={`${t("member.email")}*`}
+            label={t("member.email")}
             error={formik.touched.email && !!formik.errors.email}
             helperText={
               formik.touched.email && t(formik.errors.email as string)
@@ -135,6 +138,26 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
             field="birthday"
             tableName="member"
             required={true}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <SelectRoles
+            field="roles"
+            tableName="member"
+            allItems={roles}
+            selected={formik.values.roles}
+            setFieldValue={formik.setFieldValue}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <RadioSingleItem
+            allItems={Object.keys(GenderEnum)}
+            field="gender"
+            isRow={true}
+            selected={formik.values.gender}
+            setFieldValue={formik.setFieldValue}
           />
         </Grid>
       </Grid>
