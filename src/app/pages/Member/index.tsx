@@ -1,5 +1,6 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
+import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import { DeleteIconButton } from "app/components/Button";
 import AddIconButton from "app/components/Button/AddIconButton";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
@@ -13,7 +14,7 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Filter, Member } from "types";
 import { CommonDialogEnum } from "types/enums";
@@ -134,27 +135,27 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const DeleteDialogContent = useMemo(() => {
-    return (
-      <Box>
-        <Typography>{t("member.acceptDeleteMember")}</Typography>
-        <Grid container justifyContent="flex-end" mt={2}>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ mr: 2 }}
-            onClick={handleDeleteMember}
-          >
-            {t("common.accept")}
-          </Button>
-          <Button variant="contained" color="error" onClick={handleCloseDialog}>
-            {t("common.cancel")}
-          </Button>
-        </Grid>
-      </Box>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
+  // const DeleteDialogContent = useMemo(() => {
+  //   return (
+  //     <Box>
+  //       <Typography>{t("member.acceptDeleteMember")}</Typography>
+  //       <Grid container justifyContent="flex-end" mt={2}>
+  //         <Button
+  //           variant="contained"
+  //           color="success"
+  //           sx={{ mr: 2 }}
+  //           onClick={handleDeleteMember}
+  //         >
+  //           {t("common.accept")}
+  //         </Button>
+  //         <Button variant="contained" color="error" onClick={handleCloseDialog}>
+  //           {t("common.cancel")}
+  //         </Button>
+  //       </Grid>
+  //     </Box>
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedItem]);
 
   useEffect(() => {
     return () => {
@@ -208,12 +209,18 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
         <ActionDialog
           title={t("common.acceptDelete")}
           isOpen={showDialog === CommonDialogEnum.DELETE}
-          dialogContent={DeleteDialogContent}
+          dialogContent={
+            <DeleteDialogContent
+              content={t("member.acceptDeleteMember")}
+              onAcceptDelete={handleDeleteMember}
+              onCancel={handleCloseDialog}
+            />
+          }
           onCancel={handleCloseDialog}
           maxWidth="xs"
         />
         <ActionDialog
-          title={t("author.addNewAuthor")}
+          title={t("member.addNewMember")}
           isOpen={showDialog === CommonDialogEnum.ADD}
           dialogContent={
             <AddMember
@@ -227,7 +234,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           maxWidth="md"
         />
         <ActionDialog
-          title={t("author.editAuthor")}
+          title={t("member.editMember")}
           isOpen={showDialog === CommonDialogEnum.EDIT}
           dialogContent={
             <EditMember

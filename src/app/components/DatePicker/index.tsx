@@ -9,6 +9,7 @@ interface SimpleTextFieldProps {
   field: string;
   tableName: string;
   required?: boolean;
+  disablePast?: boolean;
 }
 
 export const SimpleDatePicker = ({
@@ -16,6 +17,7 @@ export const SimpleDatePicker = ({
   field,
   tableName,
   required = false,
+  disablePast = false,
 }: SimpleTextFieldProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -29,6 +31,7 @@ export const SimpleDatePicker = ({
             label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
             value={formik.values[field]}
             inputFormat="DD/MM/YYYY"
+            disablePast={!!disablePast}
             onChange={(newValue) => {
               formik.setFieldValue(field, moment(newValue).format(), true);
             }}
@@ -54,6 +57,7 @@ export const SimpleDatePicker = ({
             label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
             value={formik.values[field]}
             inputFormat="DD/MM/YYYY"
+            disablePast={!!disablePast}
             onChange={(newValue) => {
               if (newValue) {
                 formik.setFieldValue(field, moment(newValue).format(), true);

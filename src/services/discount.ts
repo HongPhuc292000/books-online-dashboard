@@ -1,5 +1,5 @@
 import querystring from "query-string";
-import { Pageable, Discount, Filter } from "types";
+import { Pageable, Discount, Filter, AddEditDiscountRequest } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
@@ -18,6 +18,11 @@ const deleteDiscount = async (id: string) => {
   return response.data;
 };
 
-const discountService = { getListDiscounts, deleteDiscount };
+const addNewDiscount = async (formValue: AddEditDiscountRequest) => {
+  const response = await instanceWithToken.post("v1/discount", formValue);
+  return response.data;
+};
+
+const discountService = { getListDiscounts, deleteDiscount, addNewDiscount };
 
 export default discountService;

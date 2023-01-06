@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
 import { DeleteIconButton } from "app/components/Button";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
@@ -12,15 +12,16 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import { memo, useCallback, useEffect, useState, useMemo } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Category, Filter } from "types";
 import { CommonDialogEnum } from "types/enums";
 
+import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
+import AddIconButton from "app/components/Button/AddIconButton";
 import AddCategory from "./AddCategory";
 import { categoryActions } from "./slice";
 import { selectCategory } from "./slice/selector";
-import AddIconButton from "app/components/Button/AddIconButton";
 
 interface ListCategoryProps {
   setLoading?: Function;
@@ -125,28 +126,6 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const DeleteDialogContent = useMemo(() => {
-    return (
-      <Box>
-        <Typography>{t("category.acceptDeletCategory")}</Typography>
-        <Grid container justifyContent="flex-end" mt={2}>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ mr: 2 }}
-            onClick={handleDeleteCategory}
-          >
-            {t("common.accept")}
-          </Button>
-          <Button variant="contained" color="error" onClick={handleCloseDialog}>
-            {t("common.cancel")}
-          </Button>
-        </Grid>
-      </Box>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
-
   useEffect(() => {
     return () => {
       dispatch(categoryActions.getAllCategoriesSuccess({}));
@@ -198,7 +177,13 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
         <ActionDialog
           title={t("common.acceptDelete")}
           isOpen={showDialog === CommonDialogEnum.DELETE}
-          dialogContent={DeleteDialogContent}
+          dialogContent={
+            <DeleteDialogContent
+              content={t("category.acceptDeleteCategory")}
+              onAcceptDelete={handleDeleteCategory}
+              onCancel={handleCloseDialog}
+            />
+          }
           onCancel={handleCloseDialog}
           maxWidth="xs"
         />

@@ -1,6 +1,8 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
+import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import { DeleteIconButton } from "app/components/Button";
+import AddIconButton from "app/components/Button/AddIconButton";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
 import { PageTitle, TableContentLabel } from "app/components/Label";
 import MainWrap from "app/components/Layouts/MainWrap";
@@ -12,17 +14,11 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import moment from "moment";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Discount, Filter } from "types";
 import { CommonDialogEnum, DiscountTypeEnum } from "types/enums";
+import AddDiscount from "./AddDiscount";
 
 import { discountActions } from "./slice";
 import { selectDiscount } from "./slice/selector";
@@ -98,7 +94,7 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
     }
   };
 
-  const handleDeleteMember = () => {
+  const handleDeleteDiscount = () => {
     setShowdialog(undefined);
     showLoading();
     dispatch(
@@ -129,28 +125,6 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
     []
   );
 
-  const DeleteDialogContent = useMemo(() => {
-    return (
-      <Box>
-        <Typography>{t("author.acceptDeletAuthor")}</Typography>
-        <Grid container justifyContent="flex-end" mt={2}>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ mr: 2 }}
-            onClick={handleDeleteMember}
-          >
-            {t("common.accept")}
-          </Button>
-          <Button variant="contained" color="error" onClick={handleCloseDialog}>
-            {t("common.cancel")}
-          </Button>
-        </Grid>
-      </Box>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
-
   const renderItem = useCallback((item: Discount, index: number) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
@@ -177,9 +151,9 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
               placeholder={t("discount.searchPlaceholder")}
             />
           </Grid>
-          {/* <Grid item sm="auto" container justifyContent="flex-end">
+          <Grid item sm="auto" container justifyContent="flex-end">
             <AddIconButton onAddItem={handleShowDialog} />
-          </Grid> */}
+          </Grid>
         </Grid>
         <StickyHeadTable
           headers={headers}
@@ -197,9 +171,28 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
       <ActionDialog
         title={t("common.acceptDelete")}
         isOpen={showDialog === CommonDialogEnum.DELETE}
-        dialogContent={DeleteDialogContent}
+        dialogContent={
+          <DeleteDialogContent
+            content={t("discount.acceptDeleteDiscount")}
+            onAcceptDelete={handleDeleteDiscount}
+            onCancel={handleCloseDialog}
+          />
+        }
         onCancel={handleCloseDialog}
         maxWidth="xs"
+      />
+      <ActionDialog
+        title={t("category.addNewCategory")}
+        isOpen={showDialog === CommonDialogEnum.ADD}
+        dialogContent={
+          <AddDiscount
+            onCloseDialog={handleCloseDialog}
+            onFetchData={handleFetchData}
+            showLoading={showLoading}
+            hideLoading={hideLoading}
+          />
+        }
+        onCancel={handleCloseDialog}
       />
     </MainWrap>
   );

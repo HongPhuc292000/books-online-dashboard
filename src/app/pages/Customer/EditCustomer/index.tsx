@@ -4,16 +4,16 @@ import { useFormik } from "formik";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { omit } from "lodash";
-import { AddEditMemberRequest, Filter, ImageFileType } from "types";
+import { AddEditCustomerRequest, Filter, ImageFileType } from "types";
 
-import { memberActions, initialState } from "../slice";
-import { MemberSchema } from "../components/memberSchema.data";
+import { customerActions, initialState } from "../slice";
+import { CustomerSchema } from "../components/customerSchema.data";
 import CommonFields from "../components/CommonFields";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectMember } from "../slice/selector";
+import { selectCustomer } from "../slice/selector";
 import React from "react";
 
-interface EditMemberProps {
+interface EditCustomerProps {
   onCloseDialog: () => void;
   onFetchData: (params: Filter) => void;
   showLoading: () => void;
@@ -21,40 +21,40 @@ interface EditMemberProps {
   id?: string;
 }
 
-const EditMember = memo(
+const EditCustomer = memo(
   ({
     onCloseDialog,
     onFetchData,
     showLoading,
     hideLoading,
     id,
-  }: EditMemberProps) => {
+  }: EditCustomerProps) => {
     const [image, setImage] = useState<ImageFileType>({
       file: null,
       url: "",
     });
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
-    const { detailMember } = useAppSelector(selectMember);
+    const { detailCustomer } = useAppSelector(selectCustomer);
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
-    const handleSubmit = (values: AddEditMemberRequest) => {
+    const handleSubmit = (values: AddEditCustomerRequest) => {
       onCloseDialog();
       showLoading();
       dispatch(
-        memberActions.editMember(
+        customerActions.editCustomer(
           {
-            id: detailMember._id,
+            id: detailCustomer._id,
             formData: values,
             file: image.file,
-            beforeImage: detailMember.imageUrl,
+            beforeImage: detailCustomer.imageUrl,
           },
           (error) => {
             if (error) {
               hideLoading();
-              showErrorSnackbar(t(`member.${error}`));
+              showErrorSnackbar(t(`customer.${error}`));
             } else {
               hideLoading();
-              showSuccessSnackbar(t(`member.editSuccess`));
+              showSuccessSnackbar(t(`customer.editSuccess`));
               onFetchData({});
             }
           }
@@ -63,8 +63,8 @@ const EditMember = memo(
     };
 
     const formik = useFormik({
-      initialValues: omit(initialState.detailMember, ["_id"]),
-      validationSchema: MemberSchema,
+      initialValues: omit(initialState.detailCustomer, ["_id"]),
+      validationSchema: CustomerSchema,
       onSubmit: (values) => {
         handleSubmit({ ...values, imageUrl: image.url });
       },
@@ -73,25 +73,24 @@ const EditMember = memo(
     const handleResetForm = () => {
       formik.resetForm({
         values: {
-          imageUrl: detailMember.imageUrl,
-          username: detailMember.username,
-          password: detailMember.password,
-          fullname: detailMember.fullname,
-          phoneNumber: detailMember.phoneNumber,
-          email: detailMember.email,
-          birthday: detailMember.birthday,
-          roles: detailMember.roles,
-          gender: detailMember.gender,
+          imageUrl: detailCustomer.imageUrl,
+          username: detailCustomer.username,
+          password: detailCustomer.password,
+          fullname: detailCustomer.fullname,
+          phoneNumber: detailCustomer.phoneNumber,
+          email: detailCustomer.email,
+          birthday: detailCustomer.birthday,
+          gender: detailCustomer.gender,
         },
       });
-      setImage({ ...image, url: detailMember.imageUrl });
+      setImage({ ...image, url: detailCustomer.imageUrl });
     };
 
     React.useEffect(() => {
       showLoading();
       if (!!id) {
         dispatch(
-          memberActions.getDetailMember(id, (error) => {
+          customerActions.getDetailCustomer(id, (error) => {
             if (error) {
               showErrorSnackbar(t(`member.${error}`));
             }
@@ -102,7 +101,7 @@ const EditMember = memo(
 
       return () => {
         dispatch(
-          memberActions.getDetailMemberSuccess(initialState.detailMember)
+          customerActions.getDetailCustomerSuccess(initialState.detailCustomer)
         );
       };
 
@@ -112,7 +111,7 @@ const EditMember = memo(
     React.useEffect(() => {
       handleResetForm();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [detailMember]);
+    }, [detailCustomer]);
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>
@@ -144,4 +143,4 @@ const EditMember = memo(
   }
 );
 
-export default EditMember;
+export default EditCustomer;

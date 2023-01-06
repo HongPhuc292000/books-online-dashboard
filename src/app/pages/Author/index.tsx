@@ -1,5 +1,6 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
+import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import { DeleteIconButton } from "app/components/Button";
 import AddIconButton from "app/components/Button/AddIconButton";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
@@ -13,7 +14,7 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Author, Filter } from "types";
 import { CommonDialogEnum } from "types/enums";
@@ -136,28 +137,6 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const DeleteDialogContent = useMemo(() => {
-    return (
-      <Box>
-        <Typography>{t("author.acceptDeletAuthor")}</Typography>
-        <Grid container justifyContent="flex-end" mt={2}>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ mr: 2 }}
-            onClick={handleDeleteAuthor}
-          >
-            {t("common.accept")}
-          </Button>
-          <Button variant="contained" color="error" onClick={handleCloseDialog}>
-            {t("common.cancel")}
-          </Button>
-        </Grid>
-      </Box>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
-
   useEffect(() => {
     return () => {
       dispatch(authorActions.getAllAuthorsSuccess({}));
@@ -196,7 +175,13 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
         <ActionDialog
           title={t("common.acceptDelete")}
           isOpen={showDialog === CommonDialogEnum.DELETE}
-          dialogContent={DeleteDialogContent}
+          dialogContent={
+            <DeleteDialogContent
+              content={t("author.acceptDeleteAuthor")}
+              onAcceptDelete={handleDeleteAuthor}
+              onCancel={handleCloseDialog}
+            />
+          }
           onCancel={handleCloseDialog}
           maxWidth="xs"
         />
