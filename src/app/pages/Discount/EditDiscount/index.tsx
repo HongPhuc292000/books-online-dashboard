@@ -1,18 +1,23 @@
 import { Box, Button } from "@mui/material";
-import { useAppSelector } from "app/hooks";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
-import React, { memo, useState } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { AddEditAuthorRequest, Filter, ImageFileType } from "types";
+import { AddEditDiscountRequest, Filter } from "types";
 
-import { AuthorSchema, defaultValue } from "../components/authorSchema.data";
+import { discountActions } from "../slice";
+import {
+  DiscountSchema,
+  defaultValue,
+} from "../components/discountSchema.data";
 import CommonFields from "../components/CommonFields";
-import { authorActions } from "../slice";
-import { selectAuthor } from "../slice/selector";
+import moment from "moment";
+import { useAppSelector } from "app/hooks";
+import { selectDiscount } from "../slice/selector";
+import React from "react";
 
-interface EditAuthorProps {
+interface EditDiscountProps {
   onCloseDialog: () => void;
   onFetchData: (params: Filter) => void;
   showLoading: () => void;
@@ -20,84 +25,72 @@ interface EditAuthorProps {
   id?: string;
 }
 
-const EditAuthor = memo(
+const EditDiscount = memo(
   ({
     onCloseDialog,
     onFetchData,
     showLoading,
     hideLoading,
     id,
-  }: EditAuthorProps) => {
-    const [image, setImage] = useState<ImageFileType>({
-      file: null,
-      url: "",
-    });
+  }: EditDiscountProps) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const { detailAuthor } = useAppSelector(selectAuthor);
+    const { detailDiscount } = useAppSelector(selectDiscount);
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
-    const handleSubmit = (values: AddEditAuthorRequest) => {
+    const handleSubmit = (values: AddEditDiscountRequest) => {
       if (id) {
         onCloseDialog();
         showLoading();
         dispatch(
-          authorActions.editAuthor(
-            {
-              id,
-              formData: values,
-              file: image.file,
-              beforeImage: detailAuthor ? detailAuthor.imageUrl : "",
-            },
-            (error) => {
-              if (error) {
-                hideLoading();
-                showErrorSnackbar(t(`author.${error}`));
-              } else {
-                hideLoading();
-                showSuccessSnackbar(t("author.editSuccess"));
-                onFetchData({});
-              }
+          discountActions.editDiscount({ id, formData: values }, (error) => {
+            if (error) {
+              hideLoading();
+              showErrorSnackbar(t(`discount.${error}`));
+            } else {
+              hideLoading();
+              showSuccessSnackbar(t(`discount.editSuccess`));
+              onFetchData({});
             }
-          )
+          })
         );
       }
     };
 
     const formik = useFormik({
       initialValues: defaultValue,
-      validationSchema: AuthorSchema,
+      validationSchema: DiscountSchema,
       onSubmit: (values) => {
-        handleSubmit({ ...values, imageUrl: image.url });
+        handleSubmit(values);
       },
     });
 
     const handleResetForm = () => {
-      if (detailAuthor) {
+      if (detailDiscount) {
         formik.resetForm({
           values: {
-            imageUrl: detailAuthor.imageUrl,
-            name: detailAuthor.name,
-            yearOfBirth: detailAuthor.yearOfBirth,
-            yearPassed: detailAuthor.yearPassed,
-            description: detailAuthor.description,
+            code: detailDiscount.code,
+            type: detailDiscount.type,
+            value: detailDiscount.value,
+            amount: detailDiscount.amount,
+            exp: moment(detailDiscount.exp).toString(),
+            enable: detailDiscount.enable,
           },
         });
-        setImage({ ...image, url: detailAuthor.imageUrl });
       }
     };
 
     React.useEffect(() => {
       handleResetForm();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [detailAuthor]);
+    }, [detailDiscount]);
 
     React.useEffect(() => {
       showLoading();
-      if (!!id) {
+      if (id) {
         dispatch(
-          authorActions.getDetailAuthor(id, (error) => {
+          discountActions.getDetailDiscount(id, (error) => {
             if (error) {
-              showErrorSnackbar(t(`author.${error}`));
+              showErrorSnackbar(t(`discount.${error}`));
             }
             hideLoading();
           })
@@ -105,7 +98,7 @@ const EditAuthor = memo(
       }
 
       return () => {
-        dispatch(authorActions.getDetailAuthorSuccess(undefined));
+        dispatch(discountActions.getDetailDiscountSuccess(undefined));
       };
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,9 +106,14 @@ const EditAuthor = memo(
 
     return (
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <CommonFields formik={formik} image={image} setImage={setImage} />
+        <CommonFields formik={formik} disabled={!!detailDiscount?.used} />
         <Box sx={{ display: "flex", justifyContent: "right", mt: 2 }}>
-          <Button variant="contained" color="success" type="submit">
+          <Button
+            variant="contained"
+            color="success"
+            type="submit"
+            disabled={!!detailDiscount?.used}
+          >
             {t("common.edit")}
           </Button>
           <Button
@@ -123,6 +121,7 @@ const EditAuthor = memo(
             color="primary"
             sx={{ mx: 1 }}
             onClick={handleResetForm}
+            disabled={!!detailDiscount?.used}
           >
             {t("common.reset")}
           </Button>
@@ -141,4 +140,4 @@ const EditAuthor = memo(
   }
 );
 
-export default EditAuthor;
+export default EditDiscount;

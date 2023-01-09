@@ -4,7 +4,7 @@ import { DesktopDatePicker, MobileDatePicker } from "@mui/x-date-pickers";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 
-interface SimpleTextFieldProps {
+interface SimpleDatePickerProps {
   formik: any;
   field: string;
   tableName: string;
@@ -18,7 +18,7 @@ export const SimpleDatePicker = ({
   tableName,
   required = false,
   disablePast = false,
-}: SimpleTextFieldProps) => {
+}: SimpleDatePickerProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -44,6 +44,10 @@ export const SimpleDatePicker = ({
                 helperText={
                   formik.touched[field] && t(formik.errors[field] as string)
                 }
+                inputProps={{
+                  ...params.inputProps,
+                  placeholder: "",
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -74,6 +78,10 @@ export const SimpleDatePicker = ({
                 helperText={
                   formik.touched[field] && t(formik.errors[field] as string)
                 }
+                inputProps={{
+                  ...params.inputProps,
+                  placeholder: "",
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}

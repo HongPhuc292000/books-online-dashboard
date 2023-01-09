@@ -2,7 +2,13 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import discountService from "services/discount";
 
-import { Filter, Discount, Pageable, AddEditDiscountRequest } from "types";
+import {
+  Filter,
+  Discount,
+  Pageable,
+  AddEditDiscountRequest,
+  DetailDiscount,
+} from "types";
 
 import { discountActions as actions } from ".";
 
@@ -55,8 +61,52 @@ function* addNewDiscount(
   }
 }
 
+function* getDetailDiscount(
+  action: PayloadAction<string, string, (error?: any) => void>
+) {
+  try {
+    const result: DetailDiscount = yield call(
+      discountService.getDetailDiscount,
+      action.payload
+    );
+    yield put(actions.getDetailDiscountSuccess(result));
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("getDetailFailure");
+    }
+  }
+}
+
+function* editDiscount(
+  action: PayloadAction<
+    {
+      id: string;
+      formData: AddEditDiscountRequest;
+    },
+    string,
+    (error?: any) => void
+  >
+) {
+  try {
+    const { id, formData } = action.payload;
+    yield call(discountService.editDiscount, id, formData);
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("editFailure");
+    }
+  }
+}
+
 export function* discountSaga() {
   yield takeLatest(actions.getAllDiscounts, getAllDiscounts);
   yield takeLatest(actions.deleleDiscount, deleleDiscount);
   yield takeLatest(actions.addNewDiscount, addNewDiscount);
+  yield takeLatest(actions.editDiscount, editDiscount);
+  yield takeLatest(actions.getDetailDiscount, getDetailDiscount);
 }

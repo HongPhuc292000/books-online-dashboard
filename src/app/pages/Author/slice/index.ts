@@ -2,16 +2,7 @@ import { AuthorState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
 
-export const initialState: AuthorState = {
-  detailAuthor: {
-    _id: "",
-    imageUrl: "",
-    name: "",
-    yearOfBirth: null,
-    yearPassed: null,
-    description: "",
-  },
-};
+export const initialState: AuthorState = {};
 
 export const authorSlice = createSlice({
   name: "author",
@@ -47,7 +38,7 @@ export const authorSlice = createSlice({
         return { payload, meta };
       },
     },
-    getDetailAuthorSuccess(state, action: PayloadAction<Author>) {
+    getDetailAuthorSuccess(state, action: PayloadAction<Author | undefined>) {
       state.detailAuthor = action.payload;
     },
     editAuthor: {

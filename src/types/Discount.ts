@@ -14,7 +14,6 @@ export interface AddEditDiscountRequest {
   type: DiscountTypeEnum;
   value: number;
   amount?: number;
-  used?: number;
   exp: string | null;
   enable?: boolean;
 }

@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { Discount, Filter } from "types";
 import { CommonDialogEnum, DiscountTypeEnum } from "types/enums";
 import AddDiscount from "./AddDiscount";
+import EditDiscount from "./EditDiscount";
 
 import { discountActions } from "./slice";
 import { selectDiscount } from "./slice/selector";
@@ -111,6 +112,13 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
     );
   };
 
+  const handleSelectRow = (id: string) => {
+    if (id) {
+      setSelectedItem(id);
+      setShowdialog(CommonDialogEnum.EDIT);
+    }
+  };
+
   const handleCloseDialog = useCallback(() => {
     setShowdialog(undefined);
   }, []);
@@ -165,7 +173,7 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
           tableName="discount"
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
-          // onSelectRow={handleSelectRow}
+          onSelectRow={handleSelectRow}
         />
       </Paper>
       <ActionDialog
@@ -182,7 +190,7 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
         maxWidth="xs"
       />
       <ActionDialog
-        title={t("category.addNewCategory")}
+        title={t("discount.addDiscount")}
         isOpen={showDialog === CommonDialogEnum.ADD}
         dialogContent={
           <AddDiscount
@@ -190,6 +198,20 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
             onFetchData={handleFetchData}
             showLoading={showLoading}
             hideLoading={hideLoading}
+          />
+        }
+        onCancel={handleCloseDialog}
+      />
+      <ActionDialog
+        title={t("discount.editDiscount")}
+        isOpen={showDialog === CommonDialogEnum.EDIT}
+        dialogContent={
+          <EditDiscount
+            onCloseDialog={handleCloseDialog}
+            onFetchData={handleFetchData}
+            showLoading={showLoading}
+            hideLoading={hideLoading}
+            id={selectedItem}
           />
         }
         onCancel={handleCloseDialog}

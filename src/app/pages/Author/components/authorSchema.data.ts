@@ -1,3 +1,4 @@
+import { AddEditAuthorRequest } from "types";
 import * as Yup from "yup";
 
 export const AuthorSchema = Yup.object().shape({
@@ -17,3 +18,9 @@ export const AuthorSchema = Yup.object().shape({
     )
     .nullable(),
 });
+
+export const defaultValue: AddEditAuthorRequest = {
+  name: "",
+  yearOfBirth: null,
+  yearPassed: null,
+};

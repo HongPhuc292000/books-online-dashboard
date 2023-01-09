@@ -69,8 +69,10 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
   );
 
   const handleSelectRow = (id: string) => {
-    setSelectedItem(id);
-    setShowdialog(CommonDialogEnum.EDIT);
+    if (id) {
+      setSelectedItem(id);
+      setShowdialog(CommonDialogEnum.EDIT);
+    }
   };
 
   const handleCloseDialog = useCallback(() => {

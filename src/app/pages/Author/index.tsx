@@ -120,8 +120,10 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   };
 
   const handleSelectRow = (id: string) => {
-    setSelectedItem(id);
-    setShowdialog(CommonDialogEnum.EDIT);
+    if (id) {
+      setSelectedItem(id);
+      setShowdialog(CommonDialogEnum.EDIT);
+    }
   };
 
   const renderItem = useCallback((item: Author, index: number) => {

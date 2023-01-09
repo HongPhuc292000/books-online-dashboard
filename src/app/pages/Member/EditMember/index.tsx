@@ -3,15 +3,14 @@ import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { omit } from "lodash";
 import { AddEditMemberRequest, Filter, ImageFileType } from "types";
 
-import { memberActions, initialState } from "../slice";
-import { MemberSchema } from "../components/memberSchema.data";
-import CommonFields from "../components/CommonFields";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectMember } from "../slice/selector";
 import React from "react";
+import CommonFields from "../components/CommonFields";
+import { defaultValue, MemberSchema } from "../components/memberSchema.data";
+import { memberActions } from "../slice";
+import { selectMember } from "../slice/selector";
 
 interface EditMemberProps {
   onCloseDialog: () => void;
@@ -38,32 +37,34 @@ const EditMember = memo(
     const { detailMember } = useAppSelector(selectMember);
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
     const handleSubmit = (values: AddEditMemberRequest) => {
-      onCloseDialog();
-      showLoading();
-      dispatch(
-        memberActions.editMember(
-          {
-            id: detailMember._id,
-            formData: values,
-            file: image.file,
-            beforeImage: detailMember.imageUrl,
-          },
-          (error) => {
-            if (error) {
-              hideLoading();
-              showErrorSnackbar(t(`member.${error}`));
-            } else {
-              hideLoading();
-              showSuccessSnackbar(t(`member.editSuccess`));
-              onFetchData({});
+      if (id) {
+        onCloseDialog();
+        showLoading();
+        dispatch(
+          memberActions.editMember(
+            {
+              id,
+              formData: values,
+              file: image.file,
+              beforeImage: detailMember ? detailMember.imageUrl : "",
+            },
+            (error) => {
+              if (error) {
+                hideLoading();
+                showErrorSnackbar(t(`member.${error}`));
+              } else {
+                hideLoading();
+                showSuccessSnackbar(t(`member.editSuccess`));
+                onFetchData({});
+              }
             }
-          }
-        )
-      );
+          )
+        );
+      }
     };
 
     const formik = useFormik({
-      initialValues: omit(initialState.detailMember, ["_id"]),
+      initialValues: defaultValue,
       validationSchema: MemberSchema,
       onSubmit: (values) => {
         handleSubmit({ ...values, imageUrl: image.url });
@@ -71,20 +72,22 @@ const EditMember = memo(
     });
 
     const handleResetForm = () => {
-      formik.resetForm({
-        values: {
-          imageUrl: detailMember.imageUrl,
-          username: detailMember.username,
-          password: detailMember.password,
-          fullname: detailMember.fullname,
-          phoneNumber: detailMember.phoneNumber,
-          email: detailMember.email,
-          birthday: detailMember.birthday,
-          roles: detailMember.roles,
-          gender: detailMember.gender,
-        },
-      });
-      setImage({ ...image, url: detailMember.imageUrl });
+      if (detailMember) {
+        formik.resetForm({
+          values: {
+            imageUrl: detailMember.imageUrl,
+            username: detailMember.username,
+            password: detailMember.password,
+            fullname: detailMember.fullname,
+            phoneNumber: detailMember.phoneNumber,
+            email: detailMember.email,
+            birthday: detailMember.birthday,
+            roles: detailMember.roles,
+            gender: detailMember.gender,
+          },
+        });
+        setImage({ ...image, url: detailMember.imageUrl });
+      }
     };
 
     React.useEffect(() => {
@@ -101,9 +104,7 @@ const EditMember = memo(
       }
 
       return () => {
-        dispatch(
-          memberActions.getDetailMemberSuccess(initialState.detailMember)
-        );
+        dispatch(memberActions.getDetailMemberSuccess(undefined));
       };
 
       // eslint-disable-next-line react-hooks/exhaustive-deps

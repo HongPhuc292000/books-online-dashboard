@@ -1,27 +1,14 @@
-import { CustomerState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AddEditCustomerRequest,
+  Customer,
   DetailCustomer,
   Filter,
-  Customer,
   Pageable,
 } from "types";
-import { GenderEnum } from "types/enums";
+import { CustomerState } from "./types";
 
-export const initialState: CustomerState = {
-  detailCustomer: {
-    _id: "",
-    imageUrl: "",
-    username: "",
-    password: "",
-    fullname: "",
-    phoneNumber: "",
-    email: "",
-    birthday: "",
-    gender: GenderEnum.MALE,
-  },
-};
+export const initialState: CustomerState = {};
 
 export const customerSlice = createSlice({
   name: "customer",
@@ -57,7 +44,10 @@ export const customerSlice = createSlice({
         return { payload, meta };
       },
     },
-    getDetailCustomerSuccess(state, action: PayloadAction<DetailCustomer>) {
+    getDetailCustomerSuccess(
+      state,
+      action: PayloadAction<DetailCustomer | undefined>
+    ) {
       state.detailCustomer = action.payload;
     },
     editCustomer: {

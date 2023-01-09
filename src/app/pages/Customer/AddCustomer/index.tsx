@@ -4,11 +4,13 @@ import { useFormik } from "formik";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { omit } from "lodash";
 import { AddEditCustomerRequest, Filter, ImageFileType } from "types";
 
-import { customerActions, initialState } from "../slice";
-import { CustomerSchema } from "../components/customerSchema.data";
+import { customerActions } from "../slice";
+import {
+  CustomerSchema,
+  defaultValue,
+} from "../components/customerSchema.data";
 import CommonFields from "../components/CommonFields";
 
 interface AddCustomerProps {
@@ -53,7 +55,7 @@ const AddCustomer = memo(
     };
 
     const formik = useFormik({
-      initialValues: omit(initialState.detailCustomer, ["_id"]),
+      initialValues: defaultValue,
       validationSchema: CustomerSchema,
       onSubmit: (values) => {
         handleSubmit(values);

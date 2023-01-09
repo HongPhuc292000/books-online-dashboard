@@ -6,10 +6,12 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { AddEditDiscountRequest, Filter } from "types";
 
-import { discountActions, initialState } from "../slice";
-import { DiscountSchema } from "../components/discountSchema.data";
+import { discountActions } from "../slice";
+import {
+  defaultValue,
+  DiscountSchema,
+} from "../components/discountSchema.data";
 import CommonFields from "../components/CommonFields";
-import { omit } from "lodash";
 
 interface AddDiscountProps {
   onCloseDialog: () => void;
@@ -46,10 +48,7 @@ const AddDiscount = memo(
     };
 
     const formik = useFormik({
-      initialValues: {
-        ...omit(initialState.detailDiscount, ["_id", "exp"]),
-        exp: null,
-      },
+      initialValues: defaultValue,
       validationSchema: DiscountSchema,
       onSubmit: (values) => {
         handleSubmit(values);

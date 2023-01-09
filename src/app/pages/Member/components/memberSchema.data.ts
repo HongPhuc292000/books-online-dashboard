@@ -1,3 +1,5 @@
+import { AddEditMemberRequest } from "types";
+import { GenderEnum } from "types/enums";
 import { emailRegex } from "utils/constants";
 import * as Yup from "yup";
 
@@ -24,3 +26,13 @@ export const MemberSchema = Yup.object().shape({
     .nullable(),
   email: Yup.string().matches(emailRegex, "common.emailNotValid"),
 });
+
+export const defaultValue: AddEditMemberRequest = {
+  username: "",
+  password: "",
+  fullname: "",
+  phoneNumber: "",
+  birthday: "",
+  roles: [],
+  gender: GenderEnum.MALE,
+};

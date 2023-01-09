@@ -1,19 +1,14 @@
 import { DiscountState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Filter, Discount, Pageable, AddEditDiscountRequest } from "types";
-import { DiscountTypeEnum } from "types/enums";
+import {
+  Filter,
+  Discount,
+  Pageable,
+  AddEditDiscountRequest,
+  DetailDiscount,
+} from "types";
 
-export const initialState: DiscountState = {
-  detailDiscount: {
-    _id: "",
-    code: "",
-    type: DiscountTypeEnum.PERCENT,
-    value: 0,
-    amount: 0,
-    exp: 0,
-    enable: false,
-  },
-};
+export const initialState: DiscountState = {};
 
 export const discountSlice = createSlice({
   name: "discount",
@@ -38,6 +33,30 @@ export const discountSlice = createSlice({
       reducer() {},
       prepare(formValue: AddEditDiscountRequest, meta: (error: any) => void) {
         return { payload: formValue, meta };
+      },
+    },
+    getDetailDiscount: {
+      reducer() {},
+      prepare(payload: string, meta: (error?: any) => void) {
+        return { payload, meta };
+      },
+    },
+    getDetailDiscountSuccess(
+      state,
+      action: PayloadAction<DetailDiscount | undefined>
+    ) {
+      state.detailDiscount = action.payload;
+    },
+    editDiscount: {
+      reducer() {},
+      prepare(
+        payload: {
+          id: string;
+          formData: AddEditDiscountRequest;
+        },
+        meta: (error: any) => void
+      ) {
+        return { payload, meta };
       },
     },
   },

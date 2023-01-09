@@ -1,6 +1,6 @@
 import { Grid, TextField } from "@mui/material";
 import MediaCard from "app/components/MediaCard";
-import { SimpleDatePicker } from "app/components/DatePicker";
+import { SimpleDatePicker } from "app/components/DatePicker/SimpleDatePicker";
 import React, { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageFileType } from "types";

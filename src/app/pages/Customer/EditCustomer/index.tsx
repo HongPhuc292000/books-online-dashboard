@@ -3,11 +3,13 @@ import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { omit } from "lodash";
 import { AddEditCustomerRequest, Filter, ImageFileType } from "types";
 
-import { customerActions, initialState } from "../slice";
-import { CustomerSchema } from "../components/customerSchema.data";
+import { customerActions } from "../slice";
+import {
+  CustomerSchema,
+  defaultValue,
+} from "../components/customerSchema.data";
 import CommonFields from "../components/CommonFields";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectCustomer } from "../slice/selector";
@@ -38,32 +40,34 @@ const EditCustomer = memo(
     const { detailCustomer } = useAppSelector(selectCustomer);
     const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
     const handleSubmit = (values: AddEditCustomerRequest) => {
-      onCloseDialog();
-      showLoading();
-      dispatch(
-        customerActions.editCustomer(
-          {
-            id: detailCustomer._id,
-            formData: values,
-            file: image.file,
-            beforeImage: detailCustomer.imageUrl,
-          },
-          (error) => {
-            if (error) {
-              hideLoading();
-              showErrorSnackbar(t(`customer.${error}`));
-            } else {
-              hideLoading();
-              showSuccessSnackbar(t(`customer.editSuccess`));
-              onFetchData({});
+      if (id) {
+        onCloseDialog();
+        showLoading();
+        dispatch(
+          customerActions.editCustomer(
+            {
+              id,
+              formData: values,
+              file: image.file,
+              beforeImage: detailCustomer ? detailCustomer.imageUrl : "",
+            },
+            (error) => {
+              if (error) {
+                hideLoading();
+                showErrorSnackbar(t(`customer.${error}`));
+              } else {
+                hideLoading();
+                showSuccessSnackbar(t(`customer.editSuccess`));
+                onFetchData({});
+              }
             }
-          }
-        )
-      );
+          )
+        );
+      }
     };
 
     const formik = useFormik({
-      initialValues: omit(initialState.detailCustomer, ["_id"]),
+      initialValues: defaultValue,
       validationSchema: CustomerSchema,
       onSubmit: (values) => {
         handleSubmit({ ...values, imageUrl: image.url });
@@ -71,19 +75,21 @@ const EditCustomer = memo(
     });
 
     const handleResetForm = () => {
-      formik.resetForm({
-        values: {
-          imageUrl: detailCustomer.imageUrl,
-          username: detailCustomer.username,
-          password: detailCustomer.password,
-          fullname: detailCustomer.fullname,
-          phoneNumber: detailCustomer.phoneNumber,
-          email: detailCustomer.email,
-          birthday: detailCustomer.birthday,
-          gender: detailCustomer.gender,
-        },
-      });
-      setImage({ ...image, url: detailCustomer.imageUrl });
+      if (detailCustomer) {
+        formik.resetForm({
+          values: {
+            imageUrl: detailCustomer.imageUrl,
+            username: detailCustomer.username,
+            password: detailCustomer.password,
+            fullname: detailCustomer.fullname,
+            phoneNumber: detailCustomer.phoneNumber,
+            email: detailCustomer.email,
+            birthday: detailCustomer.birthday,
+            gender: detailCustomer.gender,
+          },
+        });
+        setImage({ ...image, url: detailCustomer.imageUrl });
+      }
     };
 
     React.useEffect(() => {
@@ -100,9 +106,7 @@ const EditCustomer = memo(
       }
 
       return () => {
-        dispatch(
-          customerActions.getDetailCustomerSuccess(initialState.detailCustomer)
-        );
+        dispatch(customerActions.getDetailCustomerSuccess(undefined));
       };
 
       // eslint-disable-next-line react-hooks/exhaustive-deps

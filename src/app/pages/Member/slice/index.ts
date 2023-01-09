@@ -7,22 +7,8 @@ import {
   Member,
   Pageable,
 } from "types";
-import { GenderEnum } from "types/enums";
 
-export const initialState: MemberState = {
-  detailMember: {
-    _id: "",
-    imageUrl: "",
-    username: "",
-    password: "",
-    fullname: "",
-    phoneNumber: "",
-    email: "",
-    birthday: "",
-    roles: [],
-    gender: GenderEnum.MALE,
-  },
-};
+export const initialState: MemberState = {};
 
 export const memberSlice = createSlice({
   name: "member",
@@ -58,7 +44,10 @@ export const memberSlice = createSlice({
         return { payload, meta };
       },
     },
-    getDetailMemberSuccess(state, action: PayloadAction<DetailMember>) {
+    getDetailMemberSuccess(
+      state,
+      action: PayloadAction<DetailMember | undefined>
+    ) {
       state.detailMember = action.payload;
     },
     editMember: {

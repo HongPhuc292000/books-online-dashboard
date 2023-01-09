@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { AddEditAuthorRequest, Filter, ImageFileType } from "types";
 
 import { authorActions } from "../slice";
-import { AuthorSchema } from "../components/authorSchema.data";
+import { AuthorSchema, defaultValue } from "../components/authorSchema.data";
 import CommonFields from "../components/CommonFields";
 
 interface AddAuthorProps {
@@ -52,13 +52,7 @@ const AddAuthor = memo(
     };
 
     const formik = useFormik({
-      initialValues: {
-        imageUrl: "",
-        name: "",
-        yearOfBirth: null,
-        yearPassed: null,
-        description: "",
-      },
+      initialValues: defaultValue,
       validationSchema: AuthorSchema,
       onSubmit: (values) => {
         handleSubmit(values);

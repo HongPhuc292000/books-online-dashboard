@@ -9,19 +9,18 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { SimpleDatePicker } from "app/components/DatePicker";
+import SingleDateAndTimePicker from "app/components/DatePicker/SingleDateAndTimePicker";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { DiscountTypeEnum } from "types/enums";
 
 interface CommonFieldsProps {
   formik: any;
+  disabled?: boolean;
 }
 
-const CommonFields = memo(({ formik }: CommonFieldsProps) => {
+const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
   const { t } = useTranslation();
-
-  console.log(formik.values);
 
   return (
     <>
@@ -40,6 +39,7 @@ const CommonFields = memo(({ formik }: CommonFieldsProps) => {
             InputLabelProps={{
               shrink: true,
             }}
+            disabled={disabled}
           />
         </Grid>
         <Grid item xs={6}>
@@ -55,6 +55,7 @@ const CommonFields = memo(({ formik }: CommonFieldsProps) => {
               onChange={(e) => {
                 formik.setFieldValue("type", e.target.value);
               }}
+              disabled={disabled}
             >
               {Object.keys(DiscountTypeEnum).map((type) => (
                 <MenuItem key={type} value={type}>
@@ -72,6 +73,7 @@ const CommonFields = memo(({ formik }: CommonFieldsProps) => {
             id="value"
             name="value"
             type="number"
+            disabled={disabled}
             value={formik.values.value}
             onChange={formik.handleChange}
             onKeyPress={(event) => {
@@ -105,6 +107,7 @@ const CommonFields = memo(({ formik }: CommonFieldsProps) => {
             id="amount"
             name="amount"
             type="number"
+            disabled={disabled}
             value={formik.values.amount}
             onChange={formik.handleChange}
             onKeyPress={(event) => {
@@ -126,21 +129,22 @@ const CommonFields = memo(({ formik }: CommonFieldsProps) => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <SimpleDatePicker
+          <SingleDateAndTimePicker
             formik={formik}
             field="exp"
             tableName="discount"
             required={true}
             disablePast={true}
+            disabled={disabled}
           />
         </Grid>
         <Grid item xs={6}>
           <FormControlLabel
             name="enable"
+            disabled={disabled}
             onChange={formik.handleChange}
-            value={formik.values.amount}
             sx={{ mb: 2 }}
-            control={<Switch />}
+            control={<Switch checked={formik.values.enable} />}
             label={t("common.enable")}
           />
         </Grid>

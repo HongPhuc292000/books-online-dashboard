@@ -4,11 +4,10 @@ import { useFormik } from "formik";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { omit } from "lodash";
 import { AddEditMemberRequest, Filter, ImageFileType } from "types";
 
-import { memberActions, initialState } from "../slice";
-import { MemberSchema } from "../components/memberSchema.data";
+import { memberActions } from "../slice";
+import { defaultValue, MemberSchema } from "../components/memberSchema.data";
 import CommonFields from "../components/CommonFields";
 
 interface AddMemberProps {
@@ -53,7 +52,7 @@ const AddMember = memo(
     };
 
     const formik = useFormik({
-      initialValues: omit(initialState.detailMember, ["_id"]),
+      initialValues: defaultValue,
       validationSchema: MemberSchema,
       onSubmit: (values) => {
         handleSubmit(values);
