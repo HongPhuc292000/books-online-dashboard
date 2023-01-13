@@ -97,13 +97,24 @@
   "commonTableHeader": {
     "serial": "",
     "nothing": "",
-    "amount": ""
+    "amount": "",
+    "status": ""
   },
   "book": {
     "listBook": "",
+    "searchPlaceholder": "",
     "name": "",
     "categories": "",
-    "author": ""
+    "author": "",
+    "defaultPrice": "",
+    "reducedPrice": "",
+    "view": "",
+    "getListFailure": "",
+    "acceptDeleteBook": "",
+    "deleteSuccess": "",
+    "deleteFailure": "",
+    "server_error": "",
+    "bad_request": ""
   },
   "author": {
     "searchPlaceholder": "",

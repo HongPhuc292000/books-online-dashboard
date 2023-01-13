@@ -1,6 +1,6 @@
 import { BookState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Book } from "types";
+import { Book, Filter, Pageable } from "types";
 
 export const initialState: BookState = {};
 
@@ -10,12 +10,18 @@ export const bookSlice = createSlice({
   reducers: {
     getAllBooks: {
       reducer() {},
-      prepare(meta: (error?: any) => void) {
-        return { payload: meta };
+      prepare(payload: Filter, meta: (error?: any) => void) {
+        return { payload, meta };
       },
     },
-    getAllBooksSuccess(state, action: PayloadAction<Book[]>) {
-      state.listBook = action.payload;
+    getAllBooksSuccess(state, action: PayloadAction<Pageable<Book>>) {
+      state.listBooks = action.payload;
+    },
+    deleteBook: {
+      reducer() {},
+      prepare(payload: string, meta: (error: any) => void) {
+        return { payload, meta };
+      },
     },
   },
 });

@@ -97,13 +97,24 @@
   "commonTableHeader": {
     "serial": "STT",
     "nothing": "",
-    "amount": "Số lượng"
+    "amount": "Số lượng",
+    "status": "Trạng thái"
   },
   "book": {
     "listBook": "Danh sách sách",
+    "searchPlaceholder": "Tìm theo tên, mã sách",
     "name": "Tên sách",
     "categories": "Thể loại",
-    "author": "Tác giả"
+    "author": "Tác giả",
+    "defaultPrice": "Giá niêm yết",
+    "reducedPrice": "Giá đã giảm",
+    "view": "Lượt xem",
+    "getListFailure": "Lấy danh sách sách không thành công",
+    "acceptDeleteBook": "Bạn chắc chắn muốn xóa sách này?",
+    "deleteSuccess": "Xóa sách thành công",
+    "deleteFailure": "Xóa sách không thành công",
+    "server_error": "Lỗi máy chủ",
+    "bad_request": "Yêu cầu không hợp lệ"
   },
   "author": {
     "searchPlaceholder": "Tìm kiếm theo tên",

@@ -137,48 +137,12 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const DeleteDialogContent = useMemo(() => {
-  //   return (
-  //     <Box>
-  //       <Typography>{t("member.acceptDeleteMember")}</Typography>
-  //       <Grid container justifyContent="flex-end" mt={2}>
-  //         <Button
-  //           variant="contained"
-  //           color="success"
-  //           sx={{ mr: 2 }}
-  //           onClick={handleDeleteMember}
-  //         >
-  //           {t("common.accept")}
-  //         </Button>
-  //         <Button variant="contained" color="error" onClick={handleCloseDialog}>
-  //           {t("common.cancel")}
-  //         </Button>
-  //       </Grid>
-  //     </Box>
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedItem]);
-
   useEffect(() => {
     return () => {
       dispatch(memberActions.getAllMembersSuccess({}));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // const [province, setProvince] = useState<any>([]);
-
-  // const getProvinces = async () => {
-  //   await axios
-  //     .get("https://provinces.open-api.vn/api/?depth=1")
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getProvinces();
-  // }, []);
 
   return (
     <MainWrap>

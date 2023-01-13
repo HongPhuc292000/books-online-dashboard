@@ -1,6 +1,6 @@
-import { Book } from "types";
+import { Book, Pageable } from "types";
 
 /* --- STATE --- */
 export interface BookState {
-  listBook?: Book[];
+  listBooks?: Pageable<Book>;
 }

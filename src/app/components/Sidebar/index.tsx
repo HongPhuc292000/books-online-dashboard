@@ -66,7 +66,9 @@ export default function Sidebar() {
             },
           }}
         >
-          <Toolbar />
+          <Toolbar>
+            <Logo />
+          </Toolbar>
           <Divider />
           <List>
             {pages.map((page) => (

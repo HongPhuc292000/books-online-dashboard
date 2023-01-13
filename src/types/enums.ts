@@ -15,6 +15,11 @@ export enum GenderEnum {
   OTHER = "OTHER",
 }
 
+export enum EnableEnum {
+  ENABLE = "ENABLE",
+  DISABLE = "DISABLE",
+}
+
 // Dialog enums
 
 export enum CommonDialogEnum {
