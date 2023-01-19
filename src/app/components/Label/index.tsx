@@ -1,6 +1,6 @@
 import { styled, Typography } from "@mui/material";
 
-const PageTitle = styled(Typography)(({ theme }) => ({
+const PageTitleContent = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey[700],
   paddingBottom: theme.spacing(2),
 }));
@@ -15,4 +15,4 @@ const TableContentLabel = styled(Typography)(() => ({
   fontSize: 14,
 }));
 
-export { PageTitle, TableHeaderLabel, TableContentLabel };
+export { PageTitleContent, TableHeaderLabel, TableContentLabel };

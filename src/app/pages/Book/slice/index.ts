@@ -1,6 +1,6 @@
 import { BookState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Book, Filter, Pageable } from "types";
+import { AddEditBookRequest, Book, Filter, Pageable } from "types";
 
 export const initialState: BookState = {};
 
@@ -20,6 +20,15 @@ export const bookSlice = createSlice({
     deleteBook: {
       reducer() {},
       prepare(payload: string, meta: (error: any) => void) {
+        return { payload, meta };
+      },
+    },
+    addNewBook: {
+      reducer() {},
+      prepare(
+        payload: { formData: AddEditBookRequest; file: null | File },
+        meta: (error: any) => void
+      ) {
         return { payload, meta };
       },
     },

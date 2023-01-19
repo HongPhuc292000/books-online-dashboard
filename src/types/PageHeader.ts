@@ -1,5 +1,5 @@
 export interface HeaderNavChangePageI {
-  title: string;
+  title?: string;
   link: string;
   children?: HeaderNavChangePageI[];
   icon?: React.ReactNode;

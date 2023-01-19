@@ -4,7 +4,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { memo, useEffect, useState } from "react";
 import noImageImg from "assets/img/no-image.jpg";
 
-interface MediaCardProps {
+interface SquareMediaCardProps {
   url?: string;
   setImage: Function;
 }
@@ -21,7 +21,7 @@ const RoundActionIconButton = styled(IconButton)(() => ({
   },
 }));
 
-const MediaCard = memo(({ url, setImage }: MediaCardProps) => {
+const SquareMediaCard = memo(({ url, setImage }: SquareMediaCardProps) => {
   const [previewImage, setPreviewImage] = useState<string>();
   const [showSelectInput, setShowSelectInput] = useState<boolean>(false);
   const [hoverChange, setHoverChange] = useState<boolean>(false);
@@ -42,7 +42,9 @@ const MediaCard = memo(({ url, setImage }: MediaCardProps) => {
       sx={{
         position: "relative",
         overflow: "hidden",
-        mb: 2,
+        width: "160px",
+        height: "160px",
+        // mb: 2,
       }}
       onMouseOver={() => {
         setShowSelectInput(true);
@@ -129,4 +131,4 @@ const MediaCard = memo(({ url, setImage }: MediaCardProps) => {
   );
 });
 
-export default MediaCard;
+export default SquareMediaCard;

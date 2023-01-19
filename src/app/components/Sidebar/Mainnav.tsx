@@ -26,9 +26,9 @@ interface SubNavProps {
 }
 
 const SubNav = memo(({ page }: NavProps) => {
-  const { title, link, children } = page;
+  const { title, link } = page;
   const navigate = useNavigate();
-  const { match } = useMatchPath(link, children);
+  const { match } = useMatchPath(link);
   const theme = useTheme();
   const handleSelectSubNav = (target: string) => {
     navigate(target);
@@ -73,16 +73,15 @@ const MainNav = memo(({ page }: NavProps) => {
   const { title, link, children, icon = <></> } = page;
   const theme = useTheme();
   const [openSubNav, setOpenSubNav] = React.useState<boolean>(false);
-  const { match } = useMatchPath(link, children);
+  const { match } = useMatchPath(link);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleSelectNav = () => {
     if (children) {
       setOpenSubNav(!openSubNav);
-    } else {
-      navigate(link);
     }
+    navigate(link);
   };
 
   return (
@@ -93,7 +92,7 @@ const MainNav = memo(({ page }: NavProps) => {
             color: match ? theme.palette.primary.main : theme.palette.grey[700],
             paddingLeft: theme.spacing(5),
           }}
-          selected={match || openSubNav}
+          selected={match}
         >
           <ListItemIcon
             sx={{

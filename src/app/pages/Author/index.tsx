@@ -4,7 +4,7 @@ import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent
 import { DeleteIconButton } from "app/components/Button";
 import AddIconButton from "app/components/Button/AddIconButton";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
-import { PageTitle, TableContentLabel } from "app/components/Label";
+import { PageTitleContent, TableContentLabel } from "app/components/Label";
 import MainWrap from "app/components/Layouts/MainWrap";
 import SearchBar from "app/components/SearchBar";
 import StickyHeadTable from "app/components/Table";
@@ -149,7 +149,9 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitle variant="h4">{t(`author.listAuthor`)}</PageTitle>
+        <PageTitleContent variant="h4">
+          {t(`author.listAuthor`)}
+        </PageTitleContent>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} sm="auto">
             <SearchBar

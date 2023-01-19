@@ -21,3 +21,17 @@ export interface Book {
   reducedPrice?: number;
   status: EnableEnum;
 }
+
+export interface AddEditBookRequest {
+  imageUrl?: string;
+  name: string;
+  authorId?: string;
+  isFull: boolean;
+  amount?: number;
+  categoryIds?: string[];
+  content?: object;
+  defaultPrice: number;
+  reducedPrice?: number;
+  bookCode: string;
+  status: EnableEnum;
+}

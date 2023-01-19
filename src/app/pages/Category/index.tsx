@@ -2,7 +2,7 @@ import { Grid, Paper } from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
 import { DeleteIconButton } from "app/components/Button";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
-import { PageTitle, TableContentLabel } from "app/components/Label";
+import { PageTitleContent, TableContentLabel } from "app/components/Label";
 import MainWrap from "app/components/Layouts/MainWrap";
 import SearchBar from "app/components/SearchBar";
 import StickyHeadTable from "app/components/Table";
@@ -136,7 +136,9 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitle variant="h4">{t(`category.listAuthor`)}</PageTitle>
+        <PageTitleContent variant="h4">
+          {t(`category.listAuthor`)}
+        </PageTitleContent>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} sm="auto">
             <SearchBar

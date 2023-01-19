@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { CommonDialogEnum } from "types/enums";
 
 interface AddIconButtonProps {
-  onAddItem: (action: string, id?: string) => void;
+  onAddItem: Function;
 }
 
 const AddIconButton = memo(({ onAddItem }: AddIconButtonProps) => {

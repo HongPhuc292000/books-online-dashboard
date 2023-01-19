@@ -1,11 +1,13 @@
 import querystring from "query-string";
-import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
+import { AddEditAuthorRequest, Author, AuthorFilter, Pageable } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
 const instanceWithToken = createService(baseUrl);
 
-const getAllAuthors = async (params: Filter): Promise<Pageable<Author>> => {
+const getAllAuthors = async (
+  params: AuthorFilter
+): Promise<Pageable<Author>> => {
   const query = querystring.stringify(params);
   const response = await instanceWithToken.get(`v1/author?${query}`);
   return response.data;

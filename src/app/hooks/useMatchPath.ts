@@ -1,12 +1,9 @@
-import { useMatch, useResolvedPath } from "react-router-dom";
+import { useLocation, useResolvedPath } from "react-router-dom";
 
-export const useMatchPath = (link: string, children?: any) => {
+export const useMatchPath = (link: string) => {
   const resolved = useResolvedPath(link);
-  const match = Boolean(
-    useMatch({
-      path: children ? `${resolved.pathname}:category` : resolved.pathname,
-    })
-  );
+  const location = useLocation();
+  const match = location.pathname.includes(resolved.pathname);
 
   return { match };
 };

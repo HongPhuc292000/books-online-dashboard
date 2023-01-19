@@ -1,5 +1,5 @@
 import { Grid, TextField } from "@mui/material";
-import MediaCard from "app/components/MediaCard";
+import RoundMediaCard from "app/components/MediaCard/RoundMediaCard";
 import { SimpleDatePicker } from "app/components/DatePicker/SimpleDatePicker";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
     <>
       <Grid container spacing={2} alignItems="end">
         <Grid item>
-          <MediaCard url={image.url} setImage={setImage} />
+          <RoundMediaCard url={image.url} setImage={setImage} />
         </Grid>
         <Grid item flex={1}>
           <TextField

@@ -2,13 +2,13 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import authorService from "services/author";
 
-import { AddEditAuthorRequest, Author, Filter, Pageable } from "types";
+import { AddEditAuthorRequest, Author, AuthorFilter, Pageable } from "types";
 
 import commonService from "services/common";
 import { authorActions as actions } from ".";
 
 function* getAllAuthors(
-  action: PayloadAction<Filter, string, (error?: any) => void>
+  action: PayloadAction<AuthorFilter, string, (error?: any) => void>
 ) {
   try {
     const result: Pageable<Author> = yield call(

@@ -13,8 +13,10 @@ import ListDiscounts from "app/pages/Discount";
 import ListMembers from "app/pages/Member";
 import ListCustomers from "app/pages/Customer";
 import ListOrders from "app/pages/Order";
+import AddBook from "app/pages/Book/AddBook";
 
 import path from "./path";
+import EditBook from "app/pages/Book/EditBook";
 
 export default function Router() {
   return useRoutes([
@@ -44,7 +46,20 @@ export default function Router() {
         },
         {
           path: path.book,
-          element: <ListBooks />,
+          children: [
+            {
+              path: path.inherit,
+              element: <ListBooks />,
+            },
+            {
+              path: path.add,
+              element: <AddBook />,
+            },
+            {
+              path: path.edit,
+              element: <EditBook />,
+            },
+          ],
         },
         {
           path: path.author,

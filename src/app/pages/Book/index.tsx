@@ -2,8 +2,9 @@ import { debounce, Grid, Paper } from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
 import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import { DeleteIconButton } from "app/components/Button";
+import AddIconButton from "app/components/Button/AddIconButton";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
-import { PageTitle, TableContentLabel } from "app/components/Label";
+import { PageTitleContent, TableContentLabel } from "app/components/Label";
 import MainWrap from "app/components/Layouts/MainWrap";
 import SearchBar from "app/components/SearchBar";
 import StickyHeadTable from "app/components/Table";
@@ -14,6 +15,7 @@ import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { Filter } from "types";
 import { Book } from "types/Book";
 import { CommonDialogEnum } from "types/enums";
@@ -44,6 +46,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { t } = useTranslation();
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
+  const navigate = useNavigate();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<string>("");
 
@@ -119,6 +122,14 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
     [filter]
   );
 
+  const handleAddBook = useCallback(() => {
+    navigate("add");
+  }, [navigate]);
+
+  const handleSelectRow = (id: string) => {
+    navigate(`edit/${id}`);
+  };
+
   const renderItem = useCallback((item: Book, index: number) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
@@ -142,7 +153,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitle variant="h4">{t(`book.listBook`)}</PageTitle>
+        <PageTitleContent variant="h4">{t(`book.listBook`)}</PageTitleContent>
         <Grid container justifyContent="space-between">
           <Grid item xs={12} sm="auto">
             <SearchBar
@@ -151,9 +162,9 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
               placeholder={t("book.searchPlaceholder")}
             />
           </Grid>
-          {/* <Grid item sm="auto" container justifyContent="flex-end">
-            <AddIconButton onAddItem={handleShowDialog} />
-          </Grid> */}
+          <Grid item sm="auto" container justifyContent="flex-end">
+            <AddIconButton onAddItem={handleAddBook} />
+          </Grid>
         </Grid>
         <StickyHeadTable
           headers={headers}
@@ -165,7 +176,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
           sizeResponse={listBooks?.size}
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
-          // onSelectRow={handleSelectRow}
+          onSelectRow={handleSelectRow}
         />
         <ActionDialog
           title={t("common.acceptDelete")}

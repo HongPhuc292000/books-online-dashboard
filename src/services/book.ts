@@ -1,6 +1,5 @@
 import querystring from "query-string";
-import { Filter, Pageable } from "types";
-import { Book } from "types/Book";
+import { Book, AddEditBookRequest, Filter, Pageable } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
@@ -17,6 +16,16 @@ const deleteBook = async (id: string) => {
   return response.data;
 };
 
-const bookService = { getAllBooks, deleteBook };
+const addNewBook = async (formValue: AddEditBookRequest) => {
+  const response = await instanceWithToken.post("v1/book", formValue);
+  return response.data;
+};
+
+const editBook = async (id: string, formValue: AddEditBookRequest) => {
+  const response = await instanceWithToken.put(`v1/book/${id}`, formValue);
+  return response.data;
+};
+
+const bookService = { getAllBooks, deleteBook, addNewBook, editBook };
 
 export default bookService;

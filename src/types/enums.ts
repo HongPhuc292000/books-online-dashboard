@@ -32,3 +32,8 @@ export enum DiscountTypeEnum {
   PERCENT = "PERCENT",
   CASH = "CASH",
 }
+
+// constants
+export enum CommonKeyEnum {
+  SELECT = "SELECT",
+}
