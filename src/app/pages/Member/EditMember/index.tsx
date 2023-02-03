@@ -46,7 +46,6 @@ const EditMember = memo(
               id,
               formData: values,
               file: image.file,
-              beforeImage: detailMember ? detailMember.imageUrl : "",
             },
             (error) => {
               if (error) {

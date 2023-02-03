@@ -46,7 +46,6 @@ const EditAuthor = memo(
               id,
               formData: values,
               file: image.file,
-              beforeImage: detailAuthor ? detailAuthor.imageUrl : "",
             },
             (error) => {
               if (error) {

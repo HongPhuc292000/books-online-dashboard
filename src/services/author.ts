@@ -1,5 +1,11 @@
 import querystring from "query-string";
-import { AddEditAuthorRequest, Author, AuthorFilter, Pageable } from "types";
+import {
+  AddEditAuthorRequest,
+  Author,
+  AuthorFilter,
+  SelectItemType,
+  Pageable,
+} from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
@@ -10,6 +16,11 @@ const getAllAuthors = async (
 ): Promise<Pageable<Author>> => {
   const query = querystring.stringify(params);
   const response = await instanceWithToken.get(`v1/author?${query}`);
+  return response.data;
+};
+
+const getAuthorToSelect = async (): Promise<SelectItemType[]> => {
+  const response = await instanceWithToken.get("v1/author/allAuthors");
   return response.data;
 };
 
@@ -35,6 +46,7 @@ const editAuthor = async (id: string, formValue: AddEditAuthorRequest) => {
 
 const authorService = {
   getAllAuthors,
+  getAuthorToSelect,
   deleteAuthor,
   addNewAuthor,
   getDetailAuthor,

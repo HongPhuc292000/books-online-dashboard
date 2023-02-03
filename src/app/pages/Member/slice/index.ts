@@ -57,7 +57,6 @@ export const memberSlice = createSlice({
           id: string;
           formData: AddEditMemberRequest;
           file: null | File;
-          beforeImage?: string;
         },
         meta: (error: any) => void
       ) {

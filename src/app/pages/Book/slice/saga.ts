@@ -1,8 +1,16 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
+import authorService from "services/author";
 import bookService from "services/book";
+import categoryService from "services/category";
 import commonService from "services/common";
-import { AddEditBookRequest, Book, Filter, Pageable } from "types";
+import {
+  AddEditBookRequest,
+  Book,
+  Filter,
+  Pageable,
+  SelectItemType,
+} from "types";
 
 import { bookActions as actions } from ".";
 
@@ -69,8 +77,34 @@ function* addNewBook(
   }
 }
 
+function* getAllAuthors(action: PayloadAction<(error?: any) => void>) {
+  try {
+    const result: SelectItemType[] = yield call(
+      authorService.getAuthorToSelect
+    );
+    yield put(actions.getAllAuthorsSuccess(result));
+    action.payload();
+  } catch {
+    action.payload();
+  }
+}
+
+function* getAllCategories(action: PayloadAction<(error?: any) => void>) {
+  try {
+    const result: SelectItemType[] = yield call(
+      categoryService.getCategoriesToSelect
+    );
+    yield put(actions.getAllCategoriesSuccess(result));
+    action.payload();
+  } catch {
+    action.payload();
+  }
+}
+
 export function* bookSaga() {
   yield takeLatest(actions.getAllBooks, getAllBooks);
   yield takeLatest(actions.deleteBook, deleteBook);
   yield takeLatest(actions.addNewBook, addNewBook);
+  yield takeLatest(actions.getAllAuthors, getAllAuthors);
+  yield takeLatest(actions.getAllCategories, getAllCategories);
 }

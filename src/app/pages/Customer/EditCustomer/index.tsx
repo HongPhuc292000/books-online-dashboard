@@ -49,7 +49,6 @@ const EditCustomer = memo(
               id,
               formData: values,
               file: image.file,
-              beforeImage: detailCustomer ? detailCustomer.imageUrl : "",
             },
             (error) => {
               if (error) {

@@ -1,5 +1,4 @@
 import { AddEditBookRequest } from "types";
-import { EnableEnum } from "types/enums";
 import * as Yup from "yup";
 
 export const BookSchema = Yup.object().shape({
@@ -8,12 +7,17 @@ export const BookSchema = Yup.object().shape({
   defaultPrice: Yup.number()
     .min(1, "discount.valueMinRequired")
     .required("discount.valueRequired"),
+  reducedPrice: Yup.number().nullable(),
 });
 
 export const defaultValue: AddEditBookRequest = {
+  imageUrl: "",
   bookCode: "",
   name: "",
   defaultPrice: 0,
+  amount: 0,
+  authorId: "",
+  categoryIds: [],
   isFull: false,
-  status: EnableEnum.ENABLE,
+  status: true,
 };

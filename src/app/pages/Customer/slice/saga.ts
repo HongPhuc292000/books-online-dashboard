@@ -103,17 +103,13 @@ function* editCustomer(
       id: string;
       formData: AddEditCustomerRequest;
       file: null | File;
-      beforeImage?: string;
     },
     string,
     (error?: any) => void
   >
 ) {
   try {
-    const { id, formData, file, beforeImage } = action.payload;
-    if (beforeImage && beforeImage !== formData.imageUrl) {
-      yield call(commonService.deleteImage, beforeImage);
-    }
+    const { id, formData, file } = action.payload;
     if (file) {
       const newUrl: string = yield call(
         commonService.uploadImage,

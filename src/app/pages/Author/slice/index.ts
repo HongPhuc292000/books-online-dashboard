@@ -48,7 +48,6 @@ export const authorSlice = createSlice({
           id: string;
           formData: AddEditAuthorRequest;
           file: null | File;
-          beforeImage?: string;
         },
         meta: (error: any) => void
       ) {

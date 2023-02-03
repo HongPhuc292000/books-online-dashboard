@@ -31,7 +31,7 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
     <>
       <Grid container spacing={2} alignItems="end">
         <Grid item>
-          <RoundMediaCard url={image.url} setImage={setImage} />
+          <RoundMediaCard url={image.url} setImage={setImage} mb={2} />
         </Grid>
         <Grid item flex={1}>
           <TextField

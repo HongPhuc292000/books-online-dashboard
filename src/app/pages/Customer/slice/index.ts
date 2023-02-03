@@ -57,7 +57,6 @@ export const customerSlice = createSlice({
           id: string;
           formData: AddEditCustomerRequest;
           file: null | File;
-          beforeImage?: string;
         },
         meta: (error: any) => void
       ) {

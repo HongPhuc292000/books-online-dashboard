@@ -1,0 +1,19 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+body ::selection {
+  color: #fff;
+  background: #ff9c19;
+}
+
+body ::-moz-selection {
+  color: #fff;
+  background: #ff9c19;
+}

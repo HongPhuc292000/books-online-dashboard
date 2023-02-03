@@ -29,12 +29,12 @@ interface ListMembersProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
   { name: "code" },
   { name: "value" },
   { name: "amount", isCommonLabel: true, align: "right" },
   { name: "used", align: "right" },
-  { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
+  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {

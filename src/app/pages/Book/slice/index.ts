@@ -1,6 +1,12 @@
 import { BookState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AddEditBookRequest, Book, Filter, Pageable } from "types";
+import {
+  AddEditBookRequest,
+  Book,
+  Filter,
+  Pageable,
+  SelectItemType,
+} from "types";
 
 export const initialState: BookState = {};
 
@@ -31,6 +37,24 @@ export const bookSlice = createSlice({
       ) {
         return { payload, meta };
       },
+    },
+    getAllAuthors: {
+      reducer() {},
+      prepare(payload: () => void) {
+        return { payload };
+      },
+    },
+    getAllAuthorsSuccess(state, action: PayloadAction<SelectItemType[]>) {
+      state.listAuthors = action.payload;
+    },
+    getAllCategories: {
+      reducer() {},
+      prepare(payload: () => void) {
+        return { payload };
+      },
+    },
+    getAllCategoriesSuccess(state, action: PayloadAction<SelectItemType[]>) {
+      state.listCategories = action.payload;
     },
   },
 });

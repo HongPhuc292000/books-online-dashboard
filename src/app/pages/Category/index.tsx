@@ -28,10 +28,10 @@ interface ListCategoryProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
   { name: "type" },
   { name: "name" },
-  { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
+  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 const ListCategories = memo(({ setLoading }: ListCategoryProps) => {

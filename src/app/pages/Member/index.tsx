@@ -29,12 +29,12 @@ interface ListMembersProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
   { name: "username" },
   { name: "fullname" },
   { name: "phoneNumber" },
   { name: "email" },
-  { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
+  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
@@ -193,7 +193,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           dialogContent={
             <AddMember
               onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
+              onFetchData={onFilterToQueryString}
               showLoading={showLoading}
               hideLoading={hideLoading}
             />
@@ -207,7 +207,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           dialogContent={
             <EditMember
               onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
+              onFetchData={onFilterToQueryString}
               showLoading={showLoading}
               hideLoading={hideLoading}
               id={selectedItem}

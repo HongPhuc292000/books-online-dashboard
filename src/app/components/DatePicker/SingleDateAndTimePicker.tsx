@@ -27,7 +27,7 @@ export default function SingleDateAndTimePicker({
       <DateTimePicker
         label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
         value={formik.values[field]}
-        inputFormat="DD/MM/YYYY LT"
+        inputFormat="DD/MM/YYYY"
         disablePast={!!disablePast}
         onChange={(newValue) => {
           formik.setFieldValue(field, moment(newValue).format(), true);

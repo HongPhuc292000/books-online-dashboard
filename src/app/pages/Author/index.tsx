@@ -30,11 +30,11 @@ interface ListAuthorProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
   { name: "name" },
   { name: "yearOfBirth", align: "right" },
   { name: "yearPassed", align: "right" },
-  { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
+  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
@@ -195,7 +195,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
           dialogContent={
             <AddAuthor
               onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
+              onFetchData={onFilterToQueryString}
               showLoading={showLoading}
               hideLoading={hideLoading}
             />
@@ -209,7 +209,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
           dialogContent={
             <EditAuthor
               onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
+              onFetchData={onFilterToQueryString}
               showLoading={showLoading}
               hideLoading={hideLoading}
               id={selectedItem}

@@ -28,12 +28,12 @@ interface ListCustomersProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
   { name: "username" },
   { name: "fullname" },
   { name: "phoneNumber" },
   { name: "email" },
-  { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
+  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
@@ -186,7 +186,7 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
           dialogContent={
             <AddCustomer
               onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
+              onFetchData={onFilterToQueryString}
               showLoading={showLoading}
               hideLoading={hideLoading}
             />
@@ -200,7 +200,7 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
           dialogContent={
             <EditCustomer
               onCloseDialog={handleCloseDialog}
-              onFetchData={handleFetchData}
+              onFetchData={onFilterToQueryString}
               showLoading={showLoading}
               hideLoading={hideLoading}
               id={selectedItem}

@@ -1,14 +1,21 @@
 import {
   FormControlLabel,
   Grid,
+  InputAdornment,
   Paper,
   Switch,
   TextField,
 } from "@mui/material";
-import SquareMediaCard from "app/components/MediaCard/SquareMediaCard";
-import { memo } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import RoundMediaCard from "app/components/MediaCard/RoundMediaCard";
+import SelectMultipleItems from "app/components/SelectBox/SelectMultipleItems";
+import SelectSingleItem from "app/components/SelectBox/SelectSingleItem";
+import { useAppSelector } from "app/hooks";
+import { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageFileType } from "types";
+import { initTinyConfig } from "utils";
+import { selectBook } from "../slice/selector";
 
 interface CommonFieldsProps {
   image: ImageFileType;
@@ -18,12 +25,18 @@ interface CommonFieldsProps {
 
 const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
   const { t } = useTranslation();
+  const { listAuthors, listCategories } = useAppSelector(selectBook);
+  const changeFieldValue = useCallback((field: string, value: any) => {
+    formik.setFieldValue(field, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Paper elevation={3} sx={{ p: 3, mb: 2 }}>
         <Grid container spacing={2}>
           <Grid item>
-            <SquareMediaCard url={image.url} setImage={setImage} />
+            <RoundMediaCard url={image.url} setImage={setImage} />
           </Grid>
           <Grid item flex={1} container>
             <Grid item xs={4} container>
@@ -57,6 +70,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                   value={formik.values.bookCode}
                   onChange={formik.handleChange}
                   fullWidth
+                  disabled
                   sx={{ mb: 2 }}
                   label={`${t("book.bookCode")}*`}
                   error={formik.touched.bookCode && !!formik.errors.bookCode}
@@ -88,49 +102,36 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  id="authorId"
-                  name="authorId"
-                  value={formik.values.authorId}
-                  onChange={formik.handleChange}
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  label={t("book.author")}
-                  error={formik.touched.authorId && !!formik.errors.authorId}
-                  helperText={
-                    formik.touched.authorId &&
-                    t(formik.errors.authorId as string)
-                  }
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                <SelectSingleItem
+                  tableName="book"
+                  field="authorId"
+                  labelValue="author"
+                  allItems={listAuthors}
+                  selected={formik.values.authorId}
+                  setFieldValue={changeFieldValue}
                 />
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  id="categoryIds"
-                  name="categoryIds"
-                  value={formik.values.categoryIds}
-                  onChange={formik.handleChange}
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  label={t("book.categories")}
-                  error={
-                    formik.touched.categoryIds && !!formik.errors.categoryIds
-                  }
-                  helperText={
-                    formik.touched.categoryIds &&
-                    t(formik.errors.categoryIds as string)
-                  }
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                <SelectMultipleItems
+                  tableName="book"
+                  field="categoryIds"
+                  labelValue="categories"
+                  allItems={listCategories}
+                  selected={formik.values.categoryIds}
+                  setFieldValue={changeFieldValue}
                 />
               </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper elevation={3} sx={{ p: 3 }}>
+            <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   id="defaultPrice"
                   name="defaultPrice"
+                  type="number"
                   value={formik.values.defaultPrice}
                   onChange={formik.handleChange}
                   fullWidth
@@ -143,6 +144,16 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                     formik.touched.defaultPrice &&
                     t(formik.errors.defaultPrice as string)
                   }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">VND</InputAdornment>
+                    ),
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -152,7 +163,8 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                 <TextField
                   id="reducedPrice"
                   name="reducedPrice"
-                  value={formik.values.reducedPrice}
+                  type="number"
+                  value={formik.values.reducedPrice || ""}
                   onChange={formik.handleChange}
                   fullWidth
                   sx={{ mb: 2 }}
@@ -164,6 +176,16 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                     formik.touched.reducedPrice &&
                     t(formik.errors.reducedPrice as string)
                   }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">VND</InputAdornment>
+                    ),
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -173,15 +195,25 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                 <TextField
                   id="amount"
                   name="amount"
+                  type="number"
                   value={formik.values.amount}
                   onChange={formik.handleChange}
                   fullWidth
-                  sx={{ mb: 2 }}
                   label={t("commonTableHeader.amount")}
                   error={formik.touched.amount && !!formik.errors.amount}
                   helperText={
                     formik.touched.amount && t(formik.errors.amount as string)
                   }
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">VND</InputAdornment>
+                    ),
+                  }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -190,28 +222,12 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Paper elevation={3} sx={{ p: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  id="content"
-                  name="content"
-                  value={formik.values.content}
-                  onChange={formik.handleChange}
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  label={t("book.content")}
-                  error={formik.touched.content && !!formik.errors.content}
-                  helperText={
-                    formik.touched.content && t(formik.errors.content as string)
-                  }
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
+            <Editor
+              apiKey={process.env.REACT_APP_TINY_API_KEY}
+              init={initTinyConfig}
+            />
           </Paper>
         </Grid>
       </Grid>

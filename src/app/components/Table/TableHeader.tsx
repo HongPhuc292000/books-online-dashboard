@@ -6,10 +6,10 @@ import { TableHeaderLabel } from "../Label";
 export interface HeaderProps {
   name: string;
   minWidth?: number;
+  width?: number;
   isCommonLabel?: boolean;
   align?: "right" | "center" | "right";
   format?: (value: number) => string;
-  width?: number;
 }
 
 interface TableHeaderProps {
@@ -30,8 +30,8 @@ const TableHeader = memo(({ tableName, listHeaders }: TableHeaderProps) => {
             align={header.align}
             sx={{
               minWidth: header.minWidth,
-              backgroundColor: theme.palette.grey[300],
               width: header.width,
+              backgroundColor: theme.palette.grey[300],
               "&:last-child": {
                 borderTopRightRadius: 8,
               },

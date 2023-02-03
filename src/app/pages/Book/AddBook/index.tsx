@@ -1,16 +1,25 @@
-import { Box, Button, Grid, Paper } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
+import { withLoading } from "app/components/HOC/withLinearLoading";
 import PageTitle from "app/components/Label/PageTitle";
-import MainWrap from "app/components/Layouts/MainWrap";
 import { useAppDispatch } from "app/hooks";
+import { useLoading } from "app/hooks/useLoading";
+import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
+import moment from "moment";
 import { memo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { ImageFileType } from "types";
+import { AddEditBookRequest, ImageFileType } from "types";
+import { EnableEnum } from "types/enums";
 import { BookSchema, defaultValue } from "../components/bookSchema.data";
 import CommonFields from "../components/CommonFields";
+import { bookActions } from "../slice";
 
-const AddBook = memo(() => {
+interface AddBookProps {
+  setLoading: Function;
+}
+
+const AddBook = memo(({ setLoading }: AddBookProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [image, setImage] = useState<ImageFileType>({
@@ -18,29 +27,40 @@ const AddBook = memo(() => {
     url: "",
   });
   const navigate = useNavigate();
+  const { showLoading, hideLoading } = useLoading({ setLoading });
+  const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
 
-  const handleSubmit = (values: {}) => {
-    // onCloseDialog();
-    // showLoading();
-    // dispatch(
-    //   customerActions.addNewCustomer(
-    //     { formData: values, file: image.file },
-    //     (error) => {
-    //       if (error) {
-    //         hideLoading();
-    //         showErrorSnackbar(t(`customer.${error}`));
-    //       } else {
-    //         hideLoading();
-    //         showSuccessSnackbar(t(`customer.addSuccess`));
-    //         onFetchData({});
-    //       }
-    //     }
-    //   )
-    // );
+  const handleSubmit = (values: AddEditBookRequest) => {
+    showLoading();
+    dispatch(
+      bookActions.addNewBook(
+        {
+          formData: {
+            ...values,
+            status: values.status ? EnableEnum.ENABLE : EnableEnum.DISABLE,
+          },
+          file: image.file,
+        },
+        (error) => {
+          if (error) {
+            hideLoading();
+            showErrorSnackbar(t(`book.${error}`));
+          } else {
+            hideLoading();
+            showSuccessSnackbar(t(`book.addSuccess`));
+          }
+        }
+      )
+    );
+  };
+
+  const randomBookCode = () => {
+    const now = moment().unix();
+    return `BS${now}`;
   };
 
   const formik = useFormik({
-    initialValues: defaultValue,
+    initialValues: { ...defaultValue, bookCode: randomBookCode() },
     validationSchema: BookSchema,
     onSubmit: (values) => {
       handleSubmit(values);
@@ -48,11 +68,13 @@ const AddBook = memo(() => {
   });
 
   useEffect(() => {
-    const listAuthor = "";
+    dispatch(bookActions.getAllAuthors(() => {}));
+    dispatch(bookActions.getAllCategories(() => {}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <MainWrap>
+    <>
       <PageTitle title={t(`book.addNewBook`)} />
       <Box component="form" onSubmit={formik.handleSubmit}>
         <CommonFields image={image} setImage={setImage} formik={formik} />
@@ -76,8 +98,8 @@ const AddBook = memo(() => {
           </Button>
         </Grid>
       </Box>
-    </MainWrap>
+    </>
   );
 });
 
-export default AddBook;
+export default withLoading(AddBook);

@@ -33,5 +33,5 @@ export interface AddEditBookRequest {
   defaultPrice: number;
   reducedPrice?: number;
   bookCode: string;
-  status: EnableEnum;
+  status: EnableEnum | boolean;
 }

@@ -51,6 +51,7 @@ export const useFilter = ({
           {
             ...values,
             page: values.page > 0 ? values.page : 0,
+            size: values.page > 0 ? values.size : 10,
           },
           { arrayFormat: "bracket", skipNull: true, skipEmptyString: true }
         )}`,

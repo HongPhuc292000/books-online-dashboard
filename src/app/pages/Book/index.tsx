@@ -3,8 +3,10 @@ import ActionDialog from "app/components/ActionDialog";
 import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import { DeleteIconButton } from "app/components/Button";
 import AddIconButton from "app/components/Button/AddIconButton";
+import { DefaultEllipsisText } from "app/components/EllipsisText";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
 import { PageTitleContent, TableContentLabel } from "app/components/Label";
+import StatusLabel from "app/components/Label/StatusLabel";
 import MainWrap from "app/components/Layouts/MainWrap";
 import SearchBar from "app/components/SearchBar";
 import StickyHeadTable from "app/components/Table";
@@ -13,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Filter } from "types";
@@ -24,16 +26,16 @@ import { bookActions } from "./slice";
 import { selectBook } from "./slice/selector";
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, width: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
   { name: "name" },
   { name: "author" },
-  { name: "defaultPrice" },
-  { name: "reducedPrice" },
+  { name: "defaultPriceTableTitle" },
+  { name: "reducedPriceTableTitle" },
   { name: "view" },
   { name: "amount", isCommonLabel: true },
-  { name: "status", isCommonLabel: true },
-  { name: "categories" },
-  { name: "nothing", isCommonLabel: true, align: "right", width: 80 },
+  { name: "status", isCommonLabel: true, minWidth: 150, align: "center" },
+  { name: "categories", width: 150 },
+  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 interface ListBookProps {
@@ -139,14 +141,15 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
       <TableContentLabel>{item?.reducedPrice}</TableContentLabel>,
       <TableContentLabel>{item.view}</TableContentLabel>,
       <TableContentLabel>{item.amount}</TableContentLabel>,
-      <TableContentLabel>{item.status}</TableContentLabel>,
-      <TableContentLabel>{item.status}</TableContentLabel>,
+      <StatusLabel status={item.status} />,
+      <TableContentLabel>
+        <DefaultEllipsisText
+          width={150}
+          title={item.categoryIds.map((item) => item.name).join(", ")}
+        />
+      </TableContentLabel>,
       <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

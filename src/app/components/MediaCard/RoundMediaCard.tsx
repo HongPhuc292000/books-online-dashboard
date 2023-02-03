@@ -1,12 +1,20 @@
 import { Box, CardMedia, IconButton, styled } from "@mui/material";
 import FlipCameraIosIcon from "@mui/icons-material/FlipCameraIos";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { memo, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  memo,
+  useEffect,
+  useState,
+} from "react";
 import noImageImg from "assets/img/no-image.jpg";
 
 interface RoundMediaCardProps {
   url?: string;
   setImage: Function;
+  mb?: number;
 }
 
 const RoundActionIconButton = styled(IconButton)(() => ({
@@ -21,10 +29,17 @@ const RoundActionIconButton = styled(IconButton)(() => ({
   },
 }));
 
-const RoundMediaCard = memo(({ url, setImage }: RoundMediaCardProps) => {
+const RoundMediaCard = memo(({ url, setImage, mb }: RoundMediaCardProps) => {
   const [previewImage, setPreviewImage] = useState<string>();
   const [showSelectInput, setShowSelectInput] = useState<boolean>(false);
   const [hoverChange, setHoverChange] = useState<boolean>(false);
+
+  const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const imageUrl = URL.createObjectURL(event.target.files[0]);
+      setImage({ url: imageUrl, file: event.target.files[0] });
+    }
+  };
 
   const handleClearImage = () => {
     setImage({
@@ -42,7 +57,7 @@ const RoundMediaCard = memo(({ url, setImage }: RoundMediaCardProps) => {
       sx={{
         position: "relative",
         overflow: "hidden",
-        mb: 2,
+        mb: mb ? mb : 0,
       }}
       onMouseOver={() => {
         setShowSelectInput(true);
@@ -98,12 +113,7 @@ const RoundMediaCard = memo(({ url, setImage }: RoundMediaCardProps) => {
               zIndex: 1,
               opacity: 0,
             }}
-            onChange={(e) => {
-              if (e.target.files) {
-                const imageUrl = URL.createObjectURL(e.target.files[0]);
-                setImage({ url: imageUrl, file: e.target.files[0] });
-              }
-            }}
+            onChange={handleChangeImage}
             onMouseOver={() => {
               setHoverChange(true);
             }}
