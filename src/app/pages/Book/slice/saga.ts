@@ -7,6 +7,7 @@ import commonService from "services/common";
 import {
   AddEditBookRequest,
   Book,
+  DetailBook,
   Filter,
   Pageable,
   SelectItemType,
@@ -101,10 +102,67 @@ function* getAllCategories(action: PayloadAction<(error?: any) => void>) {
   }
 }
 
+function* getDetailBook(
+  action: PayloadAction<string, string, (error?: any) => void>
+) {
+  try {
+    const result: DetailBook = yield call(
+      bookService.getDetailBook,
+      action.payload
+    );
+    yield put(actions.getDetailBookSuccess(result));
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("getDetailFailure");
+    }
+  }
+}
+
+function* editBook(
+  action: PayloadAction<
+    {
+      id: string;
+      formData: AddEditBookRequest;
+      file: null | File;
+    },
+    string,
+    (error?: any) => void
+  >
+) {
+  try {
+    const { id, formData, file } = action.payload;
+    if (file) {
+      const newUrl: string = yield call(
+        commonService.uploadImage,
+        file,
+        "books"
+      );
+      yield call(bookService.editBook, id, {
+        ...formData,
+        imageUrl: newUrl,
+      });
+    } else {
+      yield call(bookService.editBook, id, formData);
+    }
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("editFailure");
+    }
+  }
+}
+
 export function* bookSaga() {
   yield takeLatest(actions.getAllBooks, getAllBooks);
   yield takeLatest(actions.deleteBook, deleteBook);
   yield takeLatest(actions.addNewBook, addNewBook);
   yield takeLatest(actions.getAllAuthors, getAllAuthors);
   yield takeLatest(actions.getAllCategories, getAllCategories);
+  yield takeLatest(actions.getDetailBook, getDetailBook);
+  yield takeLatest(actions.editBook, editBook);
 }

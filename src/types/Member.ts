@@ -13,8 +13,8 @@ export interface AddEditMemberRequest {
   fullname: string;
   email?: string;
   phoneNumber: string;
-  roles?: string[];
-  gender?: string;
+  roles: string[];
+  gender: string;
   birthday: string;
 }
 
@@ -26,7 +26,7 @@ export interface DetailMember {
   fullname: string;
   email?: string;
   phoneNumber: string;
-  roles?: string[];
-  gender?: string;
+  roles: string[];
+  gender: string;
   birthday: string;
 }

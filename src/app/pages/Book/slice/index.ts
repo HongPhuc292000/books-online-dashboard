@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AddEditBookRequest,
   Book,
+  DetailBook,
   Filter,
   Pageable,
   SelectItemType,
@@ -55,6 +56,28 @@ export const bookSlice = createSlice({
     },
     getAllCategoriesSuccess(state, action: PayloadAction<SelectItemType[]>) {
       state.listCategories = action.payload;
+    },
+    getDetailBook: {
+      reducer() {},
+      prepare(payload: string, meta: (error?: any) => void) {
+        return { payload, meta };
+      },
+    },
+    getDetailBookSuccess(state, action: PayloadAction<DetailBook | undefined>) {
+      state.detailBook = action.payload;
+    },
+    editBook: {
+      reducer() {},
+      prepare(
+        payload: {
+          id: string;
+          formData: AddEditBookRequest;
+          file: null | File;
+        },
+        meta: (error: any) => void
+      ) {
+        return { payload, meta };
+      },
     },
   },
 });

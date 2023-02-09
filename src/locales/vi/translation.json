@@ -91,10 +91,15 @@
   "auth": {
     "username": "Tên đăng nhập",
     "password": "Mật khẩu",
+    "editSuccess": "Cập nhật thông tin thành công",
+    "editFailure": "Cập nhật thông tin không thành công",
+    "loginSuccess": "Chào mừng bạn",
     "username_not_correct": "Tên tài khoản không chính xác",
     "password_not_correct": "Mật khẩu không chính xác",
-    "server_error": "Lỗi máy chủ",
-    "loginSuccess": "Chào mừng bạn"
+    "phone_exist": "Số điện thoại đã được sử dụng",
+    "email_exist": "Email đã được sử dụng",
+    "bad_request": "Yêu cầu không hợp lệ",
+    "server_error": "Lỗi máy chủ"
   },
   "commonTableHeader": {
     "serial": "STT",
@@ -127,6 +132,7 @@
     "getDetailFailure": "Lấy thông tin sách không thành công",
     "editSuccess": "Cập nhật thông tin sách thành công",
     "editFailure": "Cập nhật thông tin sách không thành công",
+    "name_exist": "Tên sách đã tồn tại",
     "server_error": "Lỗi máy chủ",
     "bad_request": "Yêu cầu không hợp lệ"
   },

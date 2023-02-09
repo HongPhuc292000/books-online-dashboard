@@ -1,25 +1,77 @@
-import { Box, Button, Grid, Paper } from "@mui/material";
-import MainWrap from "app/components/Layouts/MainWrap";
-import { memo, useState } from "react";
+import { Box, Button, Grid } from "@mui/material";
+import { memo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import PageTitle from "app/components/Label/PageTitle";
 import { useFormik } from "formik";
 import { BookSchema, defaultValue } from "../components/bookSchema.data";
 import CommonFields from "../components/CommonFields";
-import { ImageFileType } from "types";
-import { useNavigate } from "react-router-dom";
+import { AddEditBookRequest, ImageFileType } from "types";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { bookActions } from "../slice";
+import { useLoading } from "app/hooks/useLoading";
+import useToastMessage from "app/hooks/useToastMessage";
+import { withLoading } from "app/components/HOC/withLinearLoading";
+import { selectBook } from "../slice/selector";
+import { EnableEnum } from "types/enums";
 
-const EditBook = memo(() => {
+interface EditBookProps {
+  setLoading: Function;
+}
+
+const EditBook = memo(({ setLoading }: EditBookProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { detailBook } = useAppSelector(selectBook);
+  const { id } = useParams();
+  const { showLoading, hideLoading } = useLoading({ setLoading });
+  const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
   const [image, setImage] = useState<ImageFileType>({
     file: null,
     url: "",
   });
 
-  const handleSubmit = (values: {}) => {};
+  const handleSubmit = (values: AddEditBookRequest) => {
+    if (id) {
+      showLoading();
+      dispatch(
+        bookActions.editBook(
+          {
+            id,
+            formData: {
+              ...values,
+              status: values.status ? EnableEnum.ENABLE : EnableEnum.DISABLE,
+            },
+            file: image.file,
+          },
+          (error) => {
+            if (error) {
+              hideLoading();
+              showErrorSnackbar(t(`book.${error}`));
+            } else {
+              hideLoading();
+              showSuccessSnackbar(t(`book.editSuccess`));
+            }
+          }
+        )
+      );
+    }
+  };
 
-  const handleResetForm = () => {};
+  const handleGetDetailBook = () => {
+    if (id) {
+      showLoading();
+      dispatch(
+        bookActions.getDetailBook(id, (error) => {
+          if (error) {
+            showErrorSnackbar(t(`book.${error}`));
+          }
+          hideLoading();
+        })
+      );
+    }
+  };
 
   const formik = useFormik({
     initialValues: defaultValue,
@@ -29,8 +81,44 @@ const EditBook = memo(() => {
     },
   });
 
+  const handleResetForm = () => {
+    if (detailBook) {
+      formik.resetForm({
+        values: {
+          imageUrl: detailBook.imageUrl,
+          bookCode: detailBook.bookCode,
+          name: detailBook.name,
+          defaultPrice: detailBook.defaultPrice,
+          reducedPrice: detailBook.reducedPrice,
+          amount: detailBook.amount,
+          authorId: detailBook.authorId,
+          categoryIds: detailBook.categoryIds,
+          isFull: detailBook.isFull,
+          status: detailBook.status === EnableEnum.ENABLE,
+        },
+      });
+      setImage({ ...image, url: detailBook.imageUrl });
+    }
+  };
+
+  useEffect(() => {
+    dispatch(bookActions.getAllAuthors(() => {}));
+    dispatch(bookActions.getAllCategories(() => {}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    handleGetDetailBook();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
+    handleResetForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detailBook]);
+
   return (
-    <MainWrap>
+    <>
       <PageTitle title={t(`book.editBook`)} />
       <Box component="form" onSubmit={formik.handleSubmit}>
         <CommonFields image={image} setImage={setImage} formik={formik} />
@@ -57,8 +145,8 @@ const EditBook = memo(() => {
           </Button>
         </Grid>
       </Box>
-    </MainWrap>
+    </>
   );
 });
 
-export default EditBook;
+export default withLoading(EditBook);

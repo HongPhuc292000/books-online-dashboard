@@ -35,3 +35,18 @@ export interface AddEditBookRequest {
   bookCode: string;
   status: EnableEnum | boolean;
 }
+
+export interface DetailBook {
+  _id: string;
+  imageUrl: string;
+  name: string;
+  bookCode: string;
+  authorId: string;
+  view: number;
+  isFull: boolean;
+  amount: number;
+  categoryIds: string[];
+  defaultPrice: number;
+  reducedPrice?: number;
+  status: EnableEnum;
+}

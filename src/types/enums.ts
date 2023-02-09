@@ -37,3 +37,8 @@ export enum DiscountTypeEnum {
 export enum CommonKeyEnum {
   SELECT = "SELECT",
 }
+
+export enum SettingNavEnums {
+  PROFILE = "profile",
+  LOGOUT = "logout",
+}

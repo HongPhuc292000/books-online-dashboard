@@ -23,8 +23,8 @@ export const authSlice = createSlice({
     },
     getUserInfo: {
       reducer() {},
-      prepare(userId: string, meta: (error?: any) => void) {
-        return { payload: userId, meta };
+      prepare(userId: string) {
+        return { payload: userId };
       },
     },
     getUserInfoSuccess(state, action: PayloadAction<UserDetail>) {

@@ -29,7 +29,7 @@ const SearchBar = memo(
     }, [keyword]);
 
     return (
-      <Grid container>
+      <Grid container justifyContent={{ sm: "space-between", md: "start" }}>
         <TextField
           size="small"
           placeholder={`${placeholder ? placeholder : t("common.search")}`}
@@ -41,8 +41,8 @@ const SearchBar = memo(
             }
           }}
           sx={{
-            flex: { xs: 1, sm: "auto" },
-            minWidth: { lg: minWidth },
+            flex: { xs: 1, sm: 0 },
+            minWidth: { sm: minWidth },
           }}
         />
         <Button

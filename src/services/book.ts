@@ -26,6 +26,17 @@ const editBook = async (id: string, formValue: AddEditBookRequest) => {
   return response.data;
 };
 
-const bookService = { getAllBooks, deleteBook, addNewBook, editBook };
+const getDetailBook = async (id: string) => {
+  const response = await instanceWithToken.get(`v1/book/${id}`);
+  return response.data;
+};
+
+const bookService = {
+  getAllBooks,
+  deleteBook,
+  addNewBook,
+  editBook,
+  getDetailBook,
+};
 
 export default bookService;

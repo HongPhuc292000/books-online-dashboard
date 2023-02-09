@@ -91,10 +91,15 @@
   "auth": {
     "username": "",
     "password": "",
+    "editSuccess": "",
+    "editFailure": "",
+    "loginSuccess": "",
     "username_not_correct": "",
     "password_not_correct": "",
-    "loginSuccess": "",
-    "server_error": ""
+    "server_error": "",
+    "phone_exist": "",
+    "email_exist": "",
+    "bad_request": ""
   },
   "commonTableHeader": {
     "serial": "",
@@ -125,6 +130,7 @@
     "getDetailFailure": "",
     "editSuccess": "",
     "editFailure": "",
+    "name_exist": "",
     "server_error": "",
     "bad_request": ""
   },

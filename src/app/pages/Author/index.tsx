@@ -30,7 +30,7 @@ interface ListAuthorProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 80 },
   { name: "name" },
   { name: "yearOfBirth", align: "right" },
   { name: "yearPassed", align: "right" },
@@ -149,21 +149,21 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitleContent variant="h4">
-          {t(`author.listAuthor`)}
-        </PageTitleContent>
-        <Grid container justifyContent="space-between">
-          <Grid item xs={12} sm="auto">
-            <SearchBar
-              keyword={filter.searchKey}
-              onSearch={onSearch}
-              placeholder={t("author.searchPlaceholder")}
-            />
+        <Grid container justifyContent="space-between" mb={1}>
+          <Grid item>
+            <PageTitleContent variant="h4">
+              {t(`author.listAuthor`)}
+            </PageTitleContent>
           </Grid>
-          <Grid item sm="auto" container justifyContent="flex-end">
+          <Grid item justifyContent="flex-end">
             <AddIconButton onAddItem={handleShowDialog} />
           </Grid>
         </Grid>
+        <SearchBar
+          keyword={filter.searchKey}
+          onSearch={onSearch}
+          placeholder={t("author.searchPlaceholder")}
+        />
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}

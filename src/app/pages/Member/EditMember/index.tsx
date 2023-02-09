@@ -14,7 +14,7 @@ import { selectMember } from "../slice/selector";
 
 interface EditMemberProps {
   onCloseDialog: () => void;
-  onFetchData: (params: Filter) => void;
+  onFetchData?: (params: Filter) => void;
   showLoading: () => void;
   hideLoading: () => void;
   id?: string;
@@ -54,7 +54,9 @@ const EditMember = memo(
               } else {
                 hideLoading();
                 showSuccessSnackbar(t(`member.editSuccess`));
-                onFetchData({});
+                if (onFetchData) {
+                  onFetchData({});
+                }
               }
             }
           )

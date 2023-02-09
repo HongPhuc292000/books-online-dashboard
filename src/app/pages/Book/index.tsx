@@ -26,15 +26,15 @@ import { bookActions } from "./slice";
 import { selectBook } from "./slice/selector";
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 80 },
   { name: "name" },
   { name: "author" },
-  { name: "defaultPriceTableTitle" },
-  { name: "reducedPriceTableTitle" },
-  { name: "view" },
-  { name: "amount", isCommonLabel: true },
+  { name: "defaultPriceTableTitle", align: "right" },
+  { name: "reducedPriceTableTitle", align: "right" },
+  { name: "view", align: "right" },
+  { name: "amount", isCommonLabel: true, align: "right" },
   { name: "status", isCommonLabel: true, minWidth: 150, align: "center" },
-  { name: "categories", width: 150 },
+  { name: "categories" },
   { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
@@ -156,19 +156,21 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitleContent variant="h4">{t(`book.listBook`)}</PageTitleContent>
-        <Grid container justifyContent="space-between">
-          <Grid item xs={12} sm="auto">
-            <SearchBar
-              keyword={filter.searchKey}
-              onSearch={onSearch}
-              placeholder={t("book.searchPlaceholder")}
-            />
+        <Grid container justifyContent="space-between" mb={1}>
+          <Grid item>
+            <PageTitleContent variant="h4">
+              {t(`book.listBook`)}
+            </PageTitleContent>
           </Grid>
-          <Grid item sm="auto" container justifyContent="flex-end">
+          <Grid item justifyContent="flex-end">
             <AddIconButton onAddItem={handleAddBook} />
           </Grid>
         </Grid>
+        <SearchBar
+          keyword={filter.searchKey}
+          onSearch={onSearch}
+          placeholder={t("book.searchPlaceholder")}
+        />
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}

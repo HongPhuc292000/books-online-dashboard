@@ -52,7 +52,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                 onChange={formik.handleChange}
                 sx={{ mb: 2 }}
                 control={<Switch checked={formik.values.status} />}
-                label={t("commonTableHeader.status")}
+                label={t("common.enable")}
               />
             </Grid>
             <Grid item xs={4}></Grid>

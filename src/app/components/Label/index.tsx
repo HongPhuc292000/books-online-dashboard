@@ -13,7 +13,6 @@ const TableHeaderLabel = styled(Typography)(({ theme }) => ({
 
 const TableContentLabel = styled(Typography)(() => ({
   fontSize: 14,
-  display: "flex",
 }));
 
 export { PageTitleContent, TableHeaderLabel, TableContentLabel };

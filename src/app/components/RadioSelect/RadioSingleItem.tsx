@@ -15,7 +15,7 @@ interface RadioSingleItemProps {
   labelValue?: string;
   tableName?: string;
   isRow?: boolean;
-  selected: GenderEnum;
+  selected: string;
   setFieldValue: Function;
 }
 

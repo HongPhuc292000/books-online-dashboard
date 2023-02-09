@@ -32,6 +32,7 @@ export const defaultValue: AddEditMemberRequest = {
   password: "",
   fullname: "",
   phoneNumber: "",
+  email: "",
   birthday: "",
   roles: [],
   gender: GenderEnum.MALE,

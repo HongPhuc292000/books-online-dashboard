@@ -29,7 +29,7 @@ interface ListMembersProps {
 }
 
 const headers: HeaderProps[] = [
-  { name: "serial", align: "center", isCommonLabel: true, minWidth: 88 },
+  { name: "serial", align: "center", isCommonLabel: true, minWidth: 80 },
   { name: "username" },
   { name: "fullname" },
   { name: "phoneNumber" },
@@ -147,21 +147,21 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
-        <PageTitleContent variant="h4">
-          {t(`member.listMembers`)}
-        </PageTitleContent>
-        <Grid container justifyContent="space-between">
-          <Grid item xs={12} sm="auto">
-            <SearchBar
-              keyword={filter.searchKey}
-              onSearch={onSearch}
-              placeholder={t("member.searchPlaceholder")}
-            />
+        <Grid container justifyContent="space-between" mb={1}>
+          <Grid item>
+            <PageTitleContent variant="h4">
+              {t(`member.listMembers`)}
+            </PageTitleContent>
           </Grid>
-          <Grid item sm="auto" container justifyContent="flex-end">
+          <Grid item justifyContent="flex-end">
             <AddIconButton onAddItem={handleShowDialog} />
           </Grid>
         </Grid>
+        <SearchBar
+          keyword={filter.searchKey}
+          onSearch={onSearch}
+          placeholder={t("member.searchPlaceholder")}
+        />
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}

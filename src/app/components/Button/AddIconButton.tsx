@@ -15,8 +15,7 @@ const AddIconButton = memo(({ onAddItem }: AddIconButtonProps) => {
       variant="contained"
       color="secondary"
       sx={{
-        height: { sm: "100%" },
-        mt: { xs: 2, sm: 0 },
+        height: 40,
       }}
       onClick={() => {
         onAddItem(CommonDialogEnum.ADD);

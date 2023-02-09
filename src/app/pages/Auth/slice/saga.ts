@@ -5,12 +5,7 @@ import commonService from "services/common";
 import memberService from "services/user";
 import { LoginRequest, LoginResponse, UserDetail } from "types";
 import { CookiesEnum } from "types/enums";
-import {
-  decodeTokenGetId,
-  deleteCookie,
-  getCookies,
-  setCookie,
-} from "utils/cookies";
+import { deleteCookie, setCookie } from "utils/cookies";
 import { authActions as actions } from ".";
 
 function* login(
@@ -20,11 +15,6 @@ function* login(
     const result: LoginResponse = yield call(authService.login, action.payload);
     setCookie(CookiesEnum.AUTHTOKEN, result.accessToken);
     setCookie(CookiesEnum.REFRESHTOKEN, result.refreshToken);
-    const userInfo: UserDetail = yield call(
-      memberService.getDetailUser,
-      decodeTokenGetId(result.accessToken)
-    );
-    yield put(actions.getUserInfoSuccess(userInfo));
     action.meta();
   } catch (error: any) {
     action.meta(error.response.data);
@@ -42,18 +32,15 @@ function* logout(action: PayloadAction<(error?: any) => void>) {
   }
 }
 
-function* getUserInfo(
-  action: PayloadAction<string, string, (error?: any) => void>
-) {
+function* getUserInfo(action: PayloadAction<string>) {
   try {
     const userInfo: UserDetail = yield call(
       memberService.getDetailUser,
       action.payload
     );
     yield put(actions.getUserInfoSuccess(userInfo));
-    action.meta();
   } catch (error: any) {
-    action.meta(error.response.data);
+    console.log(error);
   }
 }
 
