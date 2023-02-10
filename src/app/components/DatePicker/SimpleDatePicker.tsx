@@ -29,7 +29,7 @@ export const SimpleDatePicker = ({
         <Stack>
           <MobileDatePicker
             label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
-            value={formik.values[field]}
+            value={formik.values[field] || ""}
             inputFormat="DD/MM/YYYY"
             disablePast={!!disablePast}
             onChange={(newValue) => {
@@ -59,7 +59,7 @@ export const SimpleDatePicker = ({
         <Stack>
           <DesktopDatePicker
             label={`${t(`${tableName}.${field}`)}${required ? "*" : ""}`}
-            value={formik.values[field]}
+            value={formik.values[field] || ""}
             inputFormat="DD/MM/YYYY"
             disablePast={!!disablePast}
             onChange={(newValue) => {

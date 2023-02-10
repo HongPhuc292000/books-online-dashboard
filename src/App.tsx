@@ -23,7 +23,6 @@ const timeCheckReset = 4 * 60 * 1000;
 function App() {
   const dispatch = useAppDispatch();
   const { showErrorSnackbar } = useToastMessage();
-
   const renewAccessToken = () => {
     dispatch(
       authActions.refreshToken((err) => {
