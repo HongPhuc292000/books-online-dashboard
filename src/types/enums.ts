@@ -42,3 +42,13 @@ export enum SettingNavEnums {
   PROFILE = "profile",
   LOGOUT = "logout",
 }
+
+export enum OrderStatusesEnum {
+  INCART = "INCART",
+  ORDERED = "ORDERED",
+  TRANSPORT = "TRANSPORT",
+  DELIVERING = "DELIVERING",
+  DONE = "DONE",
+  CANCEL = "CANCEL",
+  REPAY = "REPAY",
+}

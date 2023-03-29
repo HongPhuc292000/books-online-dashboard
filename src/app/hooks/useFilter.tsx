@@ -43,22 +43,25 @@ export const useFilter = ({
     // eslint-disable-next-line
   }, [searchLocation]);
 
-  const onFilterToQueryString = (values: any): void => {
-    navigate(
-      {
-        pathname: location.pathname,
-        search: `?${querystring.stringify(
-          {
-            ...values,
-            page: values.page > 0 ? values.page : 0,
-            size: values.page > 0 ? values.size : 10,
-          },
-          { arrayFormat: "bracket", skipNull: true, skipEmptyString: true }
-        )}`,
-      },
-      { replace: true }
-    );
-  };
+  const onFilterToQueryString = React.useCallback(
+    (values: any): void => {
+      navigate(
+        {
+          pathname: location.pathname,
+          search: `?${querystring.stringify(
+            {
+              ...values,
+              page: values.page > 0 ? values.page : 0,
+              size: values.size > 0 ? values.size : 10,
+            },
+            { arrayFormat: "bracket", skipNull: true, skipEmptyString: true }
+          )}`,
+        },
+        { replace: true }
+      );
+    },
+    [navigate, location]
+  );
 
   return { filter, onFilterToQueryString, setFilter };
 };

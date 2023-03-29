@@ -7,6 +7,7 @@ export * from "./Category";
 export * from "./Member";
 export * from "./Discount";
 export * from "./Customer";
+export * from "./Order";
 
 export * from "./Common";
 export * from "./Filter";

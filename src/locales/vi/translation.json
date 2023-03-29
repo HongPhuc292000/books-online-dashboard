@@ -59,6 +59,13 @@
     "CASH": "Tiền mặt",
     "ENABLE": "Hoạt động",
     "DISABLE": "Không hoạt động",
+    "INCART": "Đã thêm vào giỏ",
+    "ORDERED": "Đã đặt hàng",
+    "TRANSPORT": "Vận chuyển",
+    "DELIVERING": "Đang giao",
+    "DONE": "Hoàn thành",
+    "CANCEL": "Đã hủy",
+    "REPAY": "Trả hàng",
     "SUPER_ADMIN": "Tất cả quyền",
     "SHOW_LIST_MEMBER": "Xem danh sách thành viên",
     "ADD_MEMBER": "Thêm thành viên",
@@ -105,7 +112,8 @@
     "serial": "STT",
     "nothing": "",
     "amount": "Số lượng",
-    "status": "Trạng thái"
+    "status": "Trạng thái",
+    "createAt": "Ngày tạo"
   },
   "book": {
     "listBook": "Danh sách sách",
@@ -263,6 +271,9 @@
     "server_error": "Lỗi máy chủ"
   },
   "order": {
-    "listOrders": "Danh sách đơn hàng"
+    "listOrders": "Danh sách đơn hàng",
+    "customerName": "Tên khách hàng",
+    "orderStatus": "Trạng thái đơn hàng",
+    "totalPay": "Tổng thanh toán"
   }
 }

@@ -7,7 +7,6 @@ import {
   FormLabel,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { GenderEnum } from "types/enums";
 
 interface RadioSingleItemProps {
   allItems: string[];

@@ -105,7 +105,8 @@
     "serial": "",
     "nothing": "",
     "amount": "",
-    "status": ""
+    "status": "",
+    "createAt": ""
   },
   "book": {
     "listBook": "",
@@ -261,6 +262,9 @@
     "server_error": ""
   },
   "order": {
-    "listOrders": ""
+    "listOrders": "",
+    "customerName": "",
+    "orderStatus": "",
+    "totalPay": ""
   }
 }
