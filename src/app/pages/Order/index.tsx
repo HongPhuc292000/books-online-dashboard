@@ -15,6 +15,7 @@ import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Filter, Order } from "types";
 import { formatNomalDate } from "utils";
 import { orderActions } from "./slice";
@@ -37,6 +38,7 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { listOrders } = useAppSelector(selectOrder);
+  const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
 
@@ -91,6 +93,11 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleAddBook = useCallback(() => {
+    navigate("add");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
@@ -101,7 +108,7 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={() => {}} />
+            <AddIconButton onAddItem={handleAddBook} />
           </Grid>
         </Grid>
         <SearchBar

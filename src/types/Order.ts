@@ -20,3 +20,16 @@ export interface Order {
   totalPrices: number;
   createdAt: string;
 }
+
+interface Product {
+  productId: string;
+  amount: number;
+  reducedPrices: number;
+  defaultPrices: number;
+}
+
+export interface AddOrderRequest {
+  customerId: CustomerId;
+  customerName: string;
+  products: Product[];
+}

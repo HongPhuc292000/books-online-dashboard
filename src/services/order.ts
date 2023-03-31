@@ -7,6 +7,7 @@ import {
   Pageable,
   Filter,
   Order,
+  AddOrderRequest,
 } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
@@ -29,10 +30,10 @@ const getAllOrders = async (params: Filter): Promise<Pageable<Order>> => {
 //   return response.data;
 // };
 
-// const addNewAuthor = async (formValue: AddEditAuthorRequest) => {
-//   const response = await instanceWithToken.post("v1/author", formValue);
-//   return response.data;
-// };
+const addNewOrder = async (formValue: AddOrderRequest) => {
+  const response = await instanceWithToken.post("v1/order", formValue);
+  return response.data;
+};
 
 // const getDetailAuthor = async (id: string) => {
 //   const response = await instanceWithToken.get(`v1/author/${id}`);
@@ -46,6 +47,7 @@ const getAllOrders = async (params: Filter): Promise<Pageable<Order>> => {
 
 const orderService = {
   getAllOrders,
+  addNewOrder,
   // getAuthorToSelect,
   // deleteAuthor,
   // addNewAuthor,

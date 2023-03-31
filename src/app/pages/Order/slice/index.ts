@@ -2,6 +2,7 @@ import { OrderState } from "./types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AddEditAuthorRequest,
+  AddOrderRequest,
   Author,
   AuthorFilter,
   Filter,
@@ -30,15 +31,12 @@ export const orderSlice = createSlice({
     //     return { payload, meta };
     //   },
     // },
-    // addNewAuthor: {
-    //   reducer() {},
-    //   prepare(
-    //     payload: { formData: AddEditAuthorRequest; file: null | File },
-    //     meta: (error: any) => void
-    //   ) {
-    //     return { payload, meta };
-    //   },
-    // },
+    addNewOrder: {
+      reducer() {},
+      prepare(payload: AddOrderRequest, meta: (error: any) => void) {
+        return { payload, meta };
+      },
+    },
     // getDetailAuthor: {
     //   reducer() {},
     //   prepare(payload: string, meta: (error?: any) => void) {

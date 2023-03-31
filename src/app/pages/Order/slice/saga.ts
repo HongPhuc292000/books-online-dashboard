@@ -4,6 +4,7 @@ import authorService from "services/author";
 
 import {
   AddEditAuthorRequest,
+  AddOrderRequest,
   Author,
   AuthorFilter,
   Filter,
@@ -49,34 +50,20 @@ function* getAllOrders(
 //   }
 // }
 
-// function* addNewAuthor(
-//   action: PayloadAction<
-//     { formData: AddEditAuthorRequest; file: null | File },
-//     string,
-//     (error?: any) => void
-//   >
-// ) {
-//   try {
-//     const { file, formData } = action.payload;
-//     if (file) {
-//       const newUrl: string = yield call(
-//         commonService.uploadImage,
-//         file,
-//         "authors"
-//       );
-//       yield call(authorService.addNewAuthor, { ...formData, imageUrl: newUrl });
-//     } else {
-//       yield call(authorService.addNewAuthor, formData);
-//     }
-//     action.meta();
-//   } catch (error: any) {
-//     if (error.response.data) {
-//       action.meta(error.response.data);
-//     } else {
-//       action.meta("addFailure");
-//     }
-//   }
-// }
+function* addNewOrder(
+  action: PayloadAction<AddOrderRequest, string, (error?: any) => void>
+) {
+  try {
+    yield call(orderService.addNewOrder, action.payload);
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("addFailure");
+    }
+  }
+}
 
 // function* getDetailAuthor(
 //   action: PayloadAction<string, string, (error?: any) => void>
@@ -137,7 +124,7 @@ function* getAllOrders(
 export function* orderSaga() {
   yield takeLatest(actions.getAllOrders, getAllOrders);
   // yield takeLatest(actions.deleleAuthor, deleleAuthor);
-  // yield takeLatest(actions.addNewAuthor, addNewAuthor);
+  yield takeLatest(actions.addNewOrder, addNewOrder);
   // yield takeLatest(actions.getDetailAuthor, getDetailAuthor);
   // yield takeLatest(actions.editAuthor, editAuthor);
 }

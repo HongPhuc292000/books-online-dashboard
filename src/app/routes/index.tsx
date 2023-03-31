@@ -75,7 +75,20 @@ export default function Router() {
         },
         {
           path: path.order,
-          element: <ListOrders />,
+          children: [
+            {
+              path: path.inherit,
+              element: <ListOrders />,
+            },
+            {
+              path: path.add,
+              element: <AddBook />,
+            },
+            {
+              path: path.edit,
+              element: <EditBook />,
+            },
+          ],
         },
       ],
     },
