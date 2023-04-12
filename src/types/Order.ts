@@ -1,10 +1,5 @@
 import { OrderStatusesEnum } from "./enums";
 
-interface CustomerId {
-  _id: string;
-  name: string;
-}
-
 export interface SubOrder {
   productId: string;
   amount: number;
@@ -14,7 +9,7 @@ export interface SubOrder {
 
 export interface Order {
   _id: string;
-  customerId?: CustomerId;
+  customerId?: string;
   customerName?: string;
   status: OrderStatusesEnum;
   totalPrices: number;
@@ -29,7 +24,9 @@ interface Product {
 }
 
 export interface AddOrderRequest {
-  customerId: CustomerId;
+  customerId?: string;
   customerName: string;
   products: Product[];
+  phoneNumber: String;
+  status: OrderStatusesEnum;
 }

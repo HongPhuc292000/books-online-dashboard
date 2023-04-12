@@ -25,10 +25,10 @@ const getAllOrders = async (params: Filter): Promise<Pageable<Order>> => {
 //   return response.data;
 // };
 
-// const deleteAuthor = async (id: string) => {
-//   const response = await instanceWithToken.delete(`v1/author/${id}`);
-//   return response.data;
-// };
+const deleteOrder = async (id: string) => {
+  const response = await instanceWithToken.delete(`v1/order/${id}`);
+  return response.data;
+};
 
 const addNewOrder = async (formValue: AddOrderRequest) => {
   const response = await instanceWithToken.post("v1/order", formValue);
@@ -48,6 +48,7 @@ const addNewOrder = async (formValue: AddOrderRequest) => {
 const orderService = {
   getAllOrders,
   addNewOrder,
+  deleteOrder,
   // getAuthorToSelect,
   // deleteAuthor,
   // addNewAuthor,

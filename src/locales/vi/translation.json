@@ -274,6 +274,17 @@
     "listOrders": "Danh sách đơn hàng",
     "customerName": "Tên khách hàng",
     "orderStatus": "Trạng thái đơn hàng",
-    "totalPay": "Tổng thanh toán"
+    "totalPay": "Tổng thanh toán",
+    "addOrder": "Thêm đơn hàng mới",
+    "acceptDeleteOrder": "Bạn chắc chắn muốn xóa đơn hàng này?",
+    "getListFailure": "Lấy danh sách đơn hàng không thành công",
+    "deleteSuccess": "Xóa đơn hàng thành công",
+    "deleteFailure": "Xóa đơn hàng không thành công",
+    "addSuccess": "Thêm đơn hàng thành công",
+    "addFailure": "Thêm đơn hàng không thành công",
+    "editSuccess": "Cập nhật thông tin đơn hàng thành công",
+    "editFailure": "Cập nhật thông tin đơn hàng không thành công",
+    "bad_request": "Yêu cầu không hợp lệ",
+    "server_error": "Lỗi máy chủ"
   }
 }

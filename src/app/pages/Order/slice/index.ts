@@ -25,12 +25,12 @@ export const orderSlice = createSlice({
     getAllOrdersSuccess(state, action: PayloadAction<Pageable<Order>>) {
       state.listOrders = action.payload;
     },
-    // deleleAuthor: {
-    //   reducer() {},
-    //   prepare(payload: string, meta: (error: any) => void) {
-    //     return { payload, meta };
-    //   },
-    // },
+    deleleOrder: {
+      reducer() {},
+      prepare(id: string, meta: (error: any) => void) {
+        return { payload: id, meta };
+      },
+    },
     addNewOrder: {
       reducer() {},
       prepare(payload: AddOrderRequest, meta: (error: any) => void) {

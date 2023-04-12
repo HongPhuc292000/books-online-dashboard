@@ -35,20 +35,20 @@ function* getAllOrders(
   }
 }
 
-// function* deleleAuthor(
-//   action: PayloadAction<string, string, (error?: any) => void>
-// ) {
-//   try {
-//     yield call(authorService.deleteAuthor, action.payload);
-//     action.meta();
-//   } catch (error: any) {
-//     if (error.response.data) {
-//       action.meta(error.response.data);
-//     } else {
-//       action.meta("deleteFailure");
-//     }
-//   }
-// }
+function* deleleOrder(
+  action: PayloadAction<string, string, (error?: any) => void>
+) {
+  try {
+    yield call(orderService.deleteOrder, action.payload);
+    action.meta();
+  } catch (error: any) {
+    if (error.response.data) {
+      action.meta(error.response.data);
+    } else {
+      action.meta("deleteFailure");
+    }
+  }
+}
 
 function* addNewOrder(
   action: PayloadAction<AddOrderRequest, string, (error?: any) => void>
@@ -123,7 +123,7 @@ function* addNewOrder(
 
 export function* orderSaga() {
   yield takeLatest(actions.getAllOrders, getAllOrders);
-  // yield takeLatest(actions.deleleAuthor, deleleAuthor);
+  yield takeLatest(actions.deleleOrder, deleleOrder);
   yield takeLatest(actions.addNewOrder, addNewOrder);
   // yield takeLatest(actions.getDetailAuthor, getDetailAuthor);
   // yield takeLatest(actions.editAuthor, editAuthor);

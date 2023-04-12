@@ -13,13 +13,16 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Filter, Order } from "types";
 import { formatNomalDate } from "utils";
 import { orderActions } from "./slice";
 import { selectOrder } from "./slice/selector";
+import ActionDialog from "app/components/ActionDialog";
+import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
+import { CommonDialogEnum } from "types/enums";
 
 interface ListOrderProps {
   setLoading?: Function;
@@ -42,12 +45,46 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
 
+  const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
+  const [selectedItem, setSelectedItem] = useState<string>("");
+
+  const handleShowDialog = useCallback(
+    (action: string | undefined, id?: string) => {
+      if (id) {
+        setSelectedItem(id);
+      }
+      setShowdialog(action);
+    },
+    []
+  );
+
+  const handleDeleteOrder = () => {
+    setShowdialog(undefined);
+    showLoading();
+    dispatch(
+      orderActions.deleleOrder(selectedItem, (error) => {
+        if (error) {
+          hideLoading();
+          showErrorSnackbar(t(`order.${error}`));
+        } else {
+          hideLoading();
+          showSuccessSnackbar(t("order.deleteSuccess"));
+          handleFetchData({});
+        }
+      })
+    );
+  };
+
+  const handleCloseDialog = useCallback(() => {
+    setShowdialog(undefined);
+  }, []);
+
   const handleFetchData = (params: Filter) => {
     showLoading();
     dispatch(
       orderActions.getAllOrders(params, (error) => {
         if (error) {
-          showErrorSnackbar(t(`author.${error}`));
+          showErrorSnackbar(t(`order.${error}`));
         }
         hideLoading();
       })
@@ -82,13 +119,11 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
   const renderItem = useCallback((item: Order, index: number) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>
-        {item?.customerName || item?.customerId?.name}
-      </TableContentLabel>,
+      <TableContentLabel>{item?.customerName}</TableContentLabel>,
       <TableContentLabel>{item?.totalPrices}</TableContentLabel>,
       <StatusLabel status={item.status} />,
       <TableContentLabel>{formatNomalDate(item.createdAt)}</TableContentLabel>,
-      <DeleteIconButton onDelete={() => {}} id={item._id} />,
+      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -127,6 +162,19 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
           // onSelectRow={handleSelectRow}
+        />
+        <ActionDialog
+          title={t("common.acceptDelete")}
+          isOpen={showDialog === CommonDialogEnum.DELETE}
+          dialogContent={
+            <DeleteDialogContent
+              content={t("order.acceptDeleteOrder")}
+              onAcceptDelete={handleDeleteOrder}
+              onCancel={handleCloseDialog}
+            />
+          }
+          onCancel={handleCloseDialog}
+          maxWidth="xs"
         />
       </Paper>
     </MainWrap>
