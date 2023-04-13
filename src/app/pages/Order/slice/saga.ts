@@ -7,6 +7,7 @@ import {
   AddOrderRequest,
   Author,
   AuthorFilter,
+  BooksForSelect,
   Filter,
   Order,
   Pageable,
@@ -15,6 +16,7 @@ import {
 import commonService from "services/common";
 import { orderActions as actions } from ".";
 import orderService from "services/order";
+import bookService from "services/book";
 
 function* getAllOrders(
   action: PayloadAction<Filter, string, (error?: any) => void>
@@ -62,6 +64,17 @@ function* addNewOrder(
     } else {
       action.meta("addFailure");
     }
+  }
+}
+
+function* getAllBooksList() {
+  try {
+    const result: BooksForSelect[] = yield call(
+      bookService.getAllBooksForSelect
+    );
+    yield put(actions.getAllBooksListSuccess(result));
+  } catch (error: any) {
+    console.log(error);
   }
 }
 
@@ -125,6 +138,7 @@ export function* orderSaga() {
   yield takeLatest(actions.getAllOrders, getAllOrders);
   yield takeLatest(actions.deleleOrder, deleleOrder);
   yield takeLatest(actions.addNewOrder, addNewOrder);
+  yield takeLatest(actions.getAllBooksList, getAllBooksList);
   // yield takeLatest(actions.getDetailAuthor, getDetailAuthor);
   // yield takeLatest(actions.editAuthor, editAuthor);
 }

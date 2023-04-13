@@ -3,9 +3,28 @@ import { AddEditDiscountRequest, AddOrderRequest } from "types";
 import { DiscountTypeEnum, OrderStatusesEnum } from "types/enums";
 import * as Yup from "yup";
 
-export const DiscountSchema = Yup.object().shape({
+export const OrderSchema = Yup.object().shape({
   customerName: Yup.string().required("order.customerNameRequired"),
-  products: Yup.array().required("order.productsRequired"),
+  products: Yup.array()
+    .required("order.productsRequired")
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Name required"),
+        email: Yup.string()
+          .required("email required")
+          .email("Enter valid email"),
+      })
+    ),
+  product: Yup.array()
+    .required("order.productsRequired")
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Name required"),
+        email: Yup.string()
+          .required("email required")
+          .email("Enter valid email"),
+      })
+    ),
   phoneNumber: Yup.string()
     .test(
       "validate-phone-passed",

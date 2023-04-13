@@ -276,6 +276,7 @@
     "orderStatus": "Trạng thái đơn hàng",
     "totalPay": "Tổng thanh toán",
     "addOrder": "Thêm đơn hàng mới",
+    "searchProduct": "Tìm mã sản phẩm",
     "acceptDeleteOrder": "Bạn chắc chắn muốn xóa đơn hàng này?",
     "getListFailure": "Lấy danh sách đơn hàng không thành công",
     "deleteSuccess": "Xóa đơn hàng thành công",

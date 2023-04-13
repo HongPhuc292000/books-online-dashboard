@@ -22,6 +22,14 @@ export interface Book {
   status: EnableEnum;
 }
 
+export interface BooksForSelect {
+  _id: string;
+  name: string;
+  bookCode: string;
+  defaultPrice: number;
+  reducedPrice?: number;
+}
+
 export interface AddEditBookRequest {
   imageUrl?: string;
   name: string;

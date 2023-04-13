@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormControlLabel,
   Grid,
@@ -11,9 +12,14 @@ import {
   TextField,
 } from "@mui/material";
 import SingleDateAndTimePicker from "app/components/DatePicker/SingleDateAndTimePicker";
-import { memo } from "react";
+import FilterMultipleSelectBox from "app/components/SelectBox/FilterMultipleSelectBox";
+import { useAppSelector } from "app/hooks";
+import { memo, useCallback, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DiscountTypeEnum } from "types/enums";
+import { selectOrder } from "../slice/selector";
+import { BooksForSelect } from "types";
+import { omitFieldsNotUsingInObject } from "utils/arrayMethods";
 
 interface CommonFieldsProps {
   formik: any;
@@ -22,6 +28,32 @@ interface CommonFieldsProps {
 
 const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
   const { t } = useTranslation();
+  const { listBookForSelect } = useAppSelector(selectOrder);
+  const [selectedProducts, setSelectedProducts] = useState<BooksForSelect[]>(
+    []
+  );
+
+  const formProductsValue = formik?.values?.["products"];
+
+  const handleFilterBooks = useCallback(
+    (values: string[]) => {
+      const newSelectedProducts =
+        listBookForSelect?.filter((item) => {
+          return values.includes(item._id);
+        }) || [];
+      formik.setFieldValue(
+        "products",
+        omitFieldsNotUsingInObject(newSelectedProducts, ["amount"])
+      );
+      setSelectedProducts(newSelectedProducts);
+    },
+    [listBookForSelect]
+  );
+
+  const selectedStringBooks = useMemo(() => {
+    const listBooksId = selectedProducts.map((item) => item._id);
+    return listBooksId;
+  }, [selectedProducts]);
 
   return (
     <Paper elevation={3} sx={{ p: 3 }}>
@@ -71,6 +103,7 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
           />
         </Grid>
       </Grid>
+
       {/* <Grid container spacing={2}>
         <Grid item xs={6}>
           <TextField
@@ -133,14 +166,23 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
         </Grid>
       </Grid> */}
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          {formProductsValue &&
+            formProductsValue.map((item: BooksForSelect) => {
+              return <div>{item.name}</div>;
+            })}
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
         <Grid item xs={6}>
-          <SingleDateAndTimePicker
-            formik={formik}
-            field="exp"
-            tableName="discount"
-            required={true}
-            disablePast={true}
-            disabled={disabled}
+          <FilterMultipleSelectBox
+            tableName="order"
+            field="categoryIds"
+            labelValue="searchProduct"
+            allItems={listBookForSelect}
+            selected={selectedStringBooks}
+            handleFilter={handleFilterBooks}
+            showValueName="bookCode"
           />
         </Grid>
         <Grid item xs={6}>

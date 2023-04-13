@@ -5,6 +5,7 @@ import {
   AddOrderRequest,
   Author,
   AuthorFilter,
+  BooksForSelect,
   Filter,
   Order,
   Pageable,
@@ -36,6 +37,15 @@ export const orderSlice = createSlice({
       prepare(payload: AddOrderRequest, meta: (error: any) => void) {
         return { payload, meta };
       },
+    },
+    getAllBooksList: {
+      reducer() {},
+      prepare(payload: (error?: any) => void) {
+        return { payload };
+      },
+    },
+    getAllBooksListSuccess(state, action: PayloadAction<BooksForSelect[]>) {
+      state.listBookForSelect = action.payload;
     },
     // getDetailAuthor: {
     //   reducer() {},

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import RoundMediaCard from "app/components/MediaCard/RoundMediaCard";
-import SelectMultipleItems from "app/components/SelectBox/SelectMultipleItems";
+import FilterMultipleSelectBox from "app/components/SelectBox/FilterMultipleSelectBox";
 import SelectSingleItem from "app/components/SelectBox/SelectSingleItem";
 import { useAppSelector } from "app/hooks";
 import { memo, useCallback } from "react";
@@ -112,7 +112,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <SelectMultipleItems
+                <FilterMultipleSelectBox
                   tableName="book"
                   field="categoryIds"
                   labelValue="categories"

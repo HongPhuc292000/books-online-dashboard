@@ -1,13 +1,13 @@
 import { Box, Button, Grid } from "@mui/material";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { AddOrderRequest, Filter } from "types";
 
 import { orderActions } from "../slice";
-import { defaultValue, DiscountSchema } from "../components/orderSchema.data";
+import { defaultValue, OrderSchema } from "../components/orderSchema.data";
 import CommonFields from "../components/CommonFields";
 import { useLoading } from "app/hooks/useLoading";
 import { withLoading } from "app/components/HOC/withLinearLoading";
@@ -42,11 +42,15 @@ const AddOrder = memo(({ setLoading }: AddOrderProps) => {
 
   const formik = useFormik({
     initialValues: defaultValue,
-    validationSchema: DiscountSchema,
+    validationSchema: OrderSchema,
     onSubmit: (values) => {
       handleSubmit(values);
     },
   });
+
+  useEffect(() => {
+    dispatch(orderActions.getAllBooksList(() => {}));
+  }, []);
 
   return (
     <>
