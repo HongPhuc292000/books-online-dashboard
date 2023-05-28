@@ -13,21 +13,13 @@ interface CategoryInfo {
 export interface Book {
   _id: string;
   name: string;
-  authorId: AuthorInfo;
+  authorId?: AuthorInfo;
   view: number;
   amount: number;
   categoryIds: CategoryInfo[];
   defaultPrice: number;
   reducedPrice?: number;
   status: EnableEnum;
-}
-
-export interface BooksForSelect {
-  _id: string;
-  name: string;
-  bookCode: string;
-  defaultPrice: number;
-  reducedPrice?: number;
 }
 
 export interface AddEditBookRequest {

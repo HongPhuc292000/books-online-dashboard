@@ -3,6 +3,12 @@ export enum CookiesEnum {
   AUTHTOKEN = "auth_token",
 }
 
+export enum UpdateAmountEnum {
+  INCREASE = "INCREASE",
+  REDUCE = "REDUCE",
+  INSERT = "FULL",
+}
+
 export enum StatusEnum {
   HOT = "HOT",
   NEW = "NEW",
@@ -46,9 +52,13 @@ export enum SettingNavEnums {
 export enum OrderStatusesEnum {
   INCART = "INCART",
   ORDERED = "ORDERED",
-  TRANSPORT = "TRANSPORT",
   DELIVERING = "DELIVERING",
   DONE = "DONE",
   CANCEL = "CANCEL",
   REPAY = "REPAY",
+}
+
+export enum PaymentTypeEnum {
+  CASH = "CASH",
+  ONLINE = "ONLINE",
 }

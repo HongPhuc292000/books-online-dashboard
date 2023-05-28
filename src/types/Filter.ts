@@ -9,3 +9,9 @@ export interface Filter {
 export interface AuthorFilter extends Filter {
   forSelect?: CommonKeyEnum.SELECT;
 }
+
+export interface DiscountFilter extends Filter {
+  minDate?: number;
+  all?: boolean;
+  status?: boolean;
+}

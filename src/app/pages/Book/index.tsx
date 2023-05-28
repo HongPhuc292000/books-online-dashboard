@@ -136,7 +136,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
       <TableContentLabel>{item.name}</TableContentLabel>,
-      <TableContentLabel>{item.authorId.name}</TableContentLabel>,
+      <TableContentLabel>{item?.authorId?.name}</TableContentLabel>,
       <TableContentLabel>{item.defaultPrice}</TableContentLabel>,
       <TableContentLabel>{item?.reducedPrice}</TableContentLabel>,
       <TableContentLabel>{item.view}</TableContentLabel>,

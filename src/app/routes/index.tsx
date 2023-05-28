@@ -16,6 +16,7 @@ import ListOrders from "app/pages/Order";
 import AddBook from "app/pages/Book/AddBook";
 import EditBook from "app/pages/Book/EditBook";
 import AddOrder from "app/pages/Order/AddOrder";
+import EditOrder from "app/pages/Order/EditOrder";
 
 import path from "./path";
 
@@ -87,7 +88,7 @@ export default function Router() {
             },
             {
               path: path.edit,
-              element: <EditBook />,
+              element: <EditOrder />,
             },
           ],
         },

@@ -1,77 +1,81 @@
 import * as React from "react";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import { useTranslation } from "react-i18next";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
+import { SelectItemType } from "types";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 interface SelectMultipleItemProps {
-  tableName?: string;
-  field: string;
-  allItems?: any[];
+  label: string;
+  options?: SelectItemType[];
   selected: string[];
-  setFieldValue?: Function;
-  labelValue: string;
+  handleChangeFieldValue: Function;
+  field?: string;
   required?: boolean;
   showValueName?: string;
   handleFilter?: Function;
 }
 
-const FilterMultipleSelectBox = React.memo(
-  ({
-    tableName,
-    field,
-    allItems = [],
-    selected,
-    setFieldValue,
-    labelValue,
-    required,
-    showValueName,
-    handleFilter,
-  }: SelectMultipleItemProps) => {
-    const { t } = useTranslation();
+const SelectMultipleItems = ({
+  label,
+  options = [],
+  handleChangeFieldValue,
+  selected,
+  field,
+  required,
+}: SelectMultipleItemProps) => {
+  const viewLabel = required ? label + "*" : label;
 
-    const handleChange = (
-      event: React.SyntheticEvent<Element, Event>,
-      value: string[] | null
-    ) => {
-      if (setFieldValue) {
-        setFieldValue(field, value);
-      }
-      if (handleFilter) {
-        handleFilter(value);
-      }
-    };
+  const handleChange = (event: SelectChangeEvent<typeof selected>) => {
+    const {
+      target: { value },
+    } = event;
+    const selectedValue = typeof value === "string" ? value.split(",") : value;
+    field
+      ? handleChangeFieldValue(field, selectedValue)
+      : handleChangeFieldValue(selectedValue);
+  };
 
-    return (
-      <Autocomplete
-        fullWidth
+  return (
+    <FormControl fullWidth>
+      <InputLabel shrink>{viewLabel}</InputLabel>
+      <Select
         multiple
-        freeSolo
-        limitTags={1}
-        options={allItems.map((item) => item._id)}
-        getOptionLabel={(option) => {
-          const allOptionLabel = allItems.find((item) => item._id === option);
-          return showValueName
-            ? allOptionLabel?.[showValueName]
-            : allOptionLabel?.name || "";
-        }}
+        value={selected}
         onChange={handleChange}
-        value={selected || undefined}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={`${t(`${tableName}.${labelValue}`)}${required ? "*" : ""}`}
-            inputProps={{
-              ...params.inputProps,
-              placeholder: "",
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        )}
-      />
-    );
-  }
-);
+        input={<OutlinedInput notched label={viewLabel} />}
+        renderValue={(selected) => {
+          const renderValue = options
+            .filter((option) => selected.includes(option._id))
+            .map((option) => option.name);
 
-export default FilterMultipleSelectBox;
+          return renderValue.join(", ");
+        }}
+        MenuProps={MenuProps}
+      >
+        {options.map((option) => (
+          <MenuItem key={option._id} value={option._id}>
+            <Checkbox checked={selected.indexOf(option._id) > -1} />
+            <ListItemText primary={option.name} />
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
+
+export default React.memo(SelectMultipleItems);

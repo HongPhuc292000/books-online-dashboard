@@ -1,203 +1,339 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Box,
   FormControl,
-  FormControlLabel,
+  FormHelperText,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
-  MenuItem,
+  OutlinedInput,
   Paper,
-  Select,
-  Switch,
   TextField,
+  Typography,
 } from "@mui/material";
-import SingleDateAndTimePicker from "app/components/DatePicker/SingleDateAndTimePicker";
-import FilterMultipleSelectBox from "app/components/SelectBox/FilterMultipleSelectBox";
-import { useAppSelector } from "app/hooks";
-import { memo, useCallback, useState, useMemo } from "react";
+
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { debounce } from "lodash";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DiscountTypeEnum } from "types/enums";
+import { DetailBookByCode } from "types";
+import { DiscountTypeEnum, UpdateAmountEnum } from "types/enums";
+import { orderActions } from "../slice";
 import { selectOrder } from "../slice/selector";
-import { BooksForSelect } from "types";
-import { omitFieldsNotUsingInObject } from "utils/arrayMethods";
+import ProductAdded from "./ProductAdded";
+import { useParams } from "react-router-dom";
+import OrderSteps from "./OrderSteps";
 
 interface CommonFieldsProps {
   formik: any;
   disabled?: boolean;
+  isEdit?: boolean;
 }
 
-const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
-  const { t } = useTranslation();
-  const { listBookForSelect } = useAppSelector(selectOrder);
-  const [selectedProducts, setSelectedProducts] = useState<BooksForSelect[]>(
-    []
-  );
+const CommonFields = memo(
+  ({ formik, disabled = false, isEdit = false }: CommonFieldsProps) => {
+    const { t } = useTranslation();
+    const { detailCustomer, selectedDiscount, detailOrder } =
+      useAppSelector(selectOrder);
+    const dispatch = useAppDispatch();
 
-  const formProductsValue = formik?.values?.["products"];
+    const [bookCode, setBookCode] = useState<string>("");
+    const [selectedBooks, setSelectedBooks] = useState<DetailBookByCode[]>([]);
+    const [infoBookNote, setInfoBookNote] = useState<string>("");
 
-  const handleFilterBooks = useCallback(
-    (values: string[]) => {
-      const newSelectedProducts =
-        listBookForSelect?.filter((item) => {
-          return values.includes(item._id);
-        }) || [];
-      formik.setFieldValue(
-        "products",
-        omitFieldsNotUsingInObject(newSelectedProducts, ["amount"])
-      );
-      setSelectedProducts(newSelectedProducts);
-    },
-    [listBookForSelect]
-  );
+    const handleRemoveProduct = useCallback((id: string) => {
+      setSelectedBooks((prev) => prev.filter((item) => item.productId !== id));
+    }, []);
 
-  const selectedStringBooks = useMemo(() => {
-    const listBooksId = selectedProducts.map((item) => item._id);
-    return listBooksId;
-  }, [selectedProducts]);
+    const handleUpdateProductData = (productNeedUpdate: DetailBookByCode) => {
+      setSelectedBooks((prev) => {
+        return prev.map((item) => {
+          if (item.productId === productNeedUpdate.productId) {
+            return { ...item, ...productNeedUpdate };
+          } else {
+            return item;
+          }
+        });
+      });
+    };
 
-  return (
-    <Paper elevation={3} sx={{ p: 3 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <TextField
-            id="customerName"
-            name="customerName"
-            value={formik.values.customerName}
-            onChange={formik.handleChange}
-            fullWidth
-            sx={{ mb: 2 }}
-            label={`${t("order.customerName")}*`}
-            error={formik.touched.customerName && !!formik.errors.customerName}
-            helperText={
-              formik.touched.customerName &&
-              t(formik.errors.customerName as string)
-            }
-            InputLabelProps={{
-              shrink: true,
-            }}
-            disabled={disabled}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            id="phoneNumber"
-            name="phoneNumber"
-            value={formik.values.phoneNumber}
-            onChange={formik.handleChange}
-            fullWidth
-            onKeyPress={(event) => {
-              if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
+    // Update Amount In Product
+    const handleUpdateProductAmount = useCallback(
+      (id: string, type: UpdateAmountEnum, amount?: number) => {
+        const readOnlyProductNeedUpdate = selectedBooks.find(
+          (item) => item.productId === id
+        );
+        if (readOnlyProductNeedUpdate) {
+          const productNeedUpdate: DetailBookByCode = {
+            ...readOnlyProductNeedUpdate,
+          };
+          switch (type) {
+            case UpdateAmountEnum.INCREASE:
+              productNeedUpdate.amount = productNeedUpdate.amount + 1;
+              handleUpdateProductData(productNeedUpdate);
+              break;
+            case UpdateAmountEnum.REDUCE:
+              productNeedUpdate.amount = productNeedUpdate.amount - 1;
+              if (productNeedUpdate.amount < 1) {
+                setSelectedBooks((prev) =>
+                  prev.filter((item) => item.productId !== id)
+                );
+              } else {
+                handleUpdateProductData(productNeedUpdate);
               }
-            }}
-            sx={{ mb: 2 }}
-            label={`${t("member.phoneNumber")}*`}
-            error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
-            helperText={
-              formik.touched.phoneNumber &&
-              t(formik.errors.phoneNumber as string)
-            }
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-      </Grid>
+              break;
+            case UpdateAmountEnum.INSERT:
+              if (amount) {
+                productNeedUpdate.amount = amount;
+              } else {
+                productNeedUpdate.amount = 0;
+              }
+              handleUpdateProductData(productNeedUpdate);
+              break;
+            default:
+              break;
+          }
+        }
+      },
+      [selectedBooks]
+    );
 
-      {/* <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <TextField
-            label={`${t("discount.value")}*`}
-            id="value"
-            name="value"
-            type="number"
-            disabled={disabled}
-            value={formik.values.value}
-            onChange={formik.handleChange}
-            onKeyPress={(event) => {
-              if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
+    const handleSetInfoNote = (type?: string) => {
+      if (type) {
+        setInfoBookNote(t("order.bookInfoNote") || "");
+      } else {
+        setInfoBookNote("");
+      }
+    };
+
+    // Add New Book To Order
+    const handleAddBookToOrder = () => {
+      if (bookCode) {
+        const fullBookCode = "BS" + bookCode;
+        dispatch(
+          orderActions.getDetailBookByCode(fullBookCode, (result) => {
+            if (result) {
+              const existBook = selectedBooks.find(
+                (item) => item.bookCode === fullBookCode
+              );
+              if (existBook) {
+                handleUpdateProductAmount(
+                  existBook.productId,
+                  UpdateAmountEnum.INCREASE
+                );
+              } else {
+                setSelectedBooks((prev) => [...prev, result]);
               }
-            }}
-            fullWidth
-            sx={{ mb: 2 }}
-            error={formik.touched.value && !!formik.errors.value}
-            helperText={
-              formik.touched.value && t(formik.errors.value as string)
+            } else {
+              handleSetInfoNote("add");
             }
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {formik.values.type === DiscountTypeEnum.PERCENT
-                    ? "%"
-                    : "VND"}
-                </InputAdornment>
-              ),
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label={t("commonTableHeader.amount")}
-            id="amount"
-            name="amount"
-            type="number"
-            disabled={disabled}
-            value={formik.values.amount}
-            onChange={formik.handleChange}
-            onKeyPress={(event) => {
-              if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
+          })
+        );
+      }
+    };
+
+    const debounceSearchCustomer = useCallback(
+      debounce((phoneNumber) => {
+        if (phoneNumber.length === 10) {
+          dispatch(orderActions.getDetailCustomerByPhone(phoneNumber));
+        }
+      }, 500),
+      []
+    );
+
+    const handleChangePhoneNumber = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      formik.setFieldValue("customerPhoneNumber", e.target.value);
+      debounceSearchCustomer(e.target.value);
+    };
+
+    // Update Prices In Formik
+    const handleUpdatePrices = () => {
+      let totalOrderPrices = 0;
+      if (selectedBooks) {
+        selectedBooks.forEach((book) => {
+          const bookPrice = book.reducedPrice
+            ? book.reducedPrice
+            : book.defaultPrice;
+          totalOrderPrices += bookPrice * book.amount;
+        });
+      }
+      const orderDiscountPrices = (() => {
+        if (selectedDiscount) {
+          if (selectedDiscount.type === DiscountTypeEnum.CASH) {
+            return selectedDiscount.value;
+          } else {
+            return (totalOrderPrices * selectedDiscount.value) / 100;
+          }
+        } else {
+          return 0;
+        }
+      })();
+
+      const totalPrices =
+        orderDiscountPrices > totalOrderPrices
+          ? 0
+          : totalOrderPrices - orderDiscountPrices;
+      formik.setFieldValue("orderPrices", totalOrderPrices);
+      formik.setFieldValue("orderDiscountId", selectedDiscount?._id);
+      formik.setFieldValue("orderDiscountPrices", orderDiscountPrices);
+      formik.setFieldValue("totalPrices", totalPrices);
+    };
+
+    const handleUpdateProductsSubmit = () => {
+      formik.setFieldValue("products", selectedBooks);
+    };
+
+    const handleResetForm = () => {
+      if (detailOrder) {
+        setSelectedBooks([...detailOrder.products]);
+        if (detailOrder?.orderDiscountId) {
+          dispatch(
+            orderActions.resetSelectedDiscount(detailOrder.orderDiscountId)
+          );
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (detailCustomer) {
+        formik.setFieldValue("customerName", detailCustomer.fullname);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [detailCustomer]);
+
+    useEffect(() => {
+      handleUpdatePrices();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedBooks, selectedDiscount]);
+
+    useEffect(() => {
+      handleUpdateProductsSubmit();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedBooks]);
+
+    useEffect(() => {
+      if (isEdit) {
+        handleResetForm();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [detailOrder]);
+
+    useEffect(() => {
+      return () => {
+        dispatch(orderActions.setSelectedDiscount(undefined));
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+      <Paper elevation={3} sx={{ p: 3 }}>
+        {isEdit ? <OrderSteps formik={formik} /> : null}
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              id="customerPhoneNumber"
+              name="customerPhoneNumber"
+              value={formik.values.customerPhoneNumber}
+              onChange={handleChangePhoneNumber}
+              fullWidth
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
+              sx={{ mb: 2 }}
+              label={`${t("member.phoneNumber")}*`}
+              error={
+                formik.touched.customerPhoneNumber &&
+                !!formik.errors.customerPhoneNumber
               }
-            }}
-            fullWidth
-            sx={{ mb: 2 }}
-            error={formik.touched.amount && !!formik.errors.amount}
-            helperText={
-              formik.touched.amount && t(formik.errors.amount as string)
-            }
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+              helperText={
+                formik.touched.customerPhoneNumber &&
+                t(formik.errors.customerPhoneNumber as string)
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="customerName"
+              name="customerName"
+              value={formik.values.customerName}
+              onChange={formik.handleChange}
+              fullWidth
+              sx={{ mb: 2 }}
+              label={`${t("order.customerName")}*`}
+              error={
+                formik.touched.customerName && !!formik.errors.customerName
+              }
+              helperText={
+                formik.touched.customerName &&
+                t(formik.errors.customerName as string)
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              disabled={disabled}
+            />
+          </Grid>
         </Grid>
-      </Grid> */}
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {formProductsValue &&
-            formProductsValue.map((item: BooksForSelect) => {
-              return <div>{item.name}</div>;
-            })}
+        <Grid container spacing={2}>
+          <Grid item container xs={6}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel htmlFor="outlined-adornment-bookCode">
+                {t("book.bookCode")}
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-bookCode"
+                startAdornment={
+                  <InputAdornment position="start">BS</InputAdornment>
+                }
+                onChange={(e) => {
+                  handleSetInfoNote();
+                  setBookCode(e.target.value);
+                }}
+                value={bookCode}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      size="large"
+                      sx={{ marginRight: "-14px" }}
+                      onClick={handleAddBookToOrder}
+                    >
+                      <AddCircleIcon fontSize="inherit" />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label={t("book.bookCode")}
+              />
+              <FormHelperText id="outlined-bookCode-helper-text">
+                {infoBookNote}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <FilterMultipleSelectBox
-            tableName="order"
-            field="categoryIds"
-            labelValue="searchProduct"
-            allItems={listBookForSelect}
-            selected={selectedStringBooks}
-            handleFilter={handleFilterBooks}
-            showValueName="bookCode"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <FormControlLabel
-            name="enable"
-            disabled={disabled}
-            onChange={formik.handleChange}
-            sx={{ mb: 2 }}
-            control={<Switch checked={formik.values.enable} />}
-            label={t("common.enable")}
-          />
-        </Grid>
-      </Grid>
-    </Paper>
-  );
-});
+        <Box>
+          <Typography variant="body1">{t("order.listBooks")}</Typography>
+          {!!formik.errors.products ? (
+            <FormHelperText error>{t(formik.errors.products)}</FormHelperText>
+          ) : null}
+          {selectedBooks.map((book) => (
+            <ProductAdded
+              key={book.productId}
+              detailBook={book}
+              handleUpdateProductAmount={handleUpdateProductAmount}
+              handleRemoveProduct={handleRemoveProduct}
+            />
+          ))}
+        </Box>
+      </Paper>
+    );
+  }
+);
 
 export default CommonFields;

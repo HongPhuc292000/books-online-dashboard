@@ -35,20 +35,22 @@ const addNewOrder = async (formValue: AddOrderRequest) => {
   return response.data;
 };
 
-// const getDetailAuthor = async (id: string) => {
-//   const response = await instanceWithToken.get(`v1/author/${id}`);
-//   return response.data;
-// };
+const getDetailOrder = async (id: string) => {
+  const response = await instanceWithToken.get(`v1/order/${id}`);
+  return response.data;
+};
 
-// const editAuthor = async (id: string, formValue: AddEditAuthorRequest) => {
-//   const response = await instanceWithToken.put(`v1/author/${id}`, formValue);
-//   return response.data;
-// };
+const editOrder = async (id: string, formValue: AddOrderRequest) => {
+  const response = await instanceWithToken.put(`v1/order/${id}`, formValue);
+  return response.data;
+};
 
 const orderService = {
   getAllOrders,
   addNewOrder,
   deleteOrder,
+  getDetailOrder,
+  editOrder,
   // getAuthorToSelect,
   // deleteAuthor,
   // addNewAuthor,

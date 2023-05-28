@@ -50,7 +50,7 @@ const GreyLabel = styled(CommonStatusLabel)(() => ({
 }));
 const PrimaryTypes: string[] = [OrderStatusesEnum.INCART];
 
-const SuccessTypes: string[] = [EnableEnum.ENABLE];
+const SuccessTypes: string[] = [EnableEnum.ENABLE, OrderStatusesEnum.DONE];
 
 const InfoTypes: string[] = [OrderStatusesEnum.DELIVERING];
 
@@ -58,7 +58,7 @@ const ErrorTypes: string[] = [EnableEnum.DISABLE];
 
 const LightGreenTypes: string[] = [OrderStatusesEnum.ORDERED];
 
-const PurpleTypes: string[] = [OrderStatusesEnum.TRANSPORT];
+const PurpleTypes: string[] = [];
 
 const StatusLabel = ({ status }: StatusLabelProps) => {
   const { t } = useTranslation();

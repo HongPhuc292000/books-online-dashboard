@@ -5,49 +5,57 @@ import { useTranslation } from "react-i18next";
 import { SelectItemType } from "types";
 
 interface SelectSingleItemProps {
-  tableName: string;
+  label: string;
   field: string;
   allItems?: SelectItemType[];
   selected: string;
   setFieldValue: Function;
-  labelValue: string;
   required?: boolean;
 }
 
 const SelectSingleItem = React.memo(
   ({
-    tableName,
-    labelValue,
     field,
     allItems = [],
     selected,
     setFieldValue,
+    label,
     required = false,
   }: SelectSingleItemProps) => {
     const { t } = useTranslation();
 
     const handleChange = (
       event: SyntheticEvent<Element, Event>,
-      value: string | null
+      value: SelectItemType | string | null
     ) => {
-      setFieldValue(field, value);
+      if (!value) {
+        setFieldValue(field, null);
+      } else {
+        setFieldValue(field, typeof value === "string" ? value : value?._id);
+      }
     };
 
     return (
       <Stack spacing={2}>
         <Autocomplete
-          options={allItems.map((item) => item._id)}
+          options={allItems}
           freeSolo
           onChange={handleChange}
-          getOptionLabel={(option) => {
-            const allOptionLabel = allItems.find((item) => item._id === option);
-            return allOptionLabel?.name || "";
+          getOptionLabel={(option) =>
+            typeof option === "string" ? option : option.name
+          }
+          value={allItems.find((item) => item._id === selected) || null}
+          renderOption={(props, option) => {
+            return (
+              <li {...props} key={option._id}>
+                {option.name}
+              </li>
+            );
           }}
-          value={selected || null}
           renderInput={(params) => (
             <TextField
               {...params}
-              label={`${t(`${tableName}.${labelValue}`)}${required ? "*" : ""}`}
+              label={`${label}${required ? "*" : ""}`}
               inputProps={{
                 ...params.inputProps,
                 placeholder: "",

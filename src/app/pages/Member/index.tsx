@@ -193,7 +193,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           dialogContent={
             <AddMember
               onCloseDialog={handleCloseDialog}
-              onFetchData={onFilterToQueryString}
+              onFetchData={handleFetchData}
               showLoading={showLoading}
               hideLoading={hideLoading}
             />
@@ -207,7 +207,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
           dialogContent={
             <EditMember
               onCloseDialog={handleCloseDialog}
-              onFetchData={onFilterToQueryString}
+              onFetchData={handleFetchData}
               showLoading={showLoading}
               hideLoading={hideLoading}
               id={selectedItem}

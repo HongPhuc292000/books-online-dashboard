@@ -1,7 +1,18 @@
-import { BooksForSelect, Order, Pageable } from "types";
+import {
+  DetailCustomerGetByPhone,
+  DetailOrder,
+  Discount,
+  DiscountFilter,
+  Order,
+  Pageable,
+} from "types";
 
 /* --- STATE --- */
 export interface OrderState {
   listOrders?: Pageable<Order>;
-  listBookForSelect?: BooksForSelect[];
+  detailCustomer?: DetailCustomerGetByPhone;
+  listCodesForOrder?: Pageable<Discount>;
+  filterCode: DiscountFilter;
+  selectedDiscount?: Discount;
+  detailOrder?: DetailOrder;
 }

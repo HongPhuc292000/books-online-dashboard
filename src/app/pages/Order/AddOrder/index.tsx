@@ -13,6 +13,8 @@ import { useLoading } from "app/hooks/useLoading";
 import { withLoading } from "app/components/HOC/withLinearLoading";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "app/components/Label/PageTitle";
+import { drawerWidth } from "app/components/Sidebar";
+import SubmitGroupBtn from "../components/SubmitGroupBtn";
 
 interface AddOrderProps {
   setLoading: Function;
@@ -21,9 +23,9 @@ interface AddOrderProps {
 const AddOrder = memo(({ setLoading }: AddOrderProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
-  const navigate = useNavigate();
 
   const handleSubmit = (values: AddOrderRequest) => {
     showLoading();
@@ -35,6 +37,7 @@ const AddOrder = memo(({ setLoading }: AddOrderProps) => {
         } else {
           hideLoading();
           showSuccessSnackbar(t(`order.addSuccess`));
+          navigate(-1);
         }
       })
     );
@@ -48,34 +51,18 @@ const AddOrder = memo(({ setLoading }: AddOrderProps) => {
     },
   });
 
-  useEffect(() => {
-    dispatch(orderActions.getAllBooksList(() => {}));
-  }, []);
+  const { orderDiscountPrices, totalPrices, orderPrices } = formik.values;
 
   return (
     <>
       <PageTitle title={t(`order.addOrder`)} />
       <Box component="form" onSubmit={formik.handleSubmit}>
         <CommonFields formik={formik} />
-        <Grid container mt={4} justifyContent="flex-end">
-          <Button
-            variant="contained"
-            color="success"
-            type="submit"
-            sx={{ mr: 1 }}
-          >
-            {t("common.addNew")}
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            {t("common.cancel")}
-          </Button>
-        </Grid>
+        <SubmitGroupBtn
+          orderDiscountPrices={orderDiscountPrices}
+          orderPrices={orderPrices}
+          totalPrices={totalPrices}
+        />
       </Box>
     </>
   );

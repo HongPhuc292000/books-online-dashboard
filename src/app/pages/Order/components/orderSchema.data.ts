@@ -1,31 +1,11 @@
-import moment from "moment";
-import { AddEditDiscountRequest, AddOrderRequest } from "types";
-import { DiscountTypeEnum, OrderStatusesEnum } from "types/enums";
+import { AddOrderRequest } from "types";
+import { OrderStatusesEnum } from "types/enums";
 import * as Yup from "yup";
 
 export const OrderSchema = Yup.object().shape({
   customerName: Yup.string().required("order.customerNameRequired"),
-  products: Yup.array()
-    .required("order.productsRequired")
-    .of(
-      Yup.object().shape({
-        name: Yup.string().required("Name required"),
-        email: Yup.string()
-          .required("email required")
-          .email("Enter valid email"),
-      })
-    ),
-  product: Yup.array()
-    .required("order.productsRequired")
-    .of(
-      Yup.object().shape({
-        name: Yup.string().required("Name required"),
-        email: Yup.string()
-          .required("email required")
-          .email("Enter valid email"),
-      })
-    ),
-  phoneNumber: Yup.string()
+  products: Yup.array().min(1, "order.productsRequired"),
+  customerPhoneNumber: Yup.string()
     .test(
       "validate-phone-passed",
       "member.phoneNotValid",
@@ -39,6 +19,8 @@ export const OrderSchema = Yup.object().shape({
 export const defaultValue: AddOrderRequest = {
   customerName: "",
   products: [],
-  phoneNumber: "",
-  status: OrderStatusesEnum.INCART,
+  customerPhoneNumber: "",
+  orderPrices: 0,
+  totalPrices: 0,
+  status: OrderStatusesEnum.DONE,
 };

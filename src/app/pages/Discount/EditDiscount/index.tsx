@@ -70,6 +70,7 @@ const EditDiscount = memo(
           values: {
             code: detailDiscount.code,
             type: detailDiscount.type,
+            description: detailDiscount.description,
             value: detailDiscount.value,
             amount: detailDiscount.amount,
             exp: moment(detailDiscount.exp).toString(),

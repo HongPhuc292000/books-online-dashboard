@@ -195,7 +195,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
           dialogContent={
             <AddAuthor
               onCloseDialog={handleCloseDialog}
-              onFetchData={onFilterToQueryString}
+              onFetchData={handleFetchData}
               showLoading={showLoading}
               hideLoading={hideLoading}
             />
@@ -209,7 +209,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
           dialogContent={
             <EditAuthor
               onCloseDialog={handleCloseDialog}
-              onFetchData={onFilterToQueryString}
+              onFetchData={handleFetchData}
               showLoading={showLoading}
               hideLoading={hideLoading}
               id={selectedItem}

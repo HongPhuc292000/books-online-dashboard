@@ -23,10 +23,10 @@ function* login(
 
 function* logout(action: PayloadAction<(error?: any) => void>) {
   try {
-    yield call(authService.logout);
     deleteCookie(CookiesEnum.AUTHTOKEN);
     deleteCookie(CookiesEnum.REFRESHTOKEN);
     action.payload();
+    yield call(authService.logout);
   } catch {
     action.payload();
   }

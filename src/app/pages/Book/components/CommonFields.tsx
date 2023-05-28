@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import RoundMediaCard from "app/components/MediaCard/RoundMediaCard";
-import FilterMultipleSelectBox from "app/components/SelectBox/FilterMultipleSelectBox";
+import SelectMultipleItems from "app/components/SelectBox/FilterMultipleSelectBox";
 import SelectSingleItem from "app/components/SelectBox/SelectSingleItem";
 import { useAppSelector } from "app/hooks";
 import { memo, useCallback } from "react";
@@ -26,7 +26,7 @@ interface CommonFieldsProps {
 const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
   const { t } = useTranslation();
   const { listAuthors, listCategories } = useAppSelector(selectBook);
-  const changeFieldValue = useCallback((field: string, value: any) => {
+  const handleChangeFieldValue = useCallback((field: string, value: any) => {
     formik.setFieldValue(field, value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -103,22 +103,20 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
               </Grid>
               <Grid item xs={6}>
                 <SelectSingleItem
-                  tableName="book"
                   field="authorId"
-                  labelValue="author"
+                  label={t("book.author")}
                   allItems={listAuthors}
                   selected={formik.values.authorId}
-                  setFieldValue={changeFieldValue}
+                  setFieldValue={handleChangeFieldValue}
                 />
               </Grid>
               <Grid item xs={6}>
-                <FilterMultipleSelectBox
-                  tableName="book"
+                <SelectMultipleItems
+                  label={t("book.categories")}
                   field="categoryIds"
-                  labelValue="categories"
-                  allItems={listCategories}
+                  options={listCategories}
                   selected={formik.values.categoryIds}
-                  setFieldValue={changeFieldValue}
+                  handleChangeFieldValue={handleChangeFieldValue}
                 />
               </Grid>
             </Grid>

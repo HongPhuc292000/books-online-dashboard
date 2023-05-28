@@ -6,6 +6,7 @@ import * as Yup from "yup";
 export const DiscountSchema = Yup.object().shape({
   code: Yup.string().required("discount.codeRequired"),
   type: Yup.string().required("discount.typeRequired"),
+  description: Yup.string().required("discount.desRequired"),
   value: Yup.number()
     .min(1, "discount.valueMinRequired")
     .when("type", {
@@ -31,6 +32,7 @@ export const DiscountSchema = Yup.object().shape({
 export const defaultValue: AddEditDiscountRequest = {
   code: "",
   type: DiscountTypeEnum.PERCENT,
+  description: "",
   value: 0,
   amount: 0,
   exp: null,

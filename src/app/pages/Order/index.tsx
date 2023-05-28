@@ -116,6 +116,11 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
     []
   );
 
+  const handleSelectRow = useCallback((id: string) => {
+    navigate(`edit/${id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const renderItem = useCallback((item: Order, index: number) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
@@ -161,7 +166,7 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
           tableName="order"
           filter={filter}
           onFetchDataForPage={handleFetchDataForPage}
-          // onSelectRow={handleSelectRow}
+          onSelectRow={handleSelectRow}
         />
         <ActionDialog
           title={t("common.acceptDelete")}

@@ -68,11 +68,13 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
           <TextField
             id="username"
             name="username"
+            type="text"
             value={formik.values.username}
             onChange={formik.handleChange}
             fullWidth
+            autoComplete="off"
             sx={{ mb: 2 }}
-            label={`${t("member.username")}*`}
+            label={t("member.username")}
             error={formik.touched.username && !!formik.errors.username}
             helperText={
               formik.touched.username && t(formik.errors.username as string)
@@ -90,8 +92,11 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
             value={formik.values.password}
             onChange={formik.handleChange}
             fullWidth
+            inputProps={{
+              autoComplete: "off",
+            }}
             sx={{ mb: 2 }}
-            label={`${t("member.password")}*`}
+            label={t("member.password")}
             error={formik.touched.password && !!formik.errors.password}
             helperText={
               formik.touched.password && t(formik.errors.password as string)
@@ -126,7 +131,6 @@ const CommonFields = memo(({ formik, image, setImage }: CommonFieldsProps) => {
             formik={formik}
             field="birthday"
             tableName="member"
-            required={true}
           />
         </Grid>
       </Grid>

@@ -30,7 +30,7 @@ import { withLoading } from "../HOC/withLinearLoading";
 import ActionDialog from "../ActionDialog";
 import { authActions } from "app/pages/Auth/slice";
 
-const drawerWidth = 300;
+export const drawerWidth = 300;
 const settings = [SettingNavEnums.PROFILE, SettingNavEnums.LOGOUT];
 
 const Sidebar = React.memo(() => {
@@ -143,7 +143,7 @@ const Sidebar = React.memo(() => {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", md: "none" },
+            "display": { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -163,7 +163,7 @@ const Sidebar = React.memo(() => {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", md: "block" },
+            "display": { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,

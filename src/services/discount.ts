@@ -1,12 +1,17 @@
 import querystring from "query-string";
-import { Pageable, Discount, Filter, AddEditDiscountRequest } from "types";
+import {
+  Pageable,
+  Discount,
+  AddEditDiscountRequest,
+  DiscountFilter,
+} from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
 const instanceWithToken = createService(baseUrl);
 
 const getListDiscounts = async (
-  params: Filter
+  params: DiscountFilter
 ): Promise<Pageable<Discount>> => {
   const query = querystring.stringify(params);
   const response = await instanceWithToken.get(`v1/discount?${query}`);

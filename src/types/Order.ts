@@ -1,4 +1,4 @@
-import { OrderStatusesEnum } from "./enums";
+import { OrderStatusesEnum, PaymentTypeEnum } from "./enums";
 
 export interface SubOrder {
   productId: string;
@@ -16,17 +16,46 @@ export interface Order {
   createdAt: string;
 }
 
-interface Product {
-  productId: string;
-  amount: number;
-  reducedPrices: number;
-  defaultPrices: number;
+export interface AddOrderRequest {
+  customerName: string;
+  customerPhoneNumber: string;
+  products: DetailBookByCode[];
+  orderPrices: number;
+  orderDiscountId?: string;
+  orderDiscountPrices?: number;
+  totalPrices: number;
+  status: OrderStatusesEnum;
 }
 
-export interface AddOrderRequest {
-  customerId?: string;
+export interface DetailOrder {
+  customerId: string;
   customerName: string;
-  products: Product[];
-  phoneNumber: String;
+  customerPhoneNumber: string;
+  customerAdress?: string;
+  paymentType: PaymentTypeEnum;
+  products: DetailBookByCode[];
   status: OrderStatusesEnum;
+  orderPrices: number;
+  shipPrices?: number;
+  shipDiscountPrices?: number;
+  orderDiscountId?: string;
+  orderDiscountPrices: number;
+  totalPrices: number;
+  createdAt: string;
+  editAt: string;
+}
+
+export interface DetailCustomerGetByPhone {
+  _id: string;
+  fullname: string;
+}
+
+export interface DetailBookByCode {
+  productId: string;
+  bookCode: string;
+  imageUrl: string;
+  name: string;
+  amount: number;
+  defaultPrice: number;
+  reducedPrice: number;
 }

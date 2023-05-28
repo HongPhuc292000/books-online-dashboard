@@ -43,6 +43,28 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
           />
         </Grid>
         <Grid item xs={6}>
+          <TextField
+            id="description"
+            name="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            label={`${t("common.description")}*`}
+            error={formik.touched.description && !!formik.errors.description}
+            helperText={
+              formik.touched.description &&
+              t(formik.errors.description as string)
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+            disabled={disabled}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label" shrink>
               {`${t("discount.type")}*`}
@@ -65,8 +87,6 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
             </Select>
           </FormControl>
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
         <Grid item xs={6}>
           <TextField
             label={`${t("discount.value")}*`}
@@ -101,6 +121,8 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
             }}
           />
         </Grid>
+      </Grid>
+      <Grid container spacing={2}>
         <Grid item xs={6}>
           <TextField
             label={t("commonTableHeader.amount")}
@@ -126,8 +148,6 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
             }}
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
         <Grid item xs={6}>
           <SingleDateAndTimePicker
             formik={formik}
@@ -138,16 +158,15 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
             disabled={disabled}
           />
         </Grid>
-        <Grid item xs={6}>
-          <FormControlLabel
-            name="enable"
-            disabled={disabled}
-            onChange={formik.handleChange}
-            sx={{ mb: 2 }}
-            control={<Switch checked={formik.values.enable} />}
-            label={t("common.enable")}
-          />
-        </Grid>
+      </Grid>
+      <Grid container>
+        <FormControlLabel
+          name="enable"
+          disabled={disabled}
+          onChange={formik.handleChange}
+          control={<Switch checked={formik.values.enable} />}
+          label={t("common.enable")}
+        />
       </Grid>
     </>
   );

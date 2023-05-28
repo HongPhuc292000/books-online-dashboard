@@ -1,11 +1,5 @@
 import querystring from "query-string";
-import {
-  Book,
-  AddEditBookRequest,
-  Filter,
-  Pageable,
-  BooksForSelect,
-} from "types";
+import { Book, AddEditBookRequest, Filter, Pageable } from "types";
 import { baseUrl } from "utils/constants";
 import { createService } from "./axios";
 
@@ -37,18 +31,12 @@ const getDetailBook = async (id: string) => {
   return response.data;
 };
 
-const getAllBooksForSelect = async (): Promise<BooksForSelect> => {
-  const response = await instanceWithToken.get("v1/book/allBooksForOrder");
-  return response.data;
-};
-
 const bookService = {
   getAllBooks,
   deleteBook,
   addNewBook,
   editBook,
   getDetailBook,
-  getAllBooksForSelect,
 };
 
 export default bookService;
