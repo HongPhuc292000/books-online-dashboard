@@ -1,5 +1,4 @@
 import { Grid, Paper } from "@mui/material";
-import { DeleteIconButton } from "app/components/Button";
 import AddIconButton from "app/components/Button/AddIconButton";
 import { withLoading } from "app/components/HOC/withLoadingDataTable";
 import { PageTitleContent, TableContentLabel } from "app/components/Label";
@@ -13,16 +12,15 @@ import { useFilter } from "app/hooks/useFilter";
 import { useLoading } from "app/hooks/useLoading";
 import useToastMessage from "app/hooks/useToastMessage";
 import { debounce } from "lodash";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Filter, Order } from "types";
-import { formatNomalDate } from "utils";
+import { checkPermission, formatNomalDate, formatVND } from "utils";
 import { orderActions } from "./slice";
 import { selectOrder } from "./slice/selector";
-import ActionDialog from "app/components/ActionDialog";
-import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
-import { CommonDialogEnum } from "types/enums";
+import { RolesPermission } from "types/enums";
+import { selectAuth } from "../Auth/slice/selector";
 
 interface ListOrderProps {
   setLoading?: Function;
@@ -34,50 +32,52 @@ const headers: HeaderProps[] = [
   { name: "totalPay", align: "right" },
   { name: "orderStatus", align: "center" },
   { name: "createAt", isCommonLabel: true },
-  { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
+  // { name: "nothing", isCommonLabel: true, align: "right", minWidth: 80 },
 ];
 
 const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { listOrders } = useAppSelector(selectOrder);
+  const { me } = useAppSelector(selectAuth);
   const navigate = useNavigate();
   const { showLoading, hideLoading } = useLoading({ setLoading });
-  const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
+  const { showErrorSnackbar } = useToastMessage();
 
-  const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
-  const [selectedItem, setSelectedItem] = useState<string>("");
+  // const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
+  // const [selectedItem, setSelectedItem] = useState<string>("");
 
-  const handleShowDialog = useCallback(
-    (action: string | undefined, id?: string) => {
-      if (id) {
-        setSelectedItem(id);
-      }
-      setShowdialog(action);
-    },
-    []
-  );
+  // const handleShowDialog = useCallback(
+  //   (action: string | undefined, id?: string) => {
+  //     if (id) {
+  //       setSelectedItem(id);
+  //     }
+  //     setShowdialog(action);
+  //   },
+  //   []
+  // );
 
-  const handleDeleteOrder = () => {
-    setShowdialog(undefined);
-    showLoading();
-    dispatch(
-      orderActions.deleleOrder(selectedItem, (error) => {
-        if (error) {
-          hideLoading();
-          showErrorSnackbar(t(`order.${error}`));
-        } else {
-          hideLoading();
-          showSuccessSnackbar(t("order.deleteSuccess"));
-          handleFetchData({});
-        }
-      })
-    );
-  };
+  // Delete order now is disabled
+  // const handleDeleteOrder = () => {
+  //   setShowdialog(undefined);
+  //   showLoading();
+  //   dispatch(
+  //     orderActions.deleleOrder(selectedItem, (error) => {
+  //       if (error) {
+  //         hideLoading();
+  //         showErrorSnackbar(t(`order.${error}`));
+  //       } else {
+  //         hideLoading();
+  //         showSuccessSnackbar(t("order.deleteSuccess"));
+  //         handleFetchData({});
+  //       }
+  //     })
+  //   );
+  // };
 
-  const handleCloseDialog = useCallback(() => {
-    setShowdialog(undefined);
-  }, []);
+  // const handleCloseDialog = useCallback(() => {
+  //   setShowdialog(undefined);
+  // }, []);
 
   const handleFetchData = (params: Filter) => {
     showLoading();
@@ -125,10 +125,10 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
     return [
       <TableContentLabel>{index}</TableContentLabel>,
       <TableContentLabel>{item?.customerName}</TableContentLabel>,
-      <TableContentLabel>{item?.totalPrices}</TableContentLabel>,
+      <TableContentLabel>{formatVND(item?.totalPrices)}</TableContentLabel>,
       <StatusLabel status={item.status} />,
       <TableContentLabel>{formatNomalDate(item.createdAt)}</TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
+      // <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -148,7 +148,10 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleAddBook} />
+            <AddIconButton
+              onAddItem={handleAddBook}
+              permited={checkPermission(RolesPermission.ADD_ORDER, me?.roles)}
+            />
           </Grid>
         </Grid>
         <SearchBar
@@ -158,6 +161,7 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
         />
         <StickyHeadTable
           headers={headers}
+          permited={checkPermission(RolesPermission.EDIT_ORDER, me?.roles)}
           renderItem={renderItem}
           items={listOrders?.data}
           total={listOrders?.total}
@@ -168,7 +172,7 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
           onFetchDataForPage={handleFetchDataForPage}
           onSelectRow={handleSelectRow}
         />
-        <ActionDialog
+        {/* <ActionDialog
           title={t("common.acceptDelete")}
           isOpen={showDialog === CommonDialogEnum.DELETE}
           dialogContent={
@@ -180,7 +184,7 @@ const ListOrders = React.memo(({ setLoading }: ListOrderProps) => {
           }
           onCancel={handleCloseDialog}
           maxWidth="xs"
-        />
+        /> */}
       </Paper>
     </MainWrap>
   );

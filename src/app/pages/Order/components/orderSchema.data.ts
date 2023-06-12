@@ -23,4 +23,5 @@ export const defaultValue: AddOrderRequest = {
   orderPrices: 0,
   totalPrices: 0,
   status: OrderStatusesEnum.DONE,
+  checkout: true,
 };

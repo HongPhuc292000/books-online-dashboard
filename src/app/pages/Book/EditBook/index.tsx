@@ -91,9 +91,11 @@ const EditBook = memo(({ setLoading }: EditBookProps) => {
           defaultPrice: detailBook.defaultPrice,
           reducedPrice: detailBook.reducedPrice,
           amount: detailBook.amount,
-          authorId: detailBook.authorId,
-          categoryIds: detailBook.categoryIds,
-          isFull: detailBook.isFull,
+          authorId: detailBook.authorId._id,
+          categoryIds: detailBook?.categoryIds
+            ? detailBook.categoryIds.map((item) => item._id)
+            : [],
+          description: detailBook?.description,
           status: detailBook.status === EnableEnum.ENABLE,
         },
       });
@@ -104,6 +106,10 @@ const EditBook = memo(({ setLoading }: EditBookProps) => {
   useEffect(() => {
     dispatch(bookActions.getAllAuthors(() => {}));
     dispatch(bookActions.getAllCategories(() => {}));
+
+    return () => {
+      dispatch(bookActions.getDetailBookSuccess(undefined));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

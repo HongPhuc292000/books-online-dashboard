@@ -3,7 +3,7 @@ import * as Yup from "yup";
 
 export const BookSchema = Yup.object().shape({
   bookCode: Yup.string().required("common.usernameRequired"),
-  name: Yup.string().required("common.passwordRequired"),
+  name: Yup.string().required("book.nameRequired"),
   defaultPrice: Yup.number()
     .min(1, "discount.valueMinRequired")
     .required("discount.valueRequired"),
@@ -18,6 +18,5 @@ export const defaultValue: AddEditBookRequest = {
   amount: 0,
   authorId: "",
   categoryIds: [],
-  isFull: false,
   status: true,
 };

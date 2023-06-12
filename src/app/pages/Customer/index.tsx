@@ -17,11 +17,13 @@ import { debounce } from "lodash";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Customer, Filter } from "types";
-import { CommonDialogEnum } from "types/enums";
+import { CommonDialogEnum, RolesPermission } from "types/enums";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import { customerActions } from "./slice";
 import { selectCustomer } from "./slice/selector";
+import { selectAuth } from "../Auth/slice/selector";
+import { checkPermission } from "utils";
 
 interface ListCustomersProps {
   setLoading?: Function;
@@ -41,6 +43,7 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const dispatch = useAppDispatch();
   const { listCustomers } = useAppSelector(selectCustomer);
+  const { me } = useAppSelector(selectAuth);
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
 
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
@@ -125,17 +128,24 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
     );
   };
 
-  const renderItem = useCallback((item: Customer, index: number) => {
-    return [
-      <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.username}</TableContentLabel>,
-      <TableContentLabel>{item.fullname}</TableContentLabel>,
-      <TableContentLabel>{item.phoneNumber}</TableContentLabel>,
-      <TableContentLabel>{item.email}</TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
-    ];
+  const renderItem = useCallback(
+    (item: Customer, index: number) => {
+      return [
+        <TableContentLabel>{index}</TableContentLabel>,
+        <TableContentLabel>{item.username}</TableContentLabel>,
+        <TableContentLabel>{item.fullname}</TableContentLabel>,
+        <TableContentLabel>{item.phoneNumber}</TableContentLabel>,
+        <TableContentLabel>{item.email}</TableContentLabel>,
+        <DeleteIconButton
+          onDelete={handleShowDialog}
+          id={item._id}
+          permited={checkPermission(RolesPermission.DELETE_CUSTOMER, me?.roles)}
+        />,
+      ];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [me]
+  );
 
   return (
     <MainWrap>
@@ -147,7 +157,13 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleShowDialog} />
+            <AddIconButton
+              onAddItem={handleShowDialog}
+              permited={checkPermission(
+                RolesPermission.ADD_CUSTOMER,
+                me?.roles
+              )}
+            />
           </Grid>
         </Grid>
         <SearchBar
@@ -158,6 +174,7 @@ const ListCustomers = React.memo(({ setLoading }: ListCustomersProps) => {
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
+          permited={checkPermission(RolesPermission.EDIT_CUSTOMER, me?.roles)}
           items={listCustomers?.data}
           total={listCustomers?.total}
           pageResponse={listCustomers?.page}

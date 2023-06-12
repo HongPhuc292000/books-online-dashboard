@@ -6,24 +6,29 @@ import { CommonDialogEnum } from "types/enums";
 
 interface AddIconButtonProps {
   onAddItem: Function;
+  permited: boolean;
 }
 
-const AddIconButton = memo(({ onAddItem }: AddIconButtonProps) => {
+const AddIconButton = memo(({ onAddItem, permited }: AddIconButtonProps) => {
   const { t } = useTranslation();
   return (
-    <Button
-      variant="contained"
-      color="secondary"
-      sx={{
-        height: 40,
-      }}
-      onClick={() => {
-        onAddItem(CommonDialogEnum.ADD);
-      }}
-      endIcon={<AddCircleIcon />}
-    >
-      {t("common.addNew")}
-    </Button>
+    <>
+      {permited ? (
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
+            height: 40,
+          }}
+          onClick={() => {
+            onAddItem(CommonDialogEnum.ADD);
+          }}
+          endIcon={<AddCircleIcon />}
+        >
+          {t("common.addNew")}
+        </Button>
+      ) : null}
+    </>
   );
 });
 

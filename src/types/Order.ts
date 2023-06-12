@@ -25,13 +25,15 @@ export interface AddOrderRequest {
   orderDiscountPrices?: number;
   totalPrices: number;
   status: OrderStatusesEnum;
+  checkout: boolean;
 }
 
 export interface DetailOrder {
   customerId: string;
   customerName: string;
   customerPhoneNumber: string;
-  customerAdress?: string;
+  orderCode?: string;
+  customerAddress?: string;
   paymentType: PaymentTypeEnum;
   products: DetailBookByCode[];
   status: OrderStatusesEnum;
@@ -42,6 +44,7 @@ export interface DetailOrder {
   orderDiscountPrices: number;
   totalPrices: number;
   createdAt: string;
+  checkout: boolean;
   editAt: string;
 }
 

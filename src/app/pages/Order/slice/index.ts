@@ -105,28 +105,6 @@ export const orderSlice = createSlice({
         return { payload };
       },
     },
-    // getDetailAuthor: {
-    //   reducer() {},
-    //   prepare(payload: string, meta: (error?: any) => void) {
-    //     return { payload, meta };
-    //   },
-    // },
-    // getDetailAuthorSuccess(state, action: PayloadAction<Author | undefined>) {
-    //   state.detailAuthor = action.payload;
-    // },
-    // editAuthor: {
-    //   reducer() {},
-    //   prepare(
-    //     payload: {
-    //       id: string;
-    //       formData: AddEditAuthorRequest;
-    //       file: null | File;
-    //     },
-    //     meta: (error: any) => void
-    //   ) {
-    //     return { payload, meta };
-    //   },
-    // },
   },
 });
 

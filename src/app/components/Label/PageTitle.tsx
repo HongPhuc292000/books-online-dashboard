@@ -14,7 +14,7 @@ const PageTitle = ({ title }: PageTitleProps) => {
   };
 
   return (
-    <Grid container alignItems="center">
+    <Grid container alignItems="center" mt="-12px">
       <IconButton onClick={handleClick} sx={{ mb: 2 }}>
         <ArrowBackIcon />
       </IconButton>

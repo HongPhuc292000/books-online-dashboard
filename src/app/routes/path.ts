@@ -9,6 +9,7 @@ const path = {
   category: "category",
   discount: "discount",
   order: "order",
+  salesFigures: "salesFigures",
   inherit: "",
   edit: "edit/:id",
   add: "add",

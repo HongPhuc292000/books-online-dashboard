@@ -1,7 +1,7 @@
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import {
   Box,
   Button,
-  Chip,
   Grid,
   Radio,
   TextField,
@@ -9,16 +9,15 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import { memo, useState, useEffect, useCallback } from "react";
-import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectOrder } from "../slice/selector";
-import { Discount } from "types";
 import moment from "moment";
+import { memo, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Discount } from "types";
 import { DiscountTypeEnum } from "types/enums";
 import { formatVND } from "utils";
 import { initialState, orderActions } from "../slice";
+import { selectOrder } from "../slice/selector";
 
 const DiscountCodeContainer = styled(Box)(({ theme }) => ({
   maxHeight: "60vh",
@@ -139,6 +138,21 @@ const ApplyCodeDialog = memo(({ handleCloseDialog }: ApplyCodeDialogProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // <Grid container justifyContent="center" width="inherit">
+  //   <Chip
+  //     sx={{
+  //       "height": "auto",
+  //       "& .MuiChip-label": {
+  //         display: "block",
+  //         whiteSpace: "normal",
+  //       },
+  //     }}
+  //     label={t("order.notFoundDiscountCode")}
+  //     color="error"
+  //     variant="outlined"
+  //   />
+  // </Grid>
+
   return (
     <Box>
       <Grid container spacing={1} alignItems="center" mb={2}>
@@ -166,31 +180,16 @@ const ApplyCodeDialog = memo(({ handleCloseDialog }: ApplyCodeDialogProps) => {
         </Grid>
       </Grid>
       <DiscountCodeContainer>
-        {listCodesForOrder?.data?.length ? (
-          listCodesForOrder.data.map((code) => (
-            <DiscountCode
-              key={code._id}
-              handleToggleCodeTemp={handleToggleCodeTemp}
-              selectedCodeTemp={selectedCodeTemp}
-              codeDetail={code}
-            />
-          ))
-        ) : (
-          <Grid container justifyContent="center" width="inherit">
-            <Chip
-              sx={{
-                "height": "auto",
-                "& .MuiChip-label": {
-                  display: "block",
-                  whiteSpace: "normal",
-                },
-              }}
-              label={t("order.notFoundDiscountCode")}
-              color="error"
-              variant="outlined"
-            />
-          </Grid>
-        )}
+        {listCodesForOrder?.data?.length
+          ? listCodesForOrder.data.map((code) => (
+              <DiscountCode
+                key={code._id}
+                handleToggleCodeTemp={handleToggleCodeTemp}
+                selectedCodeTemp={selectedCodeTemp}
+                codeDetail={code}
+              />
+            ))
+          : null}
       </DiscountCodeContainer>
       <Box textAlign="center" mt={2}>
         <Button variant="outlined" onClick={handleToggleShowData}>

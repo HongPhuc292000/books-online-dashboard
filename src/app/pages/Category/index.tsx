@@ -15,13 +15,15 @@ import { debounce } from "lodash";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Category, Filter } from "types";
-import { CommonDialogEnum } from "types/enums";
+import { CommonDialogEnum, RolesPermission } from "types/enums";
 
 import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import AddIconButton from "app/components/Button/AddIconButton";
 import AddCategory from "./AddCategory";
 import { categoryActions } from "./slice";
 import { selectCategory } from "./slice/selector";
+import { selectAuth } from "../Auth/slice/selector";
+import { checkPermission } from "utils";
 
 interface ListCategoryProps {
   setLoading?: Function;
@@ -38,6 +40,7 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { listCategories } = useAppSelector(selectCategory);
+  const { me } = useAppSelector(selectAuth);
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showSuccessSnackbar, showErrorSnackbar } = useToastMessage();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
@@ -116,15 +119,22 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
     );
   };
 
-  const renderItem = useCallback((item: Category, index: number) => {
-    return [
-      <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.type}</TableContentLabel>,
-      <TableContentLabel>{item.name}</TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
-    ];
+  const renderItem = useCallback(
+    (item: Category, index: number) => {
+      return [
+        <TableContentLabel>{index}</TableContentLabel>,
+        <TableContentLabel>{item.type}</TableContentLabel>,
+        <TableContentLabel>{item.name}</TableContentLabel>,
+        <DeleteIconButton
+          onDelete={handleShowDialog}
+          id={item._id}
+          permited={checkPermission(RolesPermission.DELETE_CATEGORY, me?.roles)}
+        />,
+      ];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [me]
+  );
 
   useEffect(() => {
     return () => {
@@ -143,7 +153,13 @@ const ListCategories = memo(({ setLoading }: ListCategoryProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleShowDialog} />
+            <AddIconButton
+              onAddItem={handleShowDialog}
+              permited={checkPermission(
+                RolesPermission.ADD_CATEGORY,
+                me?.roles
+              )}
+            />
           </Grid>
         </Grid>
         <SearchBar

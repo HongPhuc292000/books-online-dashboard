@@ -1,22 +1,21 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
 import { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { AddOrderRequest, Filter } from "types";
+import { AddOrderRequest } from "types";
 
-import { orderActions } from "../slice";
-import { defaultValue, OrderSchema } from "../components/orderSchema.data";
-import CommonFields from "../components/CommonFields";
-import { useLoading } from "app/hooks/useLoading";
 import { withLoading } from "app/components/HOC/withLinearLoading";
-import { useNavigate, useParams } from "react-router-dom";
 import PageTitle from "app/components/Label/PageTitle";
-import { drawerWidth } from "app/components/Sidebar";
-import SubmitGroupBtn from "../components/SubmitGroupBtn";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useLoading } from "app/hooks/useLoading";
+import { useParams } from "react-router-dom";
+import CommonFields from "../components/CommonFields";
+import { defaultValue, OrderSchema } from "../components/orderSchema.data";
+import SubmitGroupBtn from "../components/SubmitGroupBtn";
+import { orderActions } from "../slice";
 import { selectOrder } from "../slice/selector";
+import { OrderStatusesEnum } from "types/enums";
 
 interface AddOrderProps {
   setLoading: Function;
@@ -47,17 +46,22 @@ const EditOrder = memo(({ setLoading }: AddOrderProps) => {
   const handleSubmit = (values: AddOrderRequest) => {
     if (id) {
       showLoading();
+      const doneCheckout =
+        values.status === OrderStatusesEnum.DONE ? true : values.checkout;
       dispatch(
-        orderActions.editOrder({ id: id, formData: values }, (error) => {
-          if (error) {
-            hideLoading();
-            showErrorSnackbar(t(`order.${error}`));
-          } else {
-            hideLoading();
-            showSuccessSnackbar(t("order.editSuccess"));
-            handleGetDetailOrder();
+        orderActions.editOrder(
+          { id: id, formData: { ...values, checkout: doneCheckout } },
+          (error) => {
+            if (error) {
+              hideLoading();
+              showErrorSnackbar(t(`order.${error}`));
+            } else {
+              hideLoading();
+              showSuccessSnackbar(t("order.editSuccess"));
+              handleGetDetailOrder();
+            }
           }
-        })
+        )
       );
     }
   };
@@ -84,6 +88,7 @@ const EditOrder = memo(({ setLoading }: AddOrderProps) => {
           orderDiscountPrices: detailOrder.orderDiscountPrices,
           totalPrices: detailOrder.totalPrices,
           status: detailOrder.status,
+          checkout: detailOrder.checkout,
         },
       });
     }
@@ -91,6 +96,9 @@ const EditOrder = memo(({ setLoading }: AddOrderProps) => {
 
   useEffect(() => {
     handleGetDetailOrder();
+    return () => {
+      dispatch(orderActions.getDetailOrderSuccess(undefined));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

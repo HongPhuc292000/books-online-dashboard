@@ -1,7 +1,6 @@
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import * as React from "react";
 import { SyntheticEvent } from "react";
-import { useTranslation } from "react-i18next";
 import { SelectItemType } from "types";
 
 interface SelectSingleItemProps {
@@ -22,8 +21,6 @@ const SelectSingleItem = React.memo(
     label,
     required = false,
   }: SelectSingleItemProps) => {
-    const { t } = useTranslation();
-
     const handleChange = (
       event: SyntheticEvent<Element, Event>,
       value: SelectItemType | string | null

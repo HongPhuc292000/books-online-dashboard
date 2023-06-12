@@ -12,17 +12,20 @@ interface ChangeAmountProductsProps {
     type: UpdateAmountEnum,
     amount?: number
   ) => void;
+  isEdit?: boolean;
 }
 
 const ChangeAmountProducts = ({
   amount,
   productId,
   handleUpdateProductAmount,
+  isEdit = false,
 }: ChangeAmountProductsProps) => {
   return (
     <Grid container alignItems="center">
       <Grid item>
         <IconButton
+          disabled={isEdit}
           onClick={() => {
             handleUpdateProductAmount(productId, UpdateAmountEnum.REDUCE);
           }}
@@ -36,6 +39,7 @@ const ChangeAmountProducts = ({
           size="small"
           variant="outlined"
           value={amount || ""}
+          disabled={isEdit}
           inputProps={{ style: { textAlign: "center" } }}
           onKeyPress={(event) => {
             if (!/[0-9]/.test(event.key)) {
@@ -62,6 +66,7 @@ const ChangeAmountProducts = ({
           onClick={() => {
             handleUpdateProductAmount(productId, UpdateAmountEnum.INCREASE);
           }}
+          disabled={isEdit}
         >
           <AddCircleIcon />
         </IconButton>

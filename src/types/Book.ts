@@ -12,6 +12,7 @@ interface CategoryInfo {
 
 export interface Book {
   _id: string;
+  imageUrl: string;
   name: string;
   authorId?: AuthorInfo;
   view: number;
@@ -26,13 +27,13 @@ export interface AddEditBookRequest {
   imageUrl?: string;
   name: string;
   authorId?: string;
-  isFull: boolean;
   amount?: number;
   categoryIds?: string[];
   content?: object;
   defaultPrice: number;
   reducedPrice?: number;
   bookCode: string;
+  description?: string;
   status: EnableEnum | boolean;
 }
 
@@ -41,12 +42,12 @@ export interface DetailBook {
   imageUrl: string;
   name: string;
   bookCode: string;
-  authorId: string;
+  authorId: AuthorInfo;
   view: number;
-  isFull: boolean;
   amount: number;
-  categoryIds: string[];
+  categoryIds?: CategoryInfo[];
   defaultPrice: number;
   reducedPrice?: number;
+  description?: string;
   status: EnableEnum;
 }

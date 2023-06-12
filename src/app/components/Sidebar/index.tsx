@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Avatar,
@@ -14,21 +14,22 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { appbarHeight } from "styles/constants";
 
-import { pages } from "./navConfig";
-import MainNav from "./Mainnav";
-import Logo from "../Logo";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { authActions } from "app/pages/Auth/slice";
 import { selectAuth } from "app/pages/Auth/slice/selector";
 import { useTranslation } from "react-i18next";
 import { CommonDialogEnum, SettingNavEnums } from "types/enums";
-import EditProfile from "./EditProfile";
-import { withLoading } from "../HOC/withLinearLoading";
+import { checkPermission } from "utils";
 import ActionDialog from "../ActionDialog";
-import { authActions } from "app/pages/Auth/slice";
+import { withLoading } from "../HOC/withLinearLoading";
+import Logo from "../Logo";
+import EditProfile from "./EditProfile";
+import MainNav from "./Mainnav";
+import { pages } from "./navConfig";
 
 export const drawerWidth = 300;
 const settings = [SettingNavEnums.PROFILE, SettingNavEnums.LOGOUT];
@@ -44,7 +45,6 @@ const Sidebar = React.memo(() => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -155,9 +155,17 @@ const Sidebar = React.memo(() => {
           </Toolbar>
           <Divider />
           <List>
-            {pages.map((page) => (
-              <MainNav key={page.title} page={page} />
-            ))}
+            {pages.map((page) => {
+              if (page.permission) {
+                if (checkPermission(page.permission, me?.roles)) {
+                  return <MainNav key={page.title} page={page} />;
+                } else {
+                  return null;
+                }
+              } else {
+                return <MainNav key={page.title} page={page} />;
+              }
+            })}
           </List>
         </Drawer>
         <Drawer
@@ -176,9 +184,17 @@ const Sidebar = React.memo(() => {
           </Toolbar>
           <Divider />
           <List>
-            {pages.map((page) => (
-              <MainNav key={page.title} page={page} />
-            ))}
+            {pages.map((page) => {
+              if (page.permission) {
+                if (checkPermission(page.permission, me?.roles)) {
+                  return <MainNav key={page.title} page={page} />;
+                } else {
+                  return null;
+                }
+              } else {
+                return <MainNav key={page.title} page={page} />;
+              }
+            })}
           </List>
         </Drawer>
       </Box>

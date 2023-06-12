@@ -16,7 +16,7 @@ const steps = [
 
 const StepsContainer = styled(Box)(({ theme }) => ({
   width: "100%",
-  padding: theme.spacing(4, 1, 6, 1),
+  padding: theme.spacing(2, 1, 5, 1),
 }));
 
 interface OrderStepsProps {
@@ -47,12 +47,15 @@ const OrderSteps = memo(({ formik }: OrderStepsProps) => {
     <StepsContainer>
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((value, index) => (
-          <Step key={value}>
+          <Step
+            key={value}
+            disabled={
+              detailOrder?.status &&
+              index < steps.findIndex((step) => detailOrder?.status === step)
+            }
+          >
             <StepButton
-              disabled={
-                detailOrder?.status &&
-                index < steps.findIndex((step) => detailOrder?.status === step)
-              }
+              sx={{ padding: 2 }}
               color="inherit"
               onClick={handleStep(index)}
             >

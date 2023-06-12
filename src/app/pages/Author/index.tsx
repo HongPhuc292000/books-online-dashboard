@@ -17,13 +17,15 @@ import { debounce } from "lodash";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Author, Filter } from "types";
-import { CommonDialogEnum } from "types/enums";
+import { CommonDialogEnum, RolesPermission } from "types/enums";
 import { formatNomalDate } from "utils/formatDate";
 
 import AddAuthor from "./AddAuthor";
 import EditAuthor from "./EditAuthor";
 import { authorActions } from "./slice";
 import { selectAuthor } from "./slice/selector";
+import { selectAuth } from "../Auth/slice/selector";
+import { checkPermission } from "utils";
 
 interface ListAuthorProps {
   setLoading?: Function;
@@ -41,6 +43,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { listAuthor } = useAppSelector(selectAuthor);
+  const { me } = useAppSelector(selectAuth);
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
 
@@ -126,18 +129,27 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
     }
   };
 
-  const renderItem = useCallback((item: Author, index: number) => {
-    return [
-      <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.name}</TableContentLabel>,
-      <TableContentLabel>
-        {formatNomalDate(item.yearOfBirth)}
-      </TableContentLabel>,
-      <TableContentLabel>{formatNomalDate(item.yearPassed)}</TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
-    ];
+  const renderItem = useCallback(
+    (item: Author, index: number) => {
+      return [
+        <TableContentLabel>{index}</TableContentLabel>,
+        <TableContentLabel>{item.name}</TableContentLabel>,
+        <TableContentLabel>
+          {formatNomalDate(item.yearOfBirth)}
+        </TableContentLabel>,
+        <TableContentLabel>
+          {formatNomalDate(item.yearPassed)}
+        </TableContentLabel>,
+        <DeleteIconButton
+          onDelete={handleShowDialog}
+          id={item._id}
+          permited={checkPermission(RolesPermission.DELETE_AUTHOR, me?.roles)}
+        />,
+      ];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [me]
+  );
 
   useEffect(() => {
     return () => {
@@ -156,7 +168,10 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleShowDialog} />
+            <AddIconButton
+              onAddItem={handleShowDialog}
+              permited={checkPermission(RolesPermission.ADD_AUTHOR, me?.roles)}
+            />
           </Grid>
         </Grid>
         <SearchBar
@@ -167,6 +182,7 @@ const ListAuthors = memo(({ setLoading }: ListAuthorProps) => {
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
+          permited={checkPermission(RolesPermission.EDIT_AUTHOR, me?.roles)}
           items={listAuthor?.data}
           total={listAuthor?.total}
           pageResponse={listAuthor?.page}

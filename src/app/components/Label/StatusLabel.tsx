@@ -1,7 +1,7 @@
 import { styled } from "@mui/material";
 import { isEmpty } from "lodash";
 import { useTranslation } from "react-i18next";
-import { EnableEnum, OrderStatusesEnum, StatusEnum } from "types/enums";
+import { EnableEnum, OrderStatusesEnum } from "types/enums";
 
 interface StatusLabelProps {
   status: string;

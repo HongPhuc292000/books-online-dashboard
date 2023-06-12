@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,14 +5,15 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import TableHeader, { HeaderProps } from "./TableHeader";
+import React, { memo, useEffect, useState } from "react";
 import { Filter } from "types";
-import { memo } from "react";
+import TableHeader, { HeaderProps } from "./TableHeader";
 
 interface StickyHeadTableProps {
   tableName: string;
   headers: HeaderProps[];
   renderItem: (item: any, index: number) => any[];
+  permited?: boolean;
   total?: number;
   items?: any[];
   pageResponse?: number;
@@ -28,6 +28,7 @@ const StickyHeadTable = memo(
     tableName,
     headers,
     renderItem,
+    permited = false,
     items = [],
     total = 0,
     pageResponse = 0,
@@ -67,7 +68,7 @@ const StickyHeadTable = memo(
 
     return (
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: 3 }}>
-        <TableContainer sx={{ overflowX: "auto", height: "60vh" }}>
+        <TableContainer sx={{ overflowX: "auto", height: "52vh" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHeader listHeaders={headers} tableName={tableName} />
             <TableBody>
@@ -82,7 +83,7 @@ const StickyHeadTable = memo(
                     hover
                     key={`item${index}`}
                     onClick={() => {
-                      if (onSelectRow) {
+                      if (onSelectRow && permited) {
                         onSelectRow(item._id);
                       }
                     }}

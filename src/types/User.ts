@@ -1,3 +1,5 @@
+import { RolesPermission } from "./enums";
+
 export interface UserDetail {
   _id: string;
   imageUrl?: string;
@@ -6,7 +8,7 @@ export interface UserDetail {
   fullname: string;
   email?: string;
   phoneNumber: string;
-  roles: string[];
+  roles: RolesPermission[];
   gender: string;
   birthday: string;
 }

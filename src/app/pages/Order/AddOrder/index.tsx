@@ -1,20 +1,19 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import useToastMessage from "app/hooks/useToastMessage";
 import { useFormik } from "formik";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { AddOrderRequest, Filter } from "types";
+import { AddOrderRequest } from "types";
 
-import { orderActions } from "../slice";
-import { defaultValue, OrderSchema } from "../components/orderSchema.data";
-import CommonFields from "../components/CommonFields";
-import { useLoading } from "app/hooks/useLoading";
 import { withLoading } from "app/components/HOC/withLinearLoading";
-import { useNavigate } from "react-router-dom";
 import PageTitle from "app/components/Label/PageTitle";
-import { drawerWidth } from "app/components/Sidebar";
+import { useLoading } from "app/hooks/useLoading";
+import { useNavigate } from "react-router-dom";
+import CommonFields from "../components/CommonFields";
+import { defaultValue, OrderSchema } from "../components/orderSchema.data";
 import SubmitGroupBtn from "../components/SubmitGroupBtn";
+import { orderActions } from "../slice";
 
 interface AddOrderProps {
   setLoading: Function;

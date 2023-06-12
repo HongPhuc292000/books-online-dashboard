@@ -17,12 +17,18 @@ import { debounce } from "lodash";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Discount, Filter } from "types";
-import { CommonDialogEnum, DiscountTypeEnum } from "types/enums";
+import {
+  CommonDialogEnum,
+  DiscountTypeEnum,
+  RolesPermission,
+} from "types/enums";
 import AddDiscount from "./AddDiscount";
 import EditDiscount from "./EditDiscount";
 
 import { discountActions } from "./slice";
 import { selectDiscount } from "./slice/selector";
+import { checkPermission, formatVND } from "utils";
+import { selectAuth } from "../Auth/slice/selector";
 
 interface ListMembersProps {
   setLoading?: Function;
@@ -41,6 +47,7 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { listDiscounts } = useAppSelector(selectDiscount);
+  const { me } = useAppSelector(selectAuth);
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
@@ -89,9 +96,9 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
 
   const handleConvertDiscountValue = (value: number, type: string) => {
     if (type && type === DiscountTypeEnum.CASH) {
-      return `${value}(VND)`;
+      return formatVND(value);
     } else {
-      return `${value}(%)`;
+      return `${value} %`;
     }
   };
 
@@ -133,19 +140,26 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
     []
   );
 
-  const renderItem = useCallback((item: Discount, index: number) => {
-    return [
-      <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.code}</TableContentLabel>,
-      <TableContentLabel>
-        {handleConvertDiscountValue(item.value, item.type)}
-      </TableContentLabel>,
-      <TableContentLabel>{item.amount}</TableContentLabel>,
-      <TableContentLabel>{item.used}</TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
-    ];
+  const renderItem = useCallback(
+    (item: Discount, index: number) => {
+      return [
+        <TableContentLabel>{index}</TableContentLabel>,
+        <TableContentLabel>{item.code}</TableContentLabel>,
+        <TableContentLabel>
+          {handleConvertDiscountValue(item.value, item.type)}
+        </TableContentLabel>,
+        <TableContentLabel>{item.amount}</TableContentLabel>,
+        <TableContentLabel>{item.used}</TableContentLabel>,
+        <DeleteIconButton
+          onDelete={handleShowDialog}
+          id={item._id}
+          permited={checkPermission(RolesPermission.DELETE_DISCOUNT, me?.roles)}
+        />,
+      ];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [me]
+  );
 
   return (
     <MainWrap>
@@ -157,7 +171,13 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleShowDialog} />
+            <AddIconButton
+              onAddItem={handleShowDialog}
+              permited={checkPermission(
+                RolesPermission.ADD_DISCOUNT,
+                me?.roles
+              )}
+            />
           </Grid>
         </Grid>
         <SearchBar
@@ -168,6 +188,7 @@ const ListDiscounts = React.memo(({ setLoading }: ListMembersProps) => {
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
+          permited={checkPermission(RolesPermission.EDIT_DISCOUNT, me?.roles)}
           items={listDiscounts?.data}
           total={listDiscounts?.total}
           pageResponse={listDiscounts?.page}

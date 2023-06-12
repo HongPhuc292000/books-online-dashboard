@@ -41,7 +41,8 @@
     "description":"Mô tả",
     "showmore": "Xem thêm",
     "hideaway": "Thu gọn",
-    "back": "Trở lại"
+    "back": "Trở lại",
+    "deleteDenied": "Bạn chưa có quyền xóa bản ghi này"
   },
   "sidebar": {
     "home": "Trang chủ",
@@ -51,7 +52,8 @@
     "manageAuthors": "Quản lý tác giả",
     "manageCategories": "Quản lý thể loại",
     "manageOrders": "Quản lý đơn hàng",
-    "manageDiscounts": "Quản lý mã giảm giá"
+    "manageDiscounts": "Quản lý mã giảm giá",
+    "saleFigures": "Doanh số bán hàng"
   },
   "enums": {
     "ALL": "Tất cả",
@@ -126,14 +128,15 @@
     "name": "Tên sách",
     "categories": "Thể loại",
     "author": "Tác giả",
-    "defaultPriceTableTitle": "Giá niêm yết(VND)",
-    "reducedPriceTableTitle": "Giá đã giảm(VND)",
+    "defaultPriceTableTitle": "Giá niêm yết",
+    "reducedPriceTableTitle": "Giá đã giảm",
     "defaultPrice": "Giá niêm yết",
     "reducedPrice": "Giá đã giảm",
     "view": "Lượt xem",
     "bookCode": "Mã sách",
     "isFull": "Đủ nội dung",
     "content": "Nội dung",
+    "nameRequired": "Tên sách không được để trống",
     "getListFailure": "Lấy danh sách sách không thành công",
     "acceptDeleteBook": "Bạn chắc chắn muốn xóa sách này?",
     "deleteSuccess": "Xóa sách thành công",
@@ -293,6 +296,9 @@
     "selectCoupon": "Chọn mã giảm giá",
     "notSelectedCoupon": "Chưa chọn mã",
     "selectedCoupon": "Đã chọn mã",
+    "orderCode": "Mã đơn hàng: {{orderCode}}",
+    "receiveAddress": "Địa chỉ nhận hàng: {{receiveAddress}}",
+    "checkedOut": "Đã thanh toán",
     "saleForOrder": "Giảm {{value}} cho đơn hàng",
     "notFoundDiscountCode": "Rất tiếc! Không tìm thấy mã này, bạn vui lòng kiểm tra lại mã đang nhập hoặc có thể mã đã hết hạn sử dụng.",
     "acceptDeleteOrder": "Bạn chắc chắn muốn xóa đơn hàng này?",

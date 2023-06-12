@@ -19,7 +19,6 @@ import customerService from "services/customer";
 import orderService from "services/order";
 import { orderActions as actions } from ".";
 import discountService from "services/discount";
-import moment from "moment";
 
 function* getAllOrders(
   action: PayloadAction<Filter, string, (error?: any) => void>
@@ -161,43 +160,6 @@ function* resetSelectedDiscount(action: PayloadAction<string>) {
     console.log(error);
   }
 }
-
-// function* editAuthor(
-//   action: PayloadAction<
-//     {
-//       id: string;
-//       formData: AddEditAuthorRequest;
-//       file: null | File;
-//       beforeImage?: string;
-//     },
-//     string,
-//     (error?: any) => void
-//   >
-// ) {
-//   try {
-//     const { id, formData, file } = action.payload;
-//     if (file) {
-//       const newUrl: string = yield call(
-//         commonService.uploadImage,
-//         file,
-//         "authors"
-//       );
-//       yield call(authorService.editAuthor, id, {
-//         ...formData,
-//         imageUrl: newUrl,
-//       });
-//     } else {
-//       yield call(authorService.editAuthor, id, formData);
-//     }
-//     action.meta();
-//   } catch (error: any) {
-//     if (error.response.data) {
-//       action.meta(error.response.data);
-//     } else {
-//       action.meta("addFailure");
-//     }
-//   }
-// }
 
 export function* orderSaga() {
   yield takeLatest(actions.getAllOrders, getAllOrders);

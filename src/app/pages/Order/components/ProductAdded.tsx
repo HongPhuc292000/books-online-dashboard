@@ -33,12 +33,14 @@ interface ProductAddedProps {
     amount?: number
   ) => void;
   handleRemoveProduct: (id: string) => void;
+  isEdit?: boolean;
 }
 
 const ProductAdded = ({
   detailBook,
   handleUpdateProductAmount,
   handleRemoveProduct,
+  isEdit = false,
 }: ProductAddedProps) => {
   const {
     productId,
@@ -90,6 +92,7 @@ const ProductAdded = ({
           productId={productId}
           amount={amount}
           handleUpdateProductAmount={handleUpdateProductAmount}
+          isEdit={isEdit}
         />
       </Grid>
       <Grid item xs={2} textAlign="center">
@@ -105,6 +108,7 @@ const ProductAdded = ({
           onClick={() => {
             handleRemoveProduct(productId);
           }}
+          disabled={isEdit}
         >
           <DisabledByDefaultIcon />
         </IconButton>

@@ -33,20 +33,13 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
 
   return (
     <>
-      <Paper elevation={3} sx={{ p: 3, mb: 2 }}>
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Grid container spacing={2}>
           <Grid item>
             <RoundMediaCard url={image.url} setImage={setImage} />
           </Grid>
           <Grid item flex={1} container>
             <Grid item xs={4} container>
-              <FormControlLabel
-                name="isFull"
-                onChange={formik.handleChange}
-                sx={{ mb: 2 }}
-                control={<Switch checked={formik.values.isFull} />}
-                label={t("book.isFull")}
-              />
               <FormControlLabel
                 name="status"
                 onChange={formik.handleChange}
@@ -61,7 +54,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
       </Paper>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
@@ -123,7 +116,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
           </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
@@ -221,10 +214,14 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 2 }}>
             <Editor
               apiKey={process.env.REACT_APP_TINY_API_KEY}
               init={initTinyConfig}
+              onEditorChange={(stringifiedHtmlValue) => {
+                formik.setFieldValue("description", stringifiedHtmlValue);
+              }}
+              value={formik.values?.description}
             />
           </Paper>
         </Grid>

@@ -41,7 +41,8 @@
     "description":"",
     "showmore": "",
     "hideaway": "",
-    "back": ""
+    "back": "",
+    "deleteDenied": ""
   },
   "sidebar": {
     "home": "",

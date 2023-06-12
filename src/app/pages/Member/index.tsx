@@ -17,12 +17,14 @@ import { debounce } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Filter, Member } from "types";
-import { CommonDialogEnum } from "types/enums";
+import { CommonDialogEnum, RolesPermission } from "types/enums";
 import AddMember from "./AddMember";
 import EditMember from "./EditMember";
 
 import { memberActions } from "./slice";
 import { selectMember } from "./slice/selector";
+import { checkPermission } from "utils";
+import { selectAuth } from "../Auth/slice/selector";
 
 interface ListMembersProps {
   setLoading?: Function;
@@ -41,6 +43,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { listMembers } = useAppSelector(selectMember);
+  const { me } = useAppSelector(selectAuth);
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
@@ -125,17 +128,24 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
     [filter]
   );
 
-  const renderItem = useCallback((item: Member, index: number) => {
-    return [
-      <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.username}</TableContentLabel>,
-      <TableContentLabel>{item.fullname}</TableContentLabel>,
-      <TableContentLabel>{item.phoneNumber}</TableContentLabel>,
-      <TableContentLabel>{item.email}</TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
-    ];
+  const renderItem = useCallback(
+    (item: Member, index: number) => {
+      return [
+        <TableContentLabel>{index}</TableContentLabel>,
+        <TableContentLabel>{item.username}</TableContentLabel>,
+        <TableContentLabel>{item.fullname}</TableContentLabel>,
+        <TableContentLabel>{item.phoneNumber}</TableContentLabel>,
+        <TableContentLabel>{item.email}</TableContentLabel>,
+        <DeleteIconButton
+          onDelete={handleShowDialog}
+          id={item._id}
+          permited={checkPermission(RolesPermission.DELETE_MEMBER, me?.roles)}
+        />,
+      ];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [me]
+  );
 
   useEffect(() => {
     return () => {
@@ -154,7 +164,10 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleShowDialog} />
+            <AddIconButton
+              onAddItem={handleShowDialog}
+              permited={checkPermission(RolesPermission.ADD_MEMBER, me?.roles)}
+            />
           </Grid>
         </Grid>
         <SearchBar
@@ -165,6 +178,7 @@ const ListMembers = React.memo(({ setLoading }: ListMembersProps) => {
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
+          permited={checkPermission(RolesPermission.EDIT_MEMBER, me?.roles)}
           items={listMembers?.data}
           total={listMembers?.total}
           pageResponse={listMembers?.page}

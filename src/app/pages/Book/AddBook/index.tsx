@@ -32,28 +32,27 @@ const AddBook = memo(({ setLoading }: AddBookProps) => {
 
   const handleSubmit = (values: AddEditBookRequest) => {
     showLoading();
-    console.log(values);
-
-    // dispatch(
-    //   bookActions.addNewBook(
-    //     {
-    //       formData: {
-    //         ...values,
-    //         status: values.status ? EnableEnum.ENABLE : EnableEnum.DISABLE,
-    //       },
-    //       file: image.file,
-    //     },
-    //     (error) => {
-    //       if (error) {
-    //         hideLoading();
-    //         showErrorSnackbar(t(`book.${error}`));
-    //       } else {
-    //         hideLoading();
-    //         showSuccessSnackbar(t(`book.addSuccess`));
-    //       }
-    //     }
-    //   )
-    // );
+    dispatch(
+      bookActions.addNewBook(
+        {
+          formData: {
+            ...values,
+            status: values.status ? EnableEnum.ENABLE : EnableEnum.DISABLE,
+          },
+          file: image.file,
+        },
+        (error) => {
+          if (error) {
+            hideLoading();
+            showErrorSnackbar(t(`book.${error}`));
+          } else {
+            hideLoading();
+            showSuccessSnackbar(t(`book.addSuccess`));
+            navigate(-1);
+          }
+        }
+      )
+    );
   };
 
   const randomBookCode = () => {

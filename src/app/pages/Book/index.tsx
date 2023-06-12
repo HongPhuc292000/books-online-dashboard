@@ -20,10 +20,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Filter } from "types";
 import { Book } from "types/Book";
-import { CommonDialogEnum } from "types/enums";
+import { CommonDialogEnum, RolesPermission } from "types/enums";
 
 import { bookActions } from "./slice";
 import { selectBook } from "./slice/selector";
+import { selectAuth } from "../Auth/slice/selector";
+import { checkPermission, formatVND } from "utils";
 
 const headers: HeaderProps[] = [
   { name: "serial", align: "center", isCommonLabel: true, minWidth: 80 },
@@ -45,6 +47,7 @@ interface ListBookProps {
 const ListBooks = ({ setLoading }: ListBookProps) => {
   const dispatch = useAppDispatch();
   const { listBooks } = useAppSelector(selectBook);
+  const { me } = useAppSelector(selectAuth);
   const { showLoading, hideLoading } = useLoading({ setLoading });
   const { t } = useTranslation();
   const { showErrorSnackbar, showSuccessSnackbar } = useToastMessage();
@@ -132,26 +135,33 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
     navigate(`edit/${id}`);
   };
 
-  const renderItem = useCallback((item: Book, index: number) => {
-    return [
-      <TableContentLabel>{index}</TableContentLabel>,
-      <TableContentLabel>{item.name}</TableContentLabel>,
-      <TableContentLabel>{item?.authorId?.name}</TableContentLabel>,
-      <TableContentLabel>{item.defaultPrice}</TableContentLabel>,
-      <TableContentLabel>{item?.reducedPrice}</TableContentLabel>,
-      <TableContentLabel>{item.view}</TableContentLabel>,
-      <TableContentLabel>{item.amount}</TableContentLabel>,
-      <StatusLabel status={item.status} />,
-      <TableContentLabel>
-        <DefaultEllipsisText
-          width={150}
-          title={item.categoryIds.map((item) => item.name).join(", ")}
-        />
-      </TableContentLabel>,
-      <DeleteIconButton onDelete={handleShowDialog} id={item._id} />,
-    ];
+  const renderItem = useCallback(
+    (item: Book, index: number) => {
+      return [
+        <TableContentLabel>{index}</TableContentLabel>,
+        <TableContentLabel>{item.name}</TableContentLabel>,
+        <TableContentLabel>{item?.authorId?.name}</TableContentLabel>,
+        <TableContentLabel>{formatVND(item.defaultPrice)}</TableContentLabel>,
+        <TableContentLabel>{formatVND(item?.reducedPrice)}</TableContentLabel>,
+        <TableContentLabel>{item.view}</TableContentLabel>,
+        <TableContentLabel>{item.amount}</TableContentLabel>,
+        <StatusLabel status={item.status} />,
+        <TableContentLabel>
+          <DefaultEllipsisText
+            width={150}
+            title={item.categoryIds.map((item) => item.name).join(", ")}
+          />
+        </TableContentLabel>,
+        <DeleteIconButton
+          onDelete={handleShowDialog}
+          id={item._id}
+          permited={checkPermission(RolesPermission.DELETE_BOOK, me?.roles)}
+        />,
+      ];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [me]
+  );
 
   return (
     <MainWrap>
@@ -163,7 +173,10 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
             </PageTitleContent>
           </Grid>
           <Grid item justifyContent="flex-end">
-            <AddIconButton onAddItem={handleAddBook} />
+            <AddIconButton
+              onAddItem={handleAddBook}
+              permited={checkPermission(RolesPermission.ADD_BOOK, me?.roles)}
+            />
           </Grid>
         </Grid>
         <SearchBar
@@ -174,6 +187,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
         <StickyHeadTable
           headers={headers}
           renderItem={renderItem}
+          permited={checkPermission(RolesPermission.EDIT_BOOK, me?.roles)}
           items={listBooks?.data}
           tableName="book"
           total={listBooks?.total}
