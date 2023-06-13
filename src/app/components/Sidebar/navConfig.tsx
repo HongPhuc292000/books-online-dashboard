@@ -38,6 +38,18 @@ export const pages: HeaderNavChangePageI[] = [
     link: path.salesFigures,
     icon: <BarChartIcon />,
     permission: RolesPermission.SHOW_LIST_MEMBER,
+    children: [
+      {
+        title: "saleFiguresPerMonth",
+        link: path.salesFigures + path.perMonth,
+        permission: RolesPermission.SHOW_LIST_MEMBER,
+      },
+      {
+        title: "saleFiguresPerYear",
+        link: path.salesFigures + path.perYear,
+        permission: RolesPermission.SHOW_LIST_MEMBER,
+      },
+    ],
   },
   {
     title: "manageMembers",

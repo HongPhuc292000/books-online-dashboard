@@ -1,15 +1,8 @@
-import { Box, CardMedia, IconButton, styled } from "@mui/material";
 import FlipCameraIosIcon from "@mui/icons-material/FlipCameraIos";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  InputHTMLAttributes,
-  memo,
-  useEffect,
-  useState,
-} from "react";
+import { Box, CardMedia, IconButton, styled } from "@mui/material";
 import noImageImg from "assets/img/no-image.jpg";
+import { ChangeEvent, memo, useEffect, useState } from "react";
 
 interface RoundMediaCardProps {
   url?: string;
@@ -18,12 +11,12 @@ interface RoundMediaCardProps {
 }
 
 const RoundActionIconButton = styled(IconButton)(() => ({
-  fontSize: 48,
-  position: "absolute",
-  top: "50%",
-  transform: "translateY(-50%)",
-  width: "50%",
-  height: "50%",
+  "fontSize": 48,
+  "position": "absolute",
+  "top": "50%",
+  "transform": "translateY(-50%)",
+  "width": "50%",
+  "height": "50%",
   "&:hover": {
     backgroundColor: "rgba(255,255,255,0.5)",
   },

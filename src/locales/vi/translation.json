@@ -53,7 +53,9 @@
     "manageCategories": "Quản lý thể loại",
     "manageOrders": "Quản lý đơn hàng",
     "manageDiscounts": "Quản lý mã giảm giá",
-    "saleFigures": "Doanh số bán hàng"
+    "saleFigures": "Doanh số bán hàng",
+    "saleFiguresPerMonth": "Doanh số theo tháng",
+    "saleFiguresPerYear": "Doanh số theo năm"
   },
   "enums": {
     "ALL": "Tất cả",
@@ -150,7 +152,8 @@
     "editFailure": "Cập nhật thông tin sách không thành công",
     "name_exist": "Tên sách đã tồn tại",
     "server_error": "Lỗi máy chủ",
-    "bad_request": "Yêu cầu không hợp lệ"
+    "bad_request": "Yêu cầu không hợp lệ",
+    "not_allowed": "Không có quyền"
   },
   "author": {
     "searchPlaceholder": "Tìm kiếm theo tên",
@@ -174,7 +177,8 @@
     "editSuccess": "Cập nhật thông tin tác giả thành công",
     "editFailure": "Cập nhật thông tin tác giả không thành công",
     "server_error": "Lỗi máy chủ",
-    "bad_request": "Yêu cầu không hợp lệ"
+    "bad_request": "Yêu cầu không hợp lệ",
+    "not_allowed": "Không có quyền"
   },
   "category": {
     "searchPlaceholder": "Tìm theo tên, mã thể loại",
@@ -193,7 +197,8 @@
     "name_exist": "Tên thể loại đã tồn tại",
     "type_exist": "Mã thể loại đã tồn tại",
     "server_error": "Lỗi máy chủ",
-    "bad_request": "Yêu cầu không hợp lệ"
+    "bad_request": "Yêu cầu không hợp lệ",
+    "not_allowed": "Không có quyền"
   },
   "member": {
     "searchPlaceholder": "Tìm kiếm theo tên, số điện thoại",
@@ -223,7 +228,8 @@
     "phone_exist": "Số điện thoại đã được sử dụng",
     "email_exist": "Email đã được sử dụng",
     "server_error": "Lỗi máy chủ",
-    "bad_request": "Yêu cầu không hợp lệ"
+    "bad_request": "Yêu cầu không hợp lệ",
+    "not_allowed": "Không có quyền"
   },
   "customer": {
     "listCustomers": "Danh sách khách hàng",
@@ -245,7 +251,8 @@
     "phone_exist": "Số điện thoại đã được sử dụng",
     "email_exist": "Email đã được sử dụng",
     "server_error": "Lỗi máy chủ",
-    "bad_request": "Yêu cầu không hợp lệ"
+    "bad_request": "Yêu cầu không hợp lệ",
+    "not_allowed": "Không có quyền"
   },
   "discount": {
     "searchPlaceholder": "Tìm kiếm theo mã",
@@ -277,7 +284,8 @@
     "code_exist": "Mã đã tồn tại",
     "used_code": "Mã đã được sử dụng",
     "bad_request": "Yêu cầu không hợp lệ",
-    "server_error": "Lỗi máy chủ"
+    "server_error": "Lỗi máy chủ",
+    "not_allowed": "Không có quyền"
   },
   "order": {
     "listOrders": "Danh sách đơn hàng",
@@ -313,6 +321,38 @@
     "noBookValid": "Không có sách phù hợp",
     "bookInfoNote": "Mã sách không tồn tại",
     "bad_request": "Yêu cầu không hợp lệ",
-    "server_error": "Lỗi máy chủ"
+    "server_error": "Lỗi máy chủ",
+    "not_allowed": "Không có quyền"
+  },
+  "salesFigures":{
+    "totalSalesFigures": "Tổng doanh thu",
+    "totalOrderCreated": "Tổng đơn đã tạo",
+    "totalCancelOrder": "Đơn đã hủy",
+    "totalSuccessOrder": "Đơn hàng thành công",
+    "totalProcessOrder": "Đơn đang xử lý",
+    "server_error": "Lỗi máy chủ",
+    "createdOrder":"Đơn đã tạo",
+    "successOrder": "Đơn thành công",
+    "month": "Tháng",
+    "year": "Năm",
+    "monthStart": "Kể từ tháng",
+    "monthEnd": "Đến tháng",
+    "yearStart": "Kể từ năm",
+    "yearEnd": "Đến năm",
+    "not_allowed": "Không có quyền"
+  },
+  "monthEnums":{
+    "january": "Tháng 1",
+    "february": "Tháng 2",
+    "march": "Tháng 3",
+    "april": "Tháng 4",
+    "may": "Tháng 5",
+    "june": "Tháng 6",
+    "july": "Tháng 7",
+    "august": "Tháng 8",
+    "september": "Tháng 9",
+    "october": "Tháng 10",
+    "november": "Tháng 11",
+    "december": "Tháng 12"
   }
 }

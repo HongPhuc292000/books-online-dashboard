@@ -7,6 +7,7 @@ import { memberSaga } from "./pages/Member/slice/saga";
 import { discountSaga } from "./pages/Discount/slice/saga";
 import { customerSaga } from "./pages/Customer/slice/saga";
 import { orderSaga } from "./pages/Order/slice/saga";
+import { salesFiguresSaga } from "./pages/SalesFigures/slice/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     discountSaga(),
     customerSaga(),
     orderSaga(),
+    salesFiguresSaga(),
   ]);
 }

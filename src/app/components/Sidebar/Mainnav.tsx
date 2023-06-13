@@ -26,9 +26,11 @@ interface SubNavProps {
 }
 
 const SubNav = memo(({ page }: NavProps) => {
+  const { t } = useTranslation();
   const { title, link } = page;
   const navigate = useNavigate();
   const { match } = useMatchPath(link);
+
   const theme = useTheme();
   const handleSelectSubNav = (target: string) => {
     navigate(target);
@@ -36,7 +38,7 @@ const SubNav = memo(({ page }: NavProps) => {
   return (
     <ListItem onClick={() => handleSelectSubNav(link)} disablePadding>
       <ListItemButton
-        sx={{ color: match ? theme.palette.primary.main : "inherit", pl: 4 }}
+        sx={{ color: match ? theme.palette.primary.main : "inherit", pl: 8 }}
       >
         <ListItemIcon
           sx={{
@@ -47,7 +49,11 @@ const SubNav = memo(({ page }: NavProps) => {
         >
           <FiberManualRecordIcon fontSize="inherit" />
         </ListItemIcon>
-        <ListItemText primary={title} />
+        <ListItemText
+          primary={
+            <Typography variant="body2">{t(`sidebar.${title}`)}</Typography>
+          }
+        />
       </ListItemButton>
     </ListItem>
   );
@@ -80,8 +86,9 @@ const MainNav = memo(({ page }: NavProps) => {
   const handleSelectNav = () => {
     if (children) {
       setOpenSubNav(!openSubNav);
+    } else {
+      navigate(link);
     }
-    navigate(link);
   };
 
   return (

@@ -16,9 +16,9 @@ import {
 
 import bookService from "services/book";
 import customerService from "services/customer";
+import discountService from "services/discount";
 import orderService from "services/order";
 import { orderActions as actions } from ".";
-import discountService from "services/discount";
 
 function* getAllOrders(
   action: PayloadAction<Filter, string, (error?: any) => void>

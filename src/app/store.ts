@@ -8,6 +8,7 @@ import memberReducer from "app/pages/Member/slice";
 import discountReducer from "app/pages/Discount/slice";
 import customerReducer from "app/pages/Customer/slice";
 import orderReducer from "app/pages/Order/slice";
+import salesFiguresReducer from "app/pages/SalesFigures/slice";
 import rootSaga from "./rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -22,6 +23,7 @@ export const store = configureStore({
     discountState: discountReducer,
     customerState: customerReducer,
     orderState: orderReducer,
+    salesFiguresState: salesFiguresReducer,
   },
   middleware: [sagaMiddleware],
 });

@@ -17,7 +17,8 @@ import AddBook from "app/pages/Book/AddBook";
 import EditBook from "app/pages/Book/EditBook";
 import AddOrder from "app/pages/Order/AddOrder";
 import EditOrder from "app/pages/Order/EditOrder";
-import SalesFigures from "app/pages/SalesFigures";
+import SalesFiguresPerMonth from "app/pages/SalesFigures/salesFiguresPerMonth";
+import SalesFigurePerYear from "app/pages/SalesFigures/salesFiguresPerYear";
 
 import path from "./path";
 
@@ -41,7 +42,20 @@ export default function Router() {
         },
         {
           path: path.salesFigures,
-          element: <SalesFigures />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to={path.perMonth} replace />,
+            },
+            {
+              path: path.perMonth,
+              element: <SalesFiguresPerMonth />,
+            },
+            {
+              path: path.perYear,
+              element: <SalesFigurePerYear />,
+            },
+          ],
         },
         {
           path: path.member,
