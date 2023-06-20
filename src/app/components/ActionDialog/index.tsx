@@ -46,10 +46,10 @@ const ActionDialog = React.memo(
           flexDirection="column"
           sx={{ height: "100%" }}
         >
-          <Grid item>
+          <Grid item xs={12}>
             <DialogTitle>{title}</DialogTitle>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <DialogContent>{dialogContent}</DialogContent>
           </Grid>
         </Grid>

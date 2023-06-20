@@ -210,7 +210,7 @@ const Sidebar = React.memo(() => {
         <Outlet />
       </Box>
       <ActionDialog
-        title={t("member.editMember")}
+        title={t("common.profile")}
         isOpen={showDialog === CommonDialogEnum.EDIT}
         dialogContent={<EditProfile onCloseDialog={handleCloseDialog} />}
         onCancel={handleCloseDialog}

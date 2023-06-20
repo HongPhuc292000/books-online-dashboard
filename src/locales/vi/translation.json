@@ -102,7 +102,8 @@
     "SHOW_LIST_DISCOUNT": "Xem danh sách mã giảm giá",
     "ADD_DISCOUNT": "Thêm mã giảm giá",
     "EDIT_DISCOUNT": "Cập nhật mã giảm giá",
-    "DELETE_DISCOUNT": "Xóa mã giảm giá"
+    "DELETE_DISCOUNT": "Xóa mã giảm giá",
+    "MANAGE_SALES_FIGURES": "Doanh số bán hàng"
   },
   "auth": {
     "username": "Tên đăng nhập",

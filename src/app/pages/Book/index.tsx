@@ -29,8 +29,8 @@ import { checkPermission, formatVND } from "utils";
 
 const headers: HeaderProps[] = [
   { name: "serial", align: "center", isCommonLabel: true, minWidth: 80 },
-  { name: "name" },
-  { name: "author" },
+  { name: "name", minWidth: 240 },
+  { name: "author", minWidth: 150 },
   { name: "defaultPriceTableTitle", align: "right" },
   { name: "reducedPriceTableTitle", align: "right" },
   { name: "view", align: "right" },
