@@ -55,7 +55,8 @@
     "manageDiscounts": "Quản lý mã giảm giá",
     "saleFigures": "Doanh số bán hàng",
     "saleFiguresPerMonth": "Doanh số theo tháng",
-    "saleFiguresPerYear": "Doanh số theo năm"
+    "saleFiguresPerYear": "Doanh số theo năm",
+    "manageImportBooks": "Quản lý nhập sách"
   },
   "enums": {
     "ALL": "Tất cả",
@@ -75,6 +76,7 @@
     "DONE": "Hoàn thành",
     "CANCEL": "Đã hủy",
     "REPAY": "Trả hàng",
+    "IMPORTORDERED": "Đã nhập đơn",
     "SUPER_ADMIN": "Tất cả quyền",
     "SHOW_LIST_MEMBER": "Xem danh sách thành viên",
     "ADD_MEMBER": "Thêm thành viên",
@@ -103,7 +105,10 @@
     "ADD_DISCOUNT": "Thêm mã giảm giá",
     "EDIT_DISCOUNT": "Cập nhật mã giảm giá",
     "DELETE_DISCOUNT": "Xóa mã giảm giá",
-    "MANAGE_SALES_FIGURES": "Doanh số bán hàng"
+    "MANAGE_SALES_FIGURES": "Doanh số bán hàng",
+    "SHOW_LIST_IMPORT_BOOK": "Xem danh sách nhập sách",
+    "ADD_IMPORT_BOOK": "Thêm đơn nhập sách",
+    "EDIT_IMPORT_BOOK": "Cập nhật đơn nhập sách"
   },
   "auth": {
     "username": "Tên đăng nhập",
@@ -340,7 +345,31 @@
     "monthEnd": "Đến tháng",
     "yearStart": "Kể từ năm",
     "yearEnd": "Đến năm",
+    "bad_request": "Yêu cầu không hợp lệ",
     "not_allowed": "Không có quyền"
+  },
+  "importBook":{
+    "orderCode": "Mã đơn nhập",
+    "createdBy": "Người tạo",
+    "createdAt": "Ngày tạo",
+    "importStatus": "Trạng thái",
+    "listImportBook": "Danh sách nhập sách",
+    "searchPlaceholder": "Tìm kiếm theo mã",
+    "bad_request": "Yêu cầu không hợp lệ",
+    "server_error": "Lỗi máy chủ",
+    "not_allowed": "Không có quyền",
+    "orderCodeRequired":"Mã nhập không được để trống",
+    "productsRequired" :"Vui lòng thêm ít nhất 1 cuốn sách",
+    "addFailure": "Thêm đơn nhập thất bại",
+    "addSuccess": "Thêm đơn nhập thành công",
+    "addNewImportBook": "Thêm đơn nhập mới",
+    "editImportBook": "Thông tin đơn nhập",
+    "getDetailFailure": "Lấy thông tin đơn nhập thất bại",
+    "editFailure": "Cập nhật trạng thái đơn nhập không thành công",
+    "cancelOrder": "Hủy đơn",
+    "importOrder": "Nhập đơn",
+    "cancelSuccess": "Hủy đơn thành công",
+    "acceptSuccess": "Nhập đơn thành công"
   },
   "monthEnums":{
     "january": "Tháng 1",

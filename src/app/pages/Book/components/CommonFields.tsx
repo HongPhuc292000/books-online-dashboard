@@ -25,7 +25,8 @@ interface CommonFieldsProps {
 
 const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
   const { t } = useTranslation();
-  const { listAuthors, listCategories } = useAppSelector(selectBook);
+  const { detailBook, listAuthors, listCategories } =
+    useAppSelector(selectBook);
   const handleChangeFieldValue = useCallback((field: string, value: any) => {
     formik.setFieldValue(field, value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,9 +53,9 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
           </Grid>
         </Grid>
       </Paper>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} alignItems="stretch">
         <Grid item xs={6}>
-          <Paper elevation={3} sx={{ p: 2 }}>
+          <Paper elevation={3} sx={{ p: 2, height: "100%" }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
@@ -116,14 +117,14 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
           </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper elevation={3} sx={{ p: 2 }}>
+          <Paper elevation={3} sx={{ p: 2, height: "100%" }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   id="defaultPrice"
                   name="defaultPrice"
                   type="number"
-                  value={formik.values.defaultPrice}
+                  value={formik.values.defaultPrice || ""}
                   onChange={formik.handleChange}
                   fullWidth
                   sx={{ mb: 2 }}
@@ -187,7 +188,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                   id="amount"
                   name="amount"
                   type="number"
-                  value={formik.values.amount}
+                  value={formik.values.amount || ""}
                   onChange={formik.handleChange}
                   fullWidth
                   label={t("commonTableHeader.amount")}
@@ -195,6 +196,7 @@ const CommonFields = memo(({ image, setImage, formik }: CommonFieldsProps) => {
                   helperText={
                     formik.touched.amount && t(formik.errors.amount as string)
                   }
+                  disabled={!!detailBook}
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
                       event.preventDefault();

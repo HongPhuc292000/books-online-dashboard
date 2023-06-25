@@ -50,7 +50,11 @@ const GreyLabel = styled(CommonStatusLabel)(() => ({
 }));
 const PrimaryTypes: string[] = [OrderStatusesEnum.INCART];
 
-const SuccessTypes: string[] = [EnableEnum.ENABLE, OrderStatusesEnum.DONE];
+const SuccessTypes: string[] = [
+  EnableEnum.ENABLE,
+  OrderStatusesEnum.DONE,
+  "IMPORTORDERED",
+];
 
 const InfoTypes: string[] = [OrderStatusesEnum.DELIVERING];
 

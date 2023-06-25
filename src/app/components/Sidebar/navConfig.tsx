@@ -5,10 +5,11 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import CategoryIcon from "@mui/icons-material/Category";
-import BookIcon from "@mui/icons-material/Book";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import DiscountIcon from "@mui/icons-material/Discount";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { RolesPermission } from "types/enums";
 
 /*
@@ -77,7 +78,7 @@ export const pages: HeaderNavChangePageI[] = [
   {
     title: "manageBooks",
     link: path.book,
-    icon: <BookIcon />,
+    icon: <AutoStoriesIcon />,
   },
   {
     title: "manageDiscounts",
@@ -89,5 +90,11 @@ export const pages: HeaderNavChangePageI[] = [
     link: path.order,
     icon: <ShoppingBagIcon />,
     permission: RolesPermission.SHOW_LIST_ORDER,
+  },
+  {
+    title: "manageImportBooks",
+    link: path.importBook,
+    icon: <AddBusinessIcon />,
+    permission: RolesPermission.SHOW_LIST_IMPORT_BOOK,
   },
 ];

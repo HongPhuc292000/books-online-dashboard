@@ -9,6 +9,7 @@ const path = {
   category: "category",
   discount: "discount",
   order: "order",
+  importBook: "importBook",
   salesFigures: "salesFigures/",
   perYear: "perYear",
   perMonth: "perMonth",

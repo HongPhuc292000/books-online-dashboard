@@ -1,15 +1,15 @@
 import { Grid, TextField } from "@mui/material";
-import RoundMediaCard from "app/components/MediaCard/RoundMediaCard";
 import { SimpleDatePicker } from "app/components/DatePicker/SimpleDatePicker";
+import RoundMediaCard from "app/components/MediaCard/RoundMediaCard";
+import RadioSingleItem from "app/components/RadioSelect/RadioSingleItem";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { authActions } from "app/pages/Auth/slice";
+import { selectAuth } from "app/pages/Auth/slice/selector";
 import React, { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageFileType } from "types";
-import SelectRoles from "./SelectRoles";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectAuth } from "app/pages/Auth/slice/selector";
-import { authActions } from "app/pages/Auth/slice";
-import RadioSingleItem from "app/components/RadioSelect/RadioSingleItem";
 import { GenderEnum } from "types/enums";
+import SelectRoles from "./SelectRoles";
 
 interface CommonFieldsProps {
   formik: any;

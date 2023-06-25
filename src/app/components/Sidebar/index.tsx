@@ -32,7 +32,7 @@ import MainNav from "./Mainnav";
 import { pages } from "./navConfig";
 
 export const drawerWidth = 300;
-const settings = [SettingNavEnums.PROFILE, SettingNavEnums.LOGOUT];
+const settings = [SettingNavEnums.LOGOUT];
 
 const Sidebar = React.memo(() => {
   const [mobileOpen, setMobileOpen] = useState(false);

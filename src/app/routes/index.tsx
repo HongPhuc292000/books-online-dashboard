@@ -19,6 +19,9 @@ import AddOrder from "app/pages/Order/AddOrder";
 import EditOrder from "app/pages/Order/EditOrder";
 import SalesFiguresPerMonth from "app/pages/SalesFigures/salesFiguresPerMonth";
 import SalesFigurePerYear from "app/pages/SalesFigures/salesFiguresPerYear";
+import ListImportBooks from "app/pages/ImportBook";
+import AddImportBook from "app/pages/ImportBook/AddImportBook";
+import EditImportBook from "app/pages/ImportBook/EditImportBook";
 
 import path from "./path";
 
@@ -108,6 +111,23 @@ export default function Router() {
             {
               path: path.edit,
               element: <EditOrder />,
+            },
+          ],
+        },
+        {
+          path: path.importBook,
+          children: [
+            {
+              path: path.inherit,
+              element: <ListImportBooks />,
+            },
+            {
+              path: path.add,
+              element: <AddImportBook />,
+            },
+            {
+              path: path.edit,
+              element: <EditImportBook />,
             },
           ],
         },

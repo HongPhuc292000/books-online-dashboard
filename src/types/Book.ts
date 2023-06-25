@@ -1,23 +1,14 @@
+import { IdAndNameInfo } from "./Common";
 import { EnableEnum } from "./enums";
-
-interface AuthorInfo {
-  _id: string;
-  name: string;
-}
-
-interface CategoryInfo {
-  _id: string;
-  name: string;
-}
 
 export interface Book {
   _id: string;
   imageUrl: string;
   name: string;
-  authorId?: AuthorInfo;
+  authorId?: IdAndNameInfo;
   view: number;
   amount: number;
-  categoryIds: CategoryInfo[];
+  categoryIds: IdAndNameInfo[];
   defaultPrice: number;
   reducedPrice?: number;
   status: EnableEnum;
@@ -42,10 +33,10 @@ export interface DetailBook {
   imageUrl: string;
   name: string;
   bookCode: string;
-  authorId: AuthorInfo;
+  authorId: IdAndNameInfo;
   view: number;
   amount: number;
-  categoryIds?: CategoryInfo[];
+  categoryIds?: IdAndNameInfo[];
   defaultPrice: number;
   reducedPrice?: number;
   description?: string;

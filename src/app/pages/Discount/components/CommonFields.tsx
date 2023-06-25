@@ -94,7 +94,7 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
             name="value"
             type="number"
             disabled={disabled}
-            value={formik.values.value}
+            value={formik.values.value || ""}
             onChange={formik.handleChange}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {
@@ -130,7 +130,7 @@ const CommonFields = memo(({ formik, disabled = false }: CommonFieldsProps) => {
             name="amount"
             type="number"
             disabled={disabled}
-            value={formik.values.amount}
+            value={formik.values.amount || ""}
             onChange={formik.handleChange}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {

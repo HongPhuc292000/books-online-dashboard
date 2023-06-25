@@ -8,6 +8,7 @@ export * from "./Member";
 export * from "./Discount";
 export * from "./Customer";
 export * from "./Order";
+export * from "./ImportBook";
 
 export * from "./Common";
 export * from "./Filter";
