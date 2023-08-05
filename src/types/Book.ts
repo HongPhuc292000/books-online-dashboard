@@ -26,6 +26,7 @@ export interface AddEditBookRequest {
   bookCode: string;
   description?: string;
   status: EnableEnum | boolean;
+  yearPublish?: number;
 }
 
 export interface DetailBook {
@@ -41,4 +42,5 @@ export interface DetailBook {
   reducedPrice?: number;
   description?: string;
   status: EnableEnum;
+  yearPublish?: number;
 }

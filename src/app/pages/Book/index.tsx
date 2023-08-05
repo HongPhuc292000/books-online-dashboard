@@ -1,4 +1,13 @@
-import { debounce, Grid, Paper } from "@mui/material";
+import {
+  Box,
+  debounce,
+  FormControl,
+  Grid,
+  InputLabel,
+  Paper,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import ActionDialog from "app/components/ActionDialog";
 import DeleteDialogContent from "app/components/ActionDialog/DeleteDialogContent";
 import { DeleteIconButton } from "app/components/Button";
@@ -54,6 +63,7 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
   const navigate = useNavigate();
   const [showDialog, setShowdialog] = useState<string | undefined>(undefined);
   const [selectedItem, setSelectedItem] = useState<string>("");
+  const [selectedCategories, setSelectedCategories] = useState<string>("");
 
   const handleFetchData = (params: Filter) => {
     showLoading();
@@ -163,6 +173,10 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
     [me]
   );
 
+  const handleChangeCategories = (event: SelectChangeEvent) => {
+    setSelectedCategories(event.target.value as string);
+  };
+
   return (
     <MainWrap>
       <Paper elevation={3} sx={{ p: 3 }}>
@@ -171,6 +185,27 @@ const ListBooks = ({ setLoading }: ListBookProps) => {
             <PageTitleContent variant="h4">
               {t(`book.listBook`)}
             </PageTitleContent>
+            <Box sx={{ width: "20%" }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Thể loại</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedCategories}
+                  label="Thể loại"
+                  onChange={handleChangeCategories}
+                >
+                  {}
+                </Select>
+              </FormControl>
+            </Box>
+            {/* <SelectMultipleItems
+                  label={t("book.categories")}
+                  field="categoryIds"
+                  options={listCategories}
+                  selected={formik.values.categoryIds}
+                  handleChangeFieldValue={handleChangeFieldValue}
+                /> */}
           </Grid>
           <Grid item justifyContent="flex-end">
             <AddIconButton

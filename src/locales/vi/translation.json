@@ -159,7 +159,8 @@
     "name_exist": "Tên sách đã tồn tại",
     "server_error": "Lỗi máy chủ",
     "bad_request": "Yêu cầu không hợp lệ",
-    "not_allowed": "Không có quyền"
+    "not_allowed": "Không có quyền",
+    "yearPublish": "Năm xuất bản"
   },
   "author": {
     "searchPlaceholder": "Tìm kiếm theo tên",

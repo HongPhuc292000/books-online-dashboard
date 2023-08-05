@@ -96,6 +96,7 @@ const EditBook = memo(({ setLoading }: EditBookProps) => {
             ? detailBook.categoryIds.map((item) => item._id)
             : [],
           description: detailBook?.description,
+          yearPublish: detailBook?.yearPublish,
           status: detailBook.status === EnableEnum.ENABLE,
         },
       });
